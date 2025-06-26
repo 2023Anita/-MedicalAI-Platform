@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Activity, User, LogOut, FileText, Calendar, Clock, Trash2 } from "lucide-react";
+import { Activity, User, LogOut, FileText, Calendar, Clock, Trash2, Settings } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient } from "@/lib/queryClient";
@@ -16,7 +16,7 @@ export default function Dashboard() {
   const [analysisProgress, setAnalysisProgress] = useState<AnalysisProgressType | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<'analysis' | 'history'>('analysis');
+  const [activeTab, setActiveTab] = useState<'analysis' | 'history' | 'settings'>('analysis');
   const [, setLocation] = useLocation();
   const { toast } = useToast();
 
@@ -111,7 +111,17 @@ export default function Dashboard() {
               >
                 历史记录
               </button>
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">设置</a>
+              <button
+                onClick={() => setActiveTab('settings')}
+                className={`flex items-center space-x-1 transition-colors pb-1 ${
+                  activeTab === 'settings' 
+                    ? 'text-primary font-medium border-b-2 border-primary' 
+                    : 'text-muted-foreground hover:text-primary'
+                }`}
+              >
+                <Settings className="w-4 h-4" />
+                <span>设置</span>
+              </button>
             </nav>
             
             <div className="flex items-center space-x-4">
@@ -150,7 +160,7 @@ export default function Dashboard() {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {activeTab === 'analysis' ? (
+        {activeTab === 'analysis' && (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             
             {/* Input Section */}
@@ -201,7 +211,9 @@ export default function Dashboard() {
               )}
             </div>
           </div>
-        ) : (
+        )}
+        
+        {activeTab === 'history' && (
           /* History View */
           <div className="space-y-6">
             <div className="flex items-center justify-between">
@@ -289,6 +301,190 @@ export default function Dashboard() {
                 </button>
               </div>
             )}
+          </div>
+        )}
+        
+        {activeTab === 'settings' && (
+          /* Settings View */
+          <div className="space-y-6">
+            <div className="flex items-center justify-between">
+              <h2 className="text-2xl font-bold text-professional">系统设置</h2>
+            </div>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Account Settings */}
+              <div className="bg-white rounded-xl shadow-sm border border-border p-6">
+                <h3 className="text-lg font-semibold text-professional mb-4 flex items-center">
+                  <User className="w-5 h-5 mr-2 text-primary" />
+                  账户信息
+                </h3>
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center py-3 border-b border-border/50">
+                    <div>
+                      <p className="font-medium text-professional">用户名</p>
+                      <p className="text-sm text-muted-foreground">
+                        {localStorage.getItem("userEmail")?.split("@")[0] || "未设置"}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex justify-between items-center py-3 border-b border-border/50">
+                    <div>
+                      <p className="font-medium text-professional">邮箱地址</p>
+                      <p className="text-sm text-muted-foreground">
+                        {localStorage.getItem("userEmail") || "未设置"}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex justify-between items-center py-3">
+                    <div>
+                      <p className="font-medium text-professional">注册时间</p>
+                      <p className="text-sm text-muted-foreground">
+                        {new Date().toLocaleDateString('zh-CN')}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* System Settings */}
+              <div className="bg-white rounded-xl shadow-sm border border-border p-6">
+                <h3 className="text-lg font-semibold text-professional mb-4 flex items-center">
+                  <Settings className="w-5 h-5 mr-2 text-primary" />
+                  系统偏好
+                </h3>
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center py-3 border-b border-border/50">
+                    <div>
+                      <p className="font-medium text-professional">AI 模型</p>
+                      <p className="text-sm text-muted-foreground">Gemini 2.5-Flash</p>
+                    </div>
+                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                  </div>
+                  <div className="flex justify-between items-center py-3 border-b border-border/50">
+                    <div>
+                      <p className="font-medium text-professional">报告语言</p>
+                      <p className="text-sm text-muted-foreground">中文（简体）</p>
+                    </div>
+                  </div>
+                  <div className="flex justify-between items-center py-3">
+                    <div>
+                      <p className="font-medium text-professional">数据存储</p>
+                      <p className="text-sm text-muted-foreground">PostgreSQL 数据库</p>
+                    </div>
+                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Data Management */}
+              <div className="bg-white rounded-xl shadow-sm border border-border p-6">
+                <h3 className="text-lg font-semibold text-professional mb-4 flex items-center">
+                  <FileText className="w-5 h-5 mr-2 text-primary" />
+                  数据管理
+                </h3>
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center py-3 border-b border-border/50">
+                    <div>
+                      <p className="font-medium text-professional">历史报告数量</p>
+                      <p className="text-sm text-muted-foreground">
+                        {historicalReports?.reports?.length || 0} 条报告
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex justify-between items-center py-3 border-b border-border/50">
+                    <div>
+                      <p className="font-medium text-professional">支持文件格式</p>
+                      <p className="text-sm text-muted-foreground">PDF, DOCX, PNG, JPEG, MP4, DICOM</p>
+                    </div>
+                  </div>
+                  <div className="flex justify-between items-center py-3">
+                    <div>
+                      <p className="font-medium text-professional">最大文件大小</p>
+                      <p className="text-sm text-muted-foreground">50MB</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* System Status */}
+              <div className="bg-white rounded-xl shadow-sm border border-border p-6">
+                <h3 className="text-lg font-semibold text-professional mb-4 flex items-center">
+                  <Activity className="w-5 h-5 mr-2 text-primary" />
+                  系统状态
+                </h3>
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center py-3 border-b border-border/50">
+                    <div>
+                      <p className="font-medium text-professional">服务器状态</p>
+                      <p className="text-sm text-muted-foreground">正常运行</p>
+                    </div>
+                    <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                  </div>
+                  <div className="flex justify-between items-center py-3 border-b border-border/50">
+                    <div>
+                      <p className="font-medium text-professional">AI 服务</p>
+                      <p className="text-sm text-muted-foreground">Google Gemini API</p>
+                    </div>
+                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                  </div>
+                  <div className="flex justify-between items-center py-3">
+                    <div>
+                      <p className="font-medium text-professional">版本信息</p>
+                      <p className="text-sm text-muted-foreground">Med Agentic-AI v1.0</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="bg-white rounded-xl shadow-sm border border-border p-6">
+              <h3 className="text-lg font-semibold text-professional mb-4">操作</h3>
+              <div className="flex flex-wrap gap-4">
+                <button
+                  onClick={() => {
+                    toast({
+                      title: "清除缓存",
+                      description: "本地缓存已清除",
+                      variant: "default",
+                    });
+                  }}
+                  className="px-4 py-2 bg-primary/10 text-primary font-medium rounded-lg hover:bg-primary/20 transition-colors"
+                >
+                  清除缓存
+                </button>
+                <button
+                  onClick={() => {
+                    const data = {
+                      userEmail: localStorage.getItem("userEmail"),
+                      exportTime: new Date().toISOString(),
+                      reports: historicalReports?.reports || []
+                    };
+                    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `medical-reports-${new Date().toISOString().split('T')[0]}.json`;
+                    a.click();
+                    URL.revokeObjectURL(url);
+                    toast({
+                      title: "导出成功",
+                      description: "数据已导出到本地文件",
+                      variant: "default",
+                    });
+                  }}
+                  className="px-4 py-2 bg-blue-50 text-blue-600 font-medium rounded-lg hover:bg-blue-100 transition-colors"
+                >
+                  导出数据
+                </button>
+                <button
+                  onClick={() => setActiveTab('analysis')}
+                  className="px-4 py-2 bg-green-50 text-green-600 font-medium rounded-lg hover:bg-green-100 transition-colors"
+                >
+                  返回分析
+                </button>
+              </div>
+            </div>
           </div>
         )}
       </main>

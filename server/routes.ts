@@ -384,8 +384,8 @@ ${combinedContent}
 
       const response = await ai.models.generateContent({
         model: "gemini-2.5-flash",
-        contents: [{ role: "user", parts: [{ text: chatPrompt }] }],
-        generationConfig: {
+        contents: chatPrompt,
+        config: {
           temperature: 0.7,
           maxOutputTokens: 1000000,
           topP: 0.95,
@@ -406,9 +406,24 @@ ${combinedContent}
       }
       
       // Debug logging
-      console.log("Raw AI response object:", JSON.stringify(response, null, 2));
+      console.log("=== AI RESPONSE DEBUG ===");
+      console.log("Response object keys:", Object.keys(response));
+      console.log("Response.text exists:", !!response.text);
+      console.log("Response.candidates exists:", !!response.candidates);
+      
+      if (response.candidates) {
+        console.log("Candidates length:", response.candidates.length);
+        if (response.candidates[0]) {
+          console.log("First candidate keys:", Object.keys(response.candidates[0]));
+          console.log("First candidate content:", response.candidates[0].content);
+          console.log("Finish reason:", response.candidates[0].finishReason);
+        }
+      }
+      
       console.log("AI response text length:", aiResponse?.length || 0);
-      console.log("AI response preview:", aiResponse?.substring(0, 200) + "...");
+      console.log("AI response preview (first 300 chars):", aiResponse?.substring(0, 300));
+      console.log("AI response ending (last 300 chars):", aiResponse?.substring(Math.max(0, (aiResponse?.length || 0) - 300)));
+      console.log("=== END DEBUG ===");
       
       // Check if response is complete
       if (!aiResponse) {

@@ -9,35 +9,19 @@ import Dashboard from "@/pages/Dashboard";
 import NotFound from "@/pages/not-found";
 
 function Router() {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
-  const [location, setLocation] = useLocation();
+  const [location] = useLocation();
   
-  useEffect(() => {
-    // Check login state from localStorage
-    const loginState = localStorage.getItem("isLoggedIn");
-    setIsLoggedIn(loginState === "true");
-  }, []);
+  // Check authentication state synchronously
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
   
+  // Immediate redirect without loading state
   useEffect(() => {
-    if (isLoggedIn === null) return; // Still loading
-    
-    // Redirect logic based on auth state
     if (isLoggedIn && location === "/") {
-      setLocation("/dashboard");
+      window.location.href = "/dashboard";
     } else if (!isLoggedIn && location === "/dashboard") {
-      setLocation("/");
+      window.location.href = "/";
     }
-  }, [isLoggedIn, location, setLocation]);
-  
-  // Show loading while checking auth state
-  if (isLoggedIn === null) {
-    return <div className="flex items-center justify-center min-h-screen">
-      <div className="text-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-        <p className="text-muted-foreground">加载中...</p>
-      </div>
-    </div>;
-  }
+  }, [isLoggedIn, location]);
   
   return (
     <Switch>

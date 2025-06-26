@@ -44,16 +44,8 @@ export default function Login() {
       localStorage.setItem("isLoggedIn", "true");
       localStorage.setItem("userEmail", email);
       
-      toast({
-        title: "登录成功",
-        description: "欢迎使用Med Agentic-AI体检报告分析平台",
-        variant: "default",
-      });
-      
-      // Force a page reload to trigger the auth state change
-      setTimeout(() => {
-        window.location.href = "/dashboard";
-      }, 500);
+      // Immediate redirect without delay
+      window.location.href = "/dashboard";
     },
     onError: (error: Error) => {
       toast({
@@ -86,16 +78,8 @@ export default function Login() {
       localStorage.setItem("isLoggedIn", "true");
       localStorage.setItem("userEmail", email);
       
-      toast({
-        title: "注册成功",
-        description: "您的账户已创建，正在为您登录...",
-        variant: "default",
-      });
-      
-      // Force redirect to dashboard
-      setTimeout(() => {
-        window.location.href = "/dashboard";
-      }, 1000);
+      // Immediate redirect without delay
+      window.location.href = "/dashboard";
     },
     onError: (error: Error) => {
       toast({

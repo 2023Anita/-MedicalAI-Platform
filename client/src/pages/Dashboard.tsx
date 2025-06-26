@@ -20,13 +20,8 @@ export default function Dashboard() {
     localStorage.clear();
     sessionStorage.clear();
     
-    // Navigate back to login page
-    setLocation("/");
-    
-    // Force a page reload to ensure clean state
-    setTimeout(() => {
-      window.location.reload();
-    }, 100);
+    // Immediate redirect to login page
+    window.location.href = "/";
   };
 
   return (

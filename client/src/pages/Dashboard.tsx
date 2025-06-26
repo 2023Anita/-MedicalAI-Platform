@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
-import { Activity, User, LogOut, FileText, Calendar, Clock } from "lucide-react";
+import { Activity, User, LogOut, FileText, Calendar, Clock, Trash2 } from "lucide-react";
 import { Link, useLocation } from "wouter";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { queryClient } from "@/lib/queryClient";
+import { useToast } from "@/hooks/use-toast";
 import ReportInput from "@/components/ReportInput";
 import AnalysisProgress from "@/components/AnalysisProgress";
 import ReportDisplay from "@/components/ReportDisplay";
@@ -16,6 +18,7 @@ export default function Dashboard() {
   const [selectedPatient, setSelectedPatient] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'analysis' | 'history'>('analysis');
   const [, setLocation] = useLocation();
+  const { toast } = useToast();
 
   // Check authentication on component mount
   useEffect(() => {
@@ -30,6 +33,35 @@ export default function Dashboard() {
     queryKey: ['/api/reports'],
     enabled: activeTab === 'history',
   }) as { data: any, isLoading: boolean };
+
+  // Delete report mutation
+  const deleteReportMutation = useMutation({
+    mutationFn: async (reportId: number) => {
+      const response = await fetch(`/api/reports/${reportId}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        throw new Error('删除失败');
+      }
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: "删除成功",
+        description: "报告已从历史记录中删除",
+        variant: "default",
+      });
+      // Refresh the reports list
+      queryClient.invalidateQueries({ queryKey: ['/api/reports'] });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "删除失败",
+        description: error.message || "请重试",
+        variant: "destructive",
+      });
+    },
+  });
 
   const handleLogout = () => {
     // Clear any stored session data
@@ -211,17 +243,32 @@ export default function Dashboard() {
                       </div>
                     </div>
                     
-                    <button 
-                      onClick={() => {
-                        console.log('Historical report data:', report);
-                        setCurrentReport(report.analysisResult);
-                        setSelectedPatient(report.patientName);
-                        setActiveTab('analysis');
-                      }}
-                      className="w-full bg-primary/5 hover:bg-primary/10 text-primary font-medium py-2 px-4 rounded-lg transition-colors"
-                    >
-                      查看报告
-                    </button>
+                    <div className="flex space-x-2">
+                      <button 
+                        onClick={() => {
+                          console.log('Historical report data:', report);
+                          setCurrentReport(report.analysisResult);
+                          setSelectedPatient(report.patientName);
+                          setActiveTab('analysis');
+                        }}
+                        className="flex-1 bg-primary/5 hover:bg-primary/10 text-primary font-medium py-2 px-4 rounded-lg transition-colors"
+                      >
+                        查看报告
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (confirm('确定要删除这个报告吗？此操作无法撤销。')) {
+                            deleteReportMutation.mutate(report.id);
+                          }
+                        }}
+                        disabled={deleteReportMutation.isPending}
+                        className="p-2 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50"
+                        title="删除报告"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
                   </div>
                 ))}
               </div>

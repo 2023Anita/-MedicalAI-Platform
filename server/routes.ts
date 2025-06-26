@@ -266,6 +266,39 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Delete a specific report
+  app.delete("/api/reports/:id", async (req, res) => {
+    try {
+      const reportId = parseInt(req.params.id);
+      if (isNaN(reportId)) {
+        return res.status(400).json({
+          success: false,
+          error: "无效的报告ID",
+        });
+      }
+
+      const deleted = await storage.deleteMedicalReport(reportId);
+      
+      if (!deleted) {
+        return res.status(404).json({
+          success: false,
+          error: "报告不存在或删除失败",
+        });
+      }
+
+      res.json({
+        success: true,
+        message: "报告删除成功",
+      });
+    } catch (error) {
+      console.error("Delete report error:", error);
+      res.status(500).json({
+        success: false,
+        error: error instanceof Error ? error.message : "删除报告失败",
+      });
+    }
+  });
+
   // Report summary endpoint (using Gemini 2.5-Flash for quick summaries)
   app.post("/api/summarize", async (req, res) => {
     try {

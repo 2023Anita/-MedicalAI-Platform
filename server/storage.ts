@@ -11,6 +11,7 @@ export interface IStorage {
   getMedicalReportsByPatient(patientName: string): Promise<MedicalReport[]>;
   getMedicalReport(id: number): Promise<MedicalReport | undefined>;
   getAllMedicalReports(): Promise<MedicalReport[]>;
+  deleteMedicalReport(id: number): Promise<boolean>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -66,6 +67,11 @@ export class DatabaseStorage implements IStorage {
       .select()
       .from(medicalReports)
       .orderBy(medicalReports.createdAt);
+  }
+
+  async deleteMedicalReport(id: number): Promise<boolean> {
+    const result = await db.delete(medicalReports).where(eq(medicalReports.id, id));
+    return (result.rowCount || 0) > 0;
   }
 }
 
@@ -130,6 +136,10 @@ export class MemStorage implements IStorage {
     return Array.from(this.medicalReports.values()).sort(
       (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
     );
+  }
+
+  async deleteMedicalReport(id: number): Promise<boolean> {
+    return this.medicalReports.delete(id);
   }
 }
 

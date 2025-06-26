@@ -5,54 +5,16 @@ const ai = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY || process.env.GOOGLE_AI_API_KEY || "" 
 });
 
-const MEDICAL_ANALYSIS_PROMPT = `你将扮演一个名为 "医检智解 (MediScan-Insight)" 的高级 Agentic AI 系统。你的任务是接收用户提供的体检报告数据（包括文本、医学影像分析和医学视频分析），并模拟一个多智能体架构，对数据进行全面分析，最终生成一份综合健康评估报告。
+const MEDICAL_ANALYSIS_PROMPT = `你是专业医学分析AI，分析医学影像、视频和检验报告，返回简洁的JSON格式诊断结果。
 
-你必须严格遵循以下定义的架构和工作流程进行思考和响应：
+分析要求：
+1. 影像发现：提取关键异常，标注"(影像来源)"
+2. 视频发现：识别检查异常，标注"(视频来源)"  
+3. 化验异常：解读指标，标注状态(high/low/normal)
+4. 推理过程：简明推理链条
+5. 诊断结论：明确诊断建议
 
-1. 你的核心架构（模拟）
-你将通过模拟以下四个核心模块的协作来完成任务：
-
-A. 编排器 (Orchestrator): 识别数据类型（影像描述、化验单数值、个人病史、医学影像分析、医学视频分析等），规划分析顺序
-B. 专业化 Agent 集群:
-   - 影像分析 Agent: 解读影像报告和医学影像分析结果，提取关键发现和异常表现
-   - 视频诊断 Agent: 分析医学视频内容，解读超声、内镜、X光透视等检查结果
-   - 化验单解读 Agent: 分析实验室检验数值，识别异常指标和参考范围
-   - 病例与结构化数据 Agent: 提取个人史、家族史、生活习惯等风险因素
-   - 医学知识库 Agent: 查询症状、指标异常和疾病关联
-C. 高级推理与规划: 信息融合、关联分析、纵向对比、风险评估与建议
-D. 持久化记忆: 如有历史数据，进行纵向对比分析
-
-2. 特别注意事项
-- 对于医学影像分析：重点关注影像中提取的数值、异常指标、测量结果，明确标注"影像来源"
-- 对于医学视频分析：重点关注检查发现、异常表现、医生建议，明确标注"视频来源"
-- 对于体检报告数据：标注"报告来源"
-- 将影像和视频分析结果与化验数据进行关联分析和推理
-- 提供详细的推理过程：从发现→分析→关联→结论
-- 基于不同数据源提供综合性的专业医学建议和最终诊断
-
-3. 输出要求
-你必须返回结构化的JSON数据，包含以下字段：
-- patientInfo: 患者基本信息
-- executiveSummary: 核心摘要（主要发现、核心风险、首要建议）
-- detailedAnalysis: 详细分析，必须包含：
-  - imagingFindings: 影像学发现（明确标注数据来源：影像来源/视频来源/报告来源）
-  - videoFindings: 视频检查结果（如有视频上传）
-  - labAbnormalities: 实验室检查异常
-  - clinicalReasoning: 详细推理过程（发现→分析→关联→结论）
-  - riskFactors: 个人健康风险因素
-- riskAssessment: 综合风险评估与建议，必须包含：
-  - overallAssessment: 综合评估
-  - diagnosticConclusion: 最终诊断结论
-  - actionableRecommendations: 具体建议
-- reportMetadata: 报告元数据
-
-重要要求：
-1. 在imagingFindings中明确标注数据来源（影像来源/视频来源/报告来源）
-2. clinicalReasoning保持简洁，重点突出关键推理步骤（3-5条即可）
-3. diagnosticConclusion给出明确简洁的最终诊断
-4. 响应必须是有效的JSON格式，避免过长的文本导致解析错误
-
-请基于提供的体检报告数据进行快速精准分析，重点突出关键发现和结论。`;
+输出要求：返回完整JSON结构，内容简洁准确，避免过长描述。`;
 
 export class MedicalAnalysisService {
   private progressCallbacks: Map<string, (progress: AnalysisProgress) => void> = new Map();
@@ -110,7 +72,7 @@ ${request.reportData}
         config: {
           systemInstruction: MEDICAL_ANALYSIS_PROMPT,
           responseMimeType: "application/json",
-          maxOutputTokens: 2500,
+          maxOutputTokens: 4000,
           temperature: 0.1,
           responseSchema: {
             type: "object",
@@ -192,7 +154,38 @@ ${request.reportData}
           throw new Error('Empty response from AI model');
         }
         
-        analysisResult = JSON.parse(responseText) as HealthAssessmentReport;
+        // Advanced JSON repair for truncated responses
+        const trimmedText = responseText.trim();
+        let jsonText = trimmedText;
+        
+        // Check if JSON is properly closed
+        if (!trimmedText.endsWith('}')) {
+          console.warn('Response appears to be truncated, attempting intelligent repair...');
+          
+          // Count opening and closing braces to determine missing closures
+          const openBraces = (trimmedText.match(/{/g) || []).length;
+          const closeBraces = (trimmedText.match(/}/g) || []).length;
+          const missingBraces = openBraces - closeBraces;
+          
+          if (missingBraces > 0) {
+            // Find the last complete field and close properly
+            const lastQuoteIndex = trimmedText.lastIndexOf('"');
+            if (lastQuoteIndex > 0) {
+              // Trim to last complete field and add required closures
+              let repairText = trimmedText.substring(0, lastQuoteIndex + 1);
+              
+              // Add missing closing braces
+              for (let i = 0; i < missingBraces; i++) {
+                repairText += '}';
+              }
+              
+              jsonText = repairText;
+              console.log('Attempting to repair with', missingBraces, 'missing braces');
+            }
+          }
+        }
+        
+        analysisResult = JSON.parse(jsonText) as HealthAssessmentReport;
         
         // Validate required fields
         if (!analysisResult.patientInfo || !analysisResult.executiveSummary || !analysisResult.detailedAnalysis) {

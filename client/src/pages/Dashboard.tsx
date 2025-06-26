@@ -356,7 +356,7 @@ export default function Dashboard() {
                   <div className="flex justify-between items-center py-3 border-b border-border/50">
                     <div>
                       <p className="font-medium text-professional">AI 模型</p>
-                      <p className="text-sm text-muted-foreground">Gemini 2.5-Flash</p>
+                      <p className="text-sm text-muted-foreground">先进医疗分析模型</p>
                     </div>
                     <div className="w-3 h-3 bg-green-500 rounded-full"></div>
                   </div>
@@ -423,7 +423,7 @@ export default function Dashboard() {
                   <div className="flex justify-between items-center py-3 border-b border-border/50">
                     <div>
                       <p className="font-medium text-professional">AI 服务</p>
-                      <p className="text-sm text-muted-foreground">Google Gemini API</p>
+                      <p className="text-sm text-muted-foreground">智能医疗分析引擎</p>
                     </div>
                     <div className="w-3 h-3 bg-green-500 rounded-full"></div>
                   </div>

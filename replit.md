@@ -95,6 +95,24 @@ The application uses PostgreSQL with two main tables:
 
 ## Recent Changes
 
+- **June 26, 2025**: Settings Page and UI Improvements
+  - **Functional Settings Page**: Added comprehensive settings interface replacing static link
+    - Account information display with user email and registration details
+    - System preferences showing AI model, language, and data storage status
+    - Data management section with report count and supported file formats
+    - System status monitoring with real-time connection indicators
+    - Action buttons for cache clearing, data export, and navigation
+  - **Brand Neutrality**: Removed all Gemini and Google branding from settings interface
+    - AI model displayed as "先进医疗分析模型" (Advanced Medical Analysis Model)
+    - AI service shown as "智能医疗分析引擎" (Intelligent Medical Analysis Engine)
+  - **Enhanced Historical Reports**: Fixed API response to include complete analysis results
+    - Historical report viewing now displays full diagnostic content
+    - Added functional delete buttons with confirmation dialogs
+    - Toast notifications for successful operations
+  - **Navigation Improvements**: Settings button now functional with gear icon
+    - Consistent styling with other navigation elements
+    - Proper tab switching between analysis, history, and settings
+
 - **June 26, 2025**: User Interface and Report Generation Improvements
   - **System Rebranding**: Updated system name from "医检智解 (MediScan-Insight)" to "Med Agentic-AI 体检报告·分析平台"
   - **Custom Logo Integration**: Replaced default stethoscope icon with custom Med Agentic-AI logo in header

@@ -1,14 +1,72 @@
 import { users, medicalReports, type User, type InsertUser, type MedicalReport, type InsertMedicalReport, type HealthAssessmentReport } from "@shared/schema";
+import { db } from "./db";
+import { eq } from "drizzle-orm";
 
 export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
   
-  createMedicalReport(report: InsertMedicalReport & { analysisResult: HealthAssessmentReport }): Promise<MedicalReport>;
+  createMedicalReport(report: InsertMedicalReport & { analysisResult: HealthAssessmentReport; uploadedFiles?: any[] }): Promise<MedicalReport>;
   getMedicalReportsByPatient(patientName: string): Promise<MedicalReport[]>;
   getMedicalReport(id: number): Promise<MedicalReport | undefined>;
   getAllMedicalReports(): Promise<MedicalReport[]>;
+}
+
+export class DatabaseStorage implements IStorage {
+  async getUser(id: number): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user || undefined;
+  }
+
+  async getUserByUsername(username: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.username, username));
+    return user || undefined;
+  }
+
+  async createUser(insertUser: InsertUser): Promise<User> {
+    const [user] = await db
+      .insert(users)
+      .values(insertUser)
+      .returning();
+    return user;
+  }
+
+  async createMedicalReport(report: InsertMedicalReport & { analysisResult: HealthAssessmentReport; uploadedFiles?: any[] }): Promise<MedicalReport> {
+    const [medicalReport] = await db
+      .insert(medicalReports)
+      .values({
+        patientName: report.patientName,
+        patientAge: report.patientAge,
+        patientGender: report.patientGender,
+        examDate: report.examDate,
+        reportData: report.reportData,
+        uploadedFiles: report.uploadedFiles,
+        analysisResult: report.analysisResult,
+      })
+      .returning();
+    return medicalReport;
+  }
+
+  async getMedicalReportsByPatient(patientName: string): Promise<MedicalReport[]> {
+    return await db
+      .select()
+      .from(medicalReports)
+      .where(eq(medicalReports.patientName, patientName))
+      .orderBy(medicalReports.createdAt);
+  }
+
+  async getMedicalReport(id: number): Promise<MedicalReport | undefined> {
+    const [report] = await db.select().from(medicalReports).where(eq(medicalReports.id, id));
+    return report || undefined;
+  }
+
+  async getAllMedicalReports(): Promise<MedicalReport[]> {
+    return await db
+      .select()
+      .from(medicalReports)
+      .orderBy(medicalReports.createdAt);
+  }
 }
 
 export class MemStorage implements IStorage {
@@ -41,14 +99,16 @@ export class MemStorage implements IStorage {
     return user;
   }
 
-  async createMedicalReport(report: InsertMedicalReport & { analysisResult: HealthAssessmentReport }): Promise<MedicalReport> {
+  async createMedicalReport(report: InsertMedicalReport & { analysisResult: HealthAssessmentReport; uploadedFiles?: any[] }): Promise<MedicalReport> {
     const id = this.currentReportId++;
     const medicalReport: MedicalReport = {
       id,
       patientName: report.patientName,
       patientAge: report.patientAge,
       patientGender: report.patientGender || null,
+      examDate: new Date(report.examDate),
       reportData: report.reportData,
+      uploadedFiles: report.uploadedFiles || null,
       analysisResult: report.analysisResult as any,
       createdAt: new Date(),
     };
@@ -73,4 +133,4 @@ export class MemStorage implements IStorage {
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new DatabaseStorage();

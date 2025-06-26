@@ -2,19 +2,68 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { medicalAnalysisService } from "./services/medicalAnalysis";
+import { upload, fileProcessorService } from "./services/fileProcessor";
 import { analysisRequestSchema } from "@shared/schema";
 import type { AnalysisProgress } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Medical report analysis endpoint
-  app.post("/api/analyze", async (req, res) => {
+  // File upload endpoint for medical reports
+  app.post("/api/upload", upload.array('files', 10), async (req, res) => {
     try {
-      const validatedData = analysisRequestSchema.parse(req.body);
+      const files = req.files as Express.Multer.File[];
+      if (!files || files.length === 0) {
+        return res.status(400).json({
+          success: false,
+          error: "没有上传文件",
+        });
+      }
+
+      const processedFiles = await fileProcessorService.processFiles(files);
+      
+      res.json({
+        success: true,
+        files: processedFiles,
+      });
+    } catch (error) {
+      console.error("File upload error:", error);
+      res.status(500).json({
+        success: false,
+        error: error instanceof Error ? error.message : "文件上传失败",
+      });
+    }
+  });
+
+  // Medical report analysis endpoint with file support
+  app.post("/api/analyze", upload.array('files', 10), async (req, res) => {
+    try {
+      const validatedData = analysisRequestSchema.parse({
+        ...req.body,
+        examDate: req.body.examDate || new Date().toISOString().split('T')[0],
+      });
+      
+      let processedFiles: any[] = [];
+      let combinedReportData = validatedData.reportData;
+
+      // Process uploaded files if any
+      if (req.files && (req.files as Express.Multer.File[]).length > 0) {
+        const files = req.files as Express.Multer.File[];
+        processedFiles = await fileProcessorService.processFiles(files);
+        
+        // Combine extracted text from files with manual input
+        const extractedTexts = processedFiles
+          .filter(file => file.extractedText)
+          .map(file => `\n\n=== ${file.originalName} ===\n${file.extractedText}`)
+          .join('\n');
+        
+        if (extractedTexts) {
+          combinedReportData = validatedData.reportData + extractedTexts;
+        }
+      }
       
       let progressData: AnalysisProgress | null = null;
       
       const analysisResult = await medicalAnalysisService.analyzeReport(
-        validatedData,
+        { ...validatedData, reportData: combinedReportData },
         (progress) => {
           progressData = progress;
         }
@@ -25,14 +74,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
         patientName: validatedData.patientName,
         patientAge: validatedData.patientAge,
         patientGender: validatedData.patientGender,
-        reportData: validatedData.reportData,
+        examDate: new Date(validatedData.examDate),
+        reportData: combinedReportData,
         analysisResult: analysisResult,
+        uploadedFiles: processedFiles,
       });
 
       res.json({
         success: true,
         reportId: savedReport.id,
         analysis: analysisResult,
+        processedFiles: processedFiles.length,
       });
     } catch (error) {
       console.error("Analysis error:", error);

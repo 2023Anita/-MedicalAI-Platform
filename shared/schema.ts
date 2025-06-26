@@ -13,7 +13,9 @@ export const medicalReports = pgTable("medical_reports", {
   patientName: text("patient_name").notNull(),
   patientAge: text("patient_age").notNull(),
   patientGender: text("patient_gender"),
+  examDate: timestamp("exam_date").notNull(),
   reportData: text("report_data").notNull(),
+  uploadedFiles: jsonb("uploaded_files"),
   analysisResult: jsonb("analysis_result"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
@@ -27,6 +29,7 @@ export const insertMedicalReportSchema = createInsertSchema(medicalReports).pick
   patientName: true,
   patientAge: true,
   patientGender: true,
+  examDate: true,
   reportData: true,
 });
 
@@ -34,6 +37,7 @@ export const analysisRequestSchema = z.object({
   patientName: z.string().min(1, "患者姓名不能为空"),
   patientAge: z.string().min(1, "患者年龄不能为空"),
   patientGender: z.string().optional(),
+  examDate: z.string().min(1, "体检日期不能为空"),
   reportData: z.string().min(10, "报告数据不能少于10个字符"),
   compareWithHistory: z.boolean().optional(),
 });

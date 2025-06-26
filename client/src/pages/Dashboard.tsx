@@ -61,9 +61,26 @@ export default function Dashboard() {
                 <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
                 <span className="text-green-600 font-medium">Med Agentic-AI 已连接</span>
               </div>
+              
+              {/* User Info */}
+              <div className="flex items-center space-x-3 bg-gradient-to-r from-primary/5 to-blue-50 px-4 py-2 rounded-full border border-primary/10">
+                <div className="flex items-center justify-center w-8 h-8 bg-primary/10 rounded-full">
+                  <User className="w-4 h-4 text-primary" />
+                </div>
+                <div className="hidden sm:block">
+                  <p className="text-sm font-medium text-primary">
+                    {localStorage.getItem("userEmail")?.split("@")[0] || "用户"}
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    {localStorage.getItem("userEmail") || ""}
+                  </p>
+                </div>
+              </div>
+              
               <button 
                 onClick={handleLogout}
-                className="flex items-center space-x-2 p-2 text-muted-foreground hover:text-primary transition-colors"
+                className="flex items-center space-x-2 p-2 text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-all duration-200 rounded-lg"
+                title="退出登录"
               >
                 <LogOut className="w-4 h-4" />
                 <span className="text-sm">退出</span>

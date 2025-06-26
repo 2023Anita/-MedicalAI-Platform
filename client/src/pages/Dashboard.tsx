@@ -29,7 +29,7 @@ export default function Dashboard() {
   const { data: historicalReports, isLoading: isLoadingHistory } = useQuery({
     queryKey: ['/api/reports'],
     enabled: activeTab === 'history',
-  });
+  }) as { data: any, isLoading: boolean };
 
   const handleLogout = () => {
     // Clear any stored session data
@@ -213,7 +213,8 @@ export default function Dashboard() {
                     
                     <button 
                       onClick={() => {
-                        setCurrentReport(report.analysis);
+                        console.log('Historical report data:', report);
+                        setCurrentReport(report.analysisResult);
                         setSelectedPatient(report.patientName);
                         setActiveTab('analysis');
                       }}

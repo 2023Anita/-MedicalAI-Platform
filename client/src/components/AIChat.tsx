@@ -181,90 +181,150 @@ export default function AIChat() {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   };
 
+  // Helper function to highlight medical terms
+  const highlightMedicalTerms = (text: string) => {
+    const medicalPatterns = [
+      /【([^】]+)】/g,  // 【医学术语】
+      /(\d+\.?\d*\s*(?:mg|ml|g|kg|cm|mm|μg|μl|IU|U|%|倍|次|天|小时|分钟)(?:\/[a-zA-Z]+)?)/g, // 数值单位
+      /(血压|血糖|心率|体温|血氧|白细胞|红细胞|血小板|肌酐|尿素氮|谷丙转氨酶|谷草转氨酶)/g, // 常见指标
+      /(正常|异常|偏高|偏低|超标|不足|增高|降低|升高|下降)/g, // 状态词
+    ];
+
+    let highlightedText = text;
+    
+    // 【】标记 - 蓝色医疗主题
+    highlightedText = highlightedText.replace(/【([^】]+)】/g, 
+      '<span class="px-2 py-1 bg-blue-100 text-blue-800 rounded-md font-medium text-base">$1</span>'
+    );
+    
+    // 数值单位 - 绿色科技感
+    highlightedText = highlightedText.replace(/(\d+\.?\d*\s*(?:mg|ml|g|kg|cm|mm|μg|μl|IU|U|%|倍|次|天|小时|分钟)(?:\/[a-zA-Z]+)?)/g, 
+      '<span class="px-1.5 py-0.5 bg-green-100 text-green-700 rounded font-mono text-sm font-semibold">$1</span>'
+    );
+    
+    // 医学指标 - 紫色专业感
+    highlightedText = highlightedText.replace(/(血压|血糖|心率|体温|血氧|白细胞|红细胞|血小板|肌酐|尿素氮|谷丙转氨酶|谷草转氨酶)/g, 
+      '<span class="px-1.5 py-0.5 bg-purple-100 text-purple-700 rounded font-medium">$1</span>'
+    );
+    
+    // 状态词 - 根据状态显示不同颜色
+    highlightedText = highlightedText.replace(/(正常)/g, 
+      '<span class="px-1.5 py-0.5 bg-green-100 text-green-800 rounded font-medium">$1</span>'
+    );
+    highlightedText = highlightedText.replace(/(异常|偏高|超标|增高|升高)/g, 
+      '<span class="px-1.5 py-0.5 bg-red-100 text-red-800 rounded font-medium">$1</span>'
+    );
+    highlightedText = highlightedText.replace(/(偏低|不足|降低|下降)/g, 
+      '<span class="px-1.5 py-0.5 bg-orange-100 text-orange-800 rounded font-medium">$1</span>'
+    );
+    
+    return highlightedText;
+  };
+
   return (
-    <div className="flex flex-col h-[calc(100vh-200px)] bg-white rounded-xl shadow-sm border border-border">
-      {/* Chat Header */}
-      <div className="flex items-center justify-between p-4 border-b border-border">
-        <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
-            <MessageCircle className="w-5 h-5 text-primary" />
+    <div className="flex flex-col h-[calc(100vh-200px)] bg-gradient-to-br from-slate-50 to-blue-50 rounded-xl shadow-lg border border-blue-200/50 backdrop-blur-sm">
+      {/* Chat Header - 科技医疗风格 */}
+      <div className="flex items-center justify-between p-6 bg-gradient-to-r from-blue-600 to-teal-600 rounded-t-xl text-white shadow-md">
+        <div className="flex items-center space-x-4">
+          <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center ring-2 ring-white/30">
+            <MessageCircle className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h3 className="font-semibold text-professional">AI智能助手</h3>
-            <p className="text-sm text-muted-foreground">Med Agentic-AI 医疗助手</p>
+            <h3 className="font-bold text-lg">Med Agentic-AI</h3>
+            <p className="text-blue-100 text-sm">智能医疗分析助手</p>
           </div>
         </div>
-        <div className="flex items-center space-x-2">
-          <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-          <span className="text-sm text-green-600 font-medium">在线</span>
+        <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-2 bg-white/20 rounded-full px-3 py-1">
+            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+            <span className="text-sm font-medium">实时在线</span>
+          </div>
         </div>
       </div>
 
-      {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      {/* Messages Area - 增强医疗科技感 */}
+      <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-gradient-to-b from-transparent to-white/30">
         {messages.map((message) => (
           <div
             key={message.id}
-            className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
+            className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'} animate-in slide-in-from-bottom-2 duration-300`}
           >
-            <div className={`flex max-w-[80%] ${message.type === 'user' ? 'flex-row-reverse' : 'flex-row'} items-start space-x-2`}>
-              {/* Avatar */}
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-                message.type === 'user' ? 'bg-primary text-white ml-2' : 'bg-gray-100 mr-2'
+            <div className={`flex max-w-[85%] ${message.type === 'user' ? 'flex-row-reverse' : 'flex-row'} items-start space-x-3`}>
+              {/* Avatar - 增强科技感 */}
+              <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg ${
+                message.type === 'user' 
+                  ? 'bg-gradient-to-br from-blue-500 to-blue-600 text-white ml-3 ring-2 ring-blue-200' 
+                  : 'bg-gradient-to-br from-teal-500 to-green-500 text-white mr-3 ring-2 ring-teal-200'
               }`}>
                 {message.type === 'user' ? (
-                  <UserIcon className="w-4 h-4" />
+                  <UserIcon className="w-5 h-5" />
                 ) : (
-                  <Bot className="w-4 h-4 text-primary" />
+                  <Bot className="w-5 h-5" />
                 )}
               </div>
 
-              {/* Message Content */}
-              <div className={`rounded-lg p-3 ${
+              {/* Message Content - 放大字体和改进样式 */}
+              <div className={`rounded-2xl p-4 shadow-lg backdrop-blur-sm ${
                 message.type === 'user' 
-                  ? 'bg-primary text-white' 
-                  : 'bg-gray-50 text-gray-800'
+                  ? 'bg-gradient-to-br from-blue-500 to-blue-600 text-white' 
+                  : 'bg-white/90 text-gray-800 border border-gray-200/50'
               }`}>
-                <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                <div 
+                  className={`leading-relaxed whitespace-pre-wrap ${
+                    message.type === 'user' ? 'text-base' : 'text-lg'
+                  }`}
+                  dangerouslySetInnerHTML={{
+                    __html: message.type === 'ai' ? highlightMedicalTerms(message.content) : message.content
+                  }}
+                />
                 
-                {/* File attachments */}
+                {/* File attachments - 增强文件显示 */}
                 {message.files && message.files.length > 0 && (
-                  <div className="mt-2 space-y-1">
+                  <div className="mt-3 space-y-2">
                     {message.files.map((file, index) => (
-                      <div key={index} className={`flex items-center space-x-2 p-2 rounded ${
-                        message.type === 'user' ? 'bg-primary/20' : 'bg-white'
+                      <div key={index} className={`flex items-center space-x-3 p-3 rounded-xl ${
+                        message.type === 'user' ? 'bg-white/20 backdrop-blur-sm' : 'bg-gray-50 border border-gray-200'
                       }`}>
-                        {getFileIcon(file.type)}
-                        <span className="text-xs">{file.name}</span>
-                        <span className="text-xs opacity-70">({formatFileSize(file.size)})</span>
+                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
+                          message.type === 'user' ? 'bg-white/30' : 'bg-blue-100'
+                        }`}>
+                          {getFileIcon(file.type)}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium truncate">{file.name}</p>
+                          <p className="text-xs opacity-70">({formatFileSize(file.size)})</p>
+                        </div>
                       </div>
                     ))}
                   </div>
                 )}
                 
-                <p className="text-xs opacity-70 mt-1">
-                  {message.timestamp.toLocaleTimeString('zh-CN', { 
+                <p className="text-xs opacity-70 mt-3 flex items-center space-x-1">
+                  <span>{message.timestamp.toLocaleTimeString('zh-CN', { 
                     hour: '2-digit', 
                     minute: '2-digit' 
-                  })}
+                  })}</span>
                 </p>
               </div>
             </div>
           </div>
         ))}
 
-        {/* Typing Indicator */}
+        {/* Typing Indicator - 科技感加载动画 */}
         {isTyping && (
-          <div className="flex justify-start">
-            <div className="flex items-start space-x-2">
-              <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
-                <Bot className="w-4 h-4 text-primary" />
+          <div className="flex justify-start animate-in slide-in-from-bottom-2 duration-300">
+            <div className="flex items-start space-x-3">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-teal-500 to-green-500 text-white mr-3 ring-2 ring-teal-200 flex items-center justify-center shadow-lg">
+                <Bot className="w-5 h-5" />
               </div>
-              <div className="bg-gray-50 rounded-lg p-3">
-                <div className="flex space-x-1">
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+              <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-4 shadow-lg border border-gray-200/50">
+                <div className="flex items-center space-x-1">
+                  <span className="text-sm text-gray-600 mr-2">AI正在思考</span>
+                  <div className="flex space-x-1">
+                    <div className="w-2 h-2 bg-teal-500 rounded-full animate-bounce"></div>
+                    <div className="w-2 h-2 bg-teal-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                    <div className="w-2 h-2 bg-teal-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -273,20 +333,30 @@ export default function AIChat() {
         <div ref={messagesEndRef} />
       </div>
 
-      {/* File Preview */}
+      {/* File Preview - 科技医疗风格 */}
       {selectedFiles.length > 0 && (
-        <div className="border-t border-border p-4">
-          <div className="flex flex-wrap gap-2">
+        <div className="border-t border-blue-200/50 bg-gradient-to-r from-blue-50 to-teal-50 p-4">
+          <div className="mb-2">
+            <h4 className="text-sm font-semibold text-gray-700 flex items-center space-x-2">
+              <Upload className="w-4 h-4 text-blue-600" />
+              <span>待发送文件 ({selectedFiles.length})</span>
+            </h4>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {selectedFiles.map((file, index) => (
-              <div key={index} className="flex items-center space-x-2 bg-gray-50 rounded-lg p-2">
-                {getFileIcon(file.type)}
-                <span className="text-sm text-gray-700">{file.name}</span>
-                <span className="text-xs text-gray-500">({formatFileSize(file.size)})</span>
+              <div key={index} className="flex items-center space-x-3 bg-white/80 backdrop-blur-sm rounded-xl p-3 border border-blue-200/50 shadow-sm">
+                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-teal-500 rounded-lg flex items-center justify-center text-white shadow-md">
+                  {getFileIcon(file.type)}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-gray-800 truncate">{file.name}</p>
+                  <p className="text-xs text-gray-500">({formatFileSize(file.size)})</p>
+                </div>
                 <button
                   onClick={() => removeFile(index)}
-                  className="text-red-500 hover:text-red-700"
+                  className="w-8 h-8 rounded-full bg-red-100 hover:bg-red-200 text-red-600 flex items-center justify-center transition-colors"
                 >
-                  <X className="w-3 h-3" />
+                  <X className="w-4 h-4" />
                 </button>
               </div>
             ))}
@@ -294,9 +364,9 @@ export default function AIChat() {
         </div>
       )}
 
-      {/* Input Area */}
-      <div className="border-t border-border p-4">
-        <div className="flex items-end space-x-2">
+      {/* Input Area - 增强科技医疗风格 */}
+      <div className="border-t border-blue-200/50 bg-gradient-to-r from-slate-50 to-blue-50 p-4 rounded-b-xl">
+        <div className="flex items-end space-x-3">
           <input
             ref={fileInputRef}
             type="file"
@@ -308,11 +378,11 @@ export default function AIChat() {
           
           <Button
             variant="outline"
-            size="sm"
+            size="lg"
             onClick={() => fileInputRef.current?.click()}
-            className="flex-shrink-0"
+            className="flex-shrink-0 bg-white/80 backdrop-blur-sm border-blue-200 hover:bg-blue-50 hover:border-blue-300 text-blue-700 shadow-sm"
           >
-            <Upload className="w-4 h-4" />
+            <Upload className="w-5 h-5" />
           </Button>
 
           <div className="flex-1">
@@ -320,8 +390,8 @@ export default function AIChat() {
               value={inputMessage}
               onChange={(e) => setInputMessage(e.target.value)}
               onKeyPress={handleKeyPress}
-              placeholder="输入您的问题，或上传医疗文件进行分析..."
-              className="min-h-[40px] max-h-[120px] resize-none"
+              placeholder="🩺 输入您的医疗问题，或上传检查报告、影像资料进行AI分析..."
+              className="min-h-[60px] max-h-[140px] resize-none text-base bg-white/80 backdrop-blur-sm border-blue-200 focus:border-blue-400 focus:ring-blue-200 shadow-sm"
               disabled={chatMutation.isPending}
             />
           </div>
@@ -329,9 +399,20 @@ export default function AIChat() {
           <Button
             onClick={handleSendMessage}
             disabled={(!inputMessage.trim() && selectedFiles.length === 0) || chatMutation.isPending}
-            className="flex-shrink-0"
+            className="flex-shrink-0 bg-gradient-to-r from-blue-600 to-teal-600 hover:from-blue-700 hover:to-teal-700 text-white shadow-lg px-6 py-3 text-base font-medium"
+            size="lg"
           >
-            <Send className="w-4 h-4" />
+            {chatMutation.isPending ? (
+              <div className="flex items-center space-x-2">
+                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                <span>发送中</span>
+              </div>
+            ) : (
+              <>
+                <Send className="w-5 h-5 mr-1" />
+                <span>发送</span>
+              </>
+            )}
           </Button>
         </div>
       </div>

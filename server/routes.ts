@@ -42,6 +42,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // User login route
+  app.post('/api/auth/login', async (req: Request, res: Response) => {
+    try {
+      const { email, password } = req.body;
+      
+      if (!email || !password) {
+        return res.status(400).json({ 
+          success: false, 
+          message: '邮箱和密码都是必填项' 
+        });
+      }
+      
+      // In a real app, you would verify credentials against database
+      console.log(`User login: ${email}`);
+      
+      res.json({ 
+        success: true, 
+        message: '登录成功' 
+      });
+    } catch (error) {
+      console.error('Login error:', error);
+      res.status(500).json({ 
+        success: false, 
+        message: '服务器错误，请稍后重试' 
+      });
+    }
+  });
+
   // File upload endpoint for medical reports
   app.post("/api/upload", upload.array('files', 10), async (req, res) => {
     try {

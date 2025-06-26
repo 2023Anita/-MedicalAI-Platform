@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Activity, User, LogOut } from "lucide-react";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import ReportInput from "@/components/ReportInput";
 import AnalysisProgress from "@/components/AnalysisProgress";
 import ReportDisplay from "@/components/ReportDisplay";
@@ -13,10 +13,20 @@ export default function Dashboard() {
   const [analysisProgress, setAnalysisProgress] = useState<AnalysisProgressType | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState<string | null>(null);
+  const [, setLocation] = useLocation();
 
   const handleLogout = () => {
-    // In a real app, you would clear user session here
-    window.location.href = "/";
+    // Clear any stored session data
+    localStorage.clear();
+    sessionStorage.clear();
+    
+    // Navigate back to login page
+    setLocation("/");
+    
+    // Force a page reload to ensure clean state
+    setTimeout(() => {
+      window.location.reload();
+    }, 100);
   };
 
   return (

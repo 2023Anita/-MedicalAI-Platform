@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Activity, User, LogOut } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import ReportInput from "@/components/ReportInput";
@@ -14,6 +14,14 @@ export default function Dashboard() {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState<string | null>(null);
   const [, setLocation] = useLocation();
+
+  // Check authentication on component mount
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    if (!isLoggedIn) {
+      window.location.href = "/";
+    }
+  }, []);
 
   const handleLogout = () => {
     // Clear any stored session data

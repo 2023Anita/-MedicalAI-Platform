@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { Brain, Upload, Shield, File, X, Calendar } from "lucide-react";
+import { Brain, Upload, Shield, File, X, Calendar, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -333,9 +333,28 @@ export default function ReportInput({
               name="reportData"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-sm font-medium text-professional">
-                    体检报告数据
-                  </FormLabel>
+                  <div className="flex items-center justify-between mb-2">
+                    <FormLabel className="text-sm font-medium text-professional">
+                      体检报告数据
+                    </FormLabel>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => {
+                        form.setValue("reportData", "");
+                        toast({
+                          title: "清除成功",
+                          description: "体检报告数据已清空",
+                        });
+                      }}
+                      disabled={isAnalyzing || !field.value}
+                      className="text-muted-foreground hover:text-destructive h-auto p-1"
+                    >
+                      <Trash2 className="w-4 h-4 mr-1" />
+                      清空
+                    </Button>
+                  </div>
                   <FormControl>
                     <Textarea 
                       className="h-48 text-sm resize-none focus:ring-2 focus:ring-primary focus:border-transparent"

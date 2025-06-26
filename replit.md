@@ -95,37 +95,32 @@ The application uses PostgreSQL with two main tables:
 
 ## Recent Changes
 
-- **June 26, 2025**: Settings Page and UI Improvements
-  - **Functional Settings Page**: Added comprehensive settings interface replacing static link
-    - Account information display with user email and registration details
-    - System preferences showing AI model, language, and data storage status
-    - Data management section with report count and supported file formats
-    - System status monitoring with real-time connection indicators
-    - Action buttons for cache clearing, data export, and navigation
-  - **Brand Neutrality**: Removed all Gemini and Google branding throughout the application
-    - AI model displayed as "Agentic-AI" in settings interface
-    - AI service shown as "智能医疗分析引擎" (Intelligent Medical Analysis Engine)
-    - Updated all error messages and code comments to use "Med Agentic-AI" branding
-    - Replaced technical documentation references to maintain brand consistency
-  - **Enhanced Historical Reports**: Fixed API response to include complete analysis results
-    - Historical report viewing now displays full diagnostic content
-    - Added functional delete buttons with confirmation dialogs
-    - Toast notifications for successful operations
-  - **Navigation Improvements**: Settings button now functional with gear icon
-    - Consistent styling with other navigation elements
-    - Proper tab switching between analysis, history, and settings
-  - **File Upload Enhancement**: Increased video file upload limit from 50MB to 100MB
-    - Updated both frontend validation and backend multer configuration
-    - Added client-side file size validation with clear error messages
-    - Settings page now displays correct 100MB maximum file size
-  - **AI Chat Integration**: Added comprehensive AI conversation interface
-    - New "AI对话" tab in main navigation for real-time chat with Med Agentic-AI
-    - Support for text messages and file uploads (images, videos, PDFs, DOCX)
-    - Same file analysis capabilities as main medical report system
-    - Clean chat UI with message bubbles, file previews, and typing indicators
-    - 1,000,000 token output limit for extensive and complete AI responses
-    - Automatic file cleanup after analysis
-    - Enhanced output formatting with automatic Markdown symbol removal and 【】 emphasis style
+- **June 26, 2025**: Complete UI Design System Transformation
+  - **Unified Glassmorphism Design**: Transformed entire platform with cohesive sci-fi medical aesthetic
+    - Applied semi-transparent cards with backdrop blur effects across all components
+    - Implemented gradient icon containers with consistent rounded styling (rounded-2xl)
+    - Enhanced color coding system using blue, teal, purple, green gradients for visual distinction
+    - Updated all interface elements with improved shadows, hover animations, and transition effects
+  - **Component-Level Updates**: Redesigned core analysis components for consistency
+    - ReportInput: Modern form styling with gradient backgrounds and enhanced input fields
+    - AnalysisProgress: Updated progress indicators with glassmorphism cards and color-coded status
+    - ReportDisplay: Transformed report sections with gradient summary cards and improved typography
+    - Dashboard: Unified header, navigation, and content areas with consistent visual language
+  - **Enhanced Visual Hierarchy**: Improved readability and user experience
+    - Larger font sizes (text-lg) for AI responses and improved line spacing
+    - Color-coded medical terms with intelligent background highlights
+    - Gradient button designs with enhanced hover states and shadow depths
+    - Better spacing and visual separation between content sections
+  - **Settings Page Enhancement**: Comprehensive settings interface with modern styling
+    - Account information display with colorful tag-based value presentation
+    - System preferences showing AI model, language, and data storage with status indicators
+    - Data management section with color-coded information cards
+    - Modern action buttons with gradient backgrounds and unified styling
+  - **Previous Features Maintained**: All existing functionality preserved
+    - AI Chat integration with 1,000,000 token output limit
+    - File upload support up to 100MB with enhanced validation
+    - Historical reports with delete functionality and toast notifications
+    - Brand consistency as "Med Agentic-AI 体检报告·分析平台"
 
 - **June 26, 2025**: User Interface and Report Generation Improvements
   - **System Rebranding**: Updated system name from "医检智解 (MediScan-Insight)" to "Med Agentic-AI 体检报告·分析平台"

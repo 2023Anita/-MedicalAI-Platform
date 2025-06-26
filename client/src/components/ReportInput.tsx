@@ -193,10 +193,12 @@ export default function ReportInput({
   };
 
   return (
-    <Card className="bg-white shadow-sm border-border">
+    <Card className="bg-white/90 backdrop-blur-sm shadow-lg border border-blue-200/50 rounded-2xl">
       <CardHeader>
-        <CardTitle className="flex items-center text-lg font-semibold text-professional">
-          <Upload className="text-primary mr-3 w-5 h-5" />
+        <CardTitle className="flex items-center text-lg font-semibold text-gray-800">
+          <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-teal-500 rounded-lg flex items-center justify-center mr-3">
+            <Upload className="text-white w-4 h-4" />
+          </div>
           数据输入
         </CardTitle>
       </CardHeader>
@@ -204,10 +206,10 @@ export default function ReportInput({
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <div>
-              <FormLabel className="text-sm font-medium text-professional mb-2 block">
+              <FormLabel className="text-sm font-medium text-gray-800 mb-3 block bg-blue-50 px-3 py-2 rounded-lg">
                 患者信息
               </FormLabel>
-              <div className="grid grid-cols-2 gap-3 mb-3">
+              <div className="grid grid-cols-2 gap-4 mb-4">
                 <FormField
                   control={form.control}
                   name="patientName"
@@ -217,7 +219,7 @@ export default function ReportInput({
                         <Input 
                           placeholder="姓名" 
                           {...field} 
-                          className="text-sm focus:ring-2 focus:ring-primary focus:border-transparent"
+                          className="text-sm bg-white/70 border-blue-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
                         />
                       </FormControl>
                       <FormMessage />
@@ -233,7 +235,7 @@ export default function ReportInput({
                         <Input 
                           placeholder="年龄" 
                           {...field}
-                          className="text-sm focus:ring-2 focus:ring-primary focus:border-transparent"
+                          className="text-sm bg-white/70 border-blue-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
                         />
                       </FormControl>
                       <FormMessage />
@@ -241,7 +243,7 @@ export default function ReportInput({
                   )}
                 />
               </div>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 gap-4">
                 <FormField
                   control={form.control}
                   name="patientGender"
@@ -251,7 +253,7 @@ export default function ReportInput({
                         <Input 
                           placeholder="性别（可选）" 
                           {...field}
-                          className="text-sm focus:ring-2 focus:ring-primary focus:border-transparent"
+                          className="text-sm bg-white/70 border-blue-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
                         />
                       </FormControl>
                       <FormMessage />
@@ -268,9 +270,9 @@ export default function ReportInput({
                           <Input 
                             type="date"
                             {...field}
-                            className="text-sm focus:ring-2 focus:ring-primary focus:border-transparent pr-10"
+                            className="text-sm bg-white/70 border-blue-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all pr-10"
                           />
-                          <Calendar className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4 pointer-events-none" />
+                          <Calendar className="absolute right-3 top-1/2 transform -translate-y-1/2 text-blue-400 w-4 h-4 pointer-events-none" />
                         </div>
                       </FormControl>
                       <FormMessage />
@@ -282,10 +284,10 @@ export default function ReportInput({
             
             {/* File Upload Section */}
             <div>
-              <FormLabel className="text-sm font-medium text-professional mb-2 block">
+              <FormLabel className="text-sm font-medium text-gray-800 mb-3 block bg-teal-50 px-3 py-2 rounded-lg">
                 文件上传
               </FormLabel>
-              <div className="border-2 border-dashed border-border rounded-lg p-4 text-center">
+              <div className="border-2 border-dashed border-blue-300 bg-blue-50/50 rounded-2xl p-6 text-center hover:border-blue-400 transition-colors">
                 <input
                   type="file"
                   multiple
@@ -297,13 +299,15 @@ export default function ReportInput({
                 />
                 <label
                   htmlFor="file-upload"
-                  className="cursor-pointer flex flex-col items-center space-y-2"
+                  className="cursor-pointer flex flex-col items-center space-y-3"
                 >
-                  <Upload className="w-8 h-8 text-muted-foreground" />
-                  <span className="text-sm text-muted-foreground">
+                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-teal-500 rounded-xl flex items-center justify-center">
+                    <Upload className="w-6 h-6 text-white" />
+                  </div>
+                  <span className="text-sm text-gray-700 font-medium">
                     点击上传或拖拽文件到此处
                   </span>
-                  <span className="text-xs text-muted-foreground">
+                  <span className="text-xs text-gray-600 bg-white/80 px-3 py-1 rounded-full">
                     支持: PDF, DOCX, 图片(PNG/JPG), 视频(MP4), DICOM(.dcm)
                   </span>
                 </label>
@@ -311,18 +315,20 @@ export default function ReportInput({
               
               {/* Selected Files Display */}
               {selectedFiles.length > 0 && (
-                <div className="mt-3 space-y-2">
-                  <p className="text-sm font-medium text-professional">已选择文件：</p>
+                <div className="mt-4 space-y-3">
+                  <p className="text-sm font-medium text-gray-800 bg-purple-50 px-3 py-2 rounded-lg">已选择文件：</p>
                   {selectedFiles.map((file, index) => (
-                    <div key={index} className="flex items-center justify-between bg-muted rounded p-2">
-                      <div className="flex items-center space-x-2">
-                        <span className="text-lg">{getFileIcon(file)}</span>
-                        <span className="text-sm text-professional truncate max-w-[200px]">
-                          {file.name}
-                        </span>
-                        <span className="text-xs text-muted-foreground">
-                          ({(file.size / 1024 / 1024).toFixed(2)} MB)
-                        </span>
+                    <div key={index} className="flex items-center justify-between bg-white/70 border border-blue-200 rounded-xl p-3 shadow-sm">
+                      <div className="flex items-center space-x-3">
+                        <span className="text-xl">{getFileIcon(file)}</span>
+                        <div>
+                          <span className="text-sm text-gray-800 font-medium truncate max-w-[200px] block">
+                            {file.name}
+                          </span>
+                          <span className="text-xs text-gray-600 bg-gray-100 px-2 py-1 rounded-md">
+                            {(file.size / 1024 / 1024).toFixed(2)} MB
+                          </span>
+                        </div>
                       </div>
                       <Button
                         type="button"
@@ -330,7 +336,7 @@ export default function ReportInput({
                         size="sm"
                         onClick={() => removeFile(index)}
                         disabled={isAnalyzing}
-                        className="text-muted-foreground hover:text-destructive"
+                        className="text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg"
                       >
                         <X className="w-4 h-4" />
                       </Button>
@@ -345,8 +351,8 @@ export default function ReportInput({
               name="reportData"
               render={({ field }) => (
                 <FormItem>
-                  <div className="flex items-center justify-between mb-2">
-                    <FormLabel className="text-sm font-medium text-professional">
+                  <div className="flex items-center justify-between mb-3">
+                    <FormLabel className="text-sm font-medium text-gray-800 bg-green-50 px-3 py-2 rounded-lg">
                       体检报告数据
                     </FormLabel>
                     <Button
@@ -361,7 +367,7 @@ export default function ReportInput({
                         });
                       }}
                       disabled={isAnalyzing || !field.value}
-                      className="text-muted-foreground hover:text-destructive h-auto p-1"
+                      className="text-gray-500 hover:text-red-600 hover:bg-red-50 h-auto p-2 rounded-lg"
                     >
                       <Trash2 className="w-4 h-4 mr-1" />
                       清空
@@ -369,50 +375,52 @@ export default function ReportInput({
                   </div>
                   <FormControl>
                     <Textarea 
-                      className="h-48 text-sm resize-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                      className="h-48 text-sm resize-none bg-white/70 border-blue-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
                       placeholder="请粘贴体检报告内容，包括影像学检查、实验室检验、个人病史等信息..."
                       {...field}
                     />
                   </FormControl>
                   <FormMessage />
-                  <p className="text-xs text-muted-foreground mt-2">
+                  <p className="text-xs text-gray-600 mt-2 bg-blue-50 px-2 py-1 rounded-md">
                     支持文本格式，系统将自动识别不同类型的医疗数据
                   </p>
                 </FormItem>
               )}
             />
             
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between bg-gray-50 rounded-xl p-4">
               <FormField
                 control={form.control}
                 name="compareWithHistory"
                 render={({ field }) => (
-                  <FormItem className="flex flex-row items-center space-x-2 space-y-0">
+                  <FormItem className="flex flex-row items-center space-x-3 space-y-0">
                     <FormControl>
                       <Checkbox 
                         checked={field.value}
                         onCheckedChange={field.onChange}
-                        className="border-border"
+                        className="border-blue-300 data-[state=checked]:bg-blue-500"
                       />
                     </FormControl>
-                    <FormLabel className="text-sm text-muted-foreground">
+                    <FormLabel className="text-sm text-gray-700 font-medium">
                       与历史报告对比
                     </FormLabel>
                   </FormItem>
                 )}
               />
-              <div className="flex items-center text-xs text-muted-foreground">
-                <Shield className="w-3 h-3 mr-1" />
+              <div className="flex items-center text-xs text-gray-600 bg-green-100 px-3 py-1 rounded-full">
+                <Shield className="w-3 h-3 mr-1 text-green-600" />
                 数据加密保护
               </div>
             </div>
             
             <Button 
               type="submit" 
-              className="w-full medical-primary py-3 font-medium hover:bg-opacity-90 transition-colors"
+              className="w-full bg-gradient-to-r from-blue-500 to-teal-500 hover:from-blue-600 hover:to-teal-600 text-white py-4 font-medium rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50"
               disabled={isAnalyzing}
             >
-              <Brain className="mr-2 w-4 h-4" />
+              <div className="w-5 h-5 bg-white/20 rounded-lg flex items-center justify-center mr-3">
+                <Brain className="w-3 h-3" />
+              </div>
               {isAnalyzing ? "正在分析..." : "开始智能分析"}
             </Button>
           </form>

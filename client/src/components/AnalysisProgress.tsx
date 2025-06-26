@@ -65,23 +65,25 @@ export default function AnalysisProgress({ progress, isVisible }: AnalysisProgre
   };
 
   return (
-    <Card className="bg-white shadow-sm border-border">
+    <Card className="bg-white/90 backdrop-blur-sm shadow-lg border border-blue-200/50 rounded-2xl">
       <CardHeader>
-        <CardTitle className="flex items-center text-md font-semibold text-professional">
-          <Settings className="text-secondary mr-3 w-5 h-5" />
+        <CardTitle className="flex items-center text-md font-semibold text-gray-800">
+          <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center mr-3">
+            <Settings className="text-white w-4 h-4" />
+          </div>
           分析进度
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="space-y-3">
+        <div className="space-y-4">
           {progressSteps.map(({ key, label }) => (
-            <div key={key} className="flex items-center justify-between">
-              <span className="text-sm text-muted-foreground">{label}</span>
-              <div className="flex items-center space-x-2">
+            <div key={key} className="flex items-center justify-between bg-white/60 border border-blue-200/30 rounded-xl p-3">
+              <span className="text-sm text-gray-700 font-medium">{label}</span>
+              <div className="flex items-center space-x-3">
                 <div className={`status-indicator ${getStatusClass(progress[key])}`}>
                   {getStatusIcon(progress[key])}
                 </div>
-                <span className={`text-xs ${getStatusTextClass(progress[key])}`}>
+                <span className={`text-xs font-medium ${getStatusTextClass(progress[key])}`}>
                   {getStatusText(progress[key])}
                 </span>
               </div>

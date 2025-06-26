@@ -1,4 +1,4 @@
-import { FileText, Download, Printer, ClipboardList, Microscope, TrendingUp, Calendar, UserCheck, Heart, Video, Brain, Target } from "lucide-react";
+import { FileText, Download, Printer, ClipboardList, Microscope, TrendingUp, Calendar, UserCheck, Heart, Video, Brain, Target, AlertTriangle } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -166,23 +166,49 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
             二、详细解读与分析 (Detailed Interpretation & Analysis)
           </h3>
           
-          {/* Imaging Findings */}
-          <div className="mb-6">
-            <h4 className="text-lg font-semibold text-gray-800 mb-4 flex items-center bg-gradient-to-r from-blue-50 to-cyan-50 px-5 py-3 rounded-xl border border-blue-200">
-              <div className="w-4 h-4 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full mr-3 shadow-sm"></div>
-              2.1 影像学发现 (Imaging Findings)
-            </h4>
-            <div className="bg-white/70 border border-blue-200 rounded-xl p-5 shadow-sm">
-              <ul className="space-y-3 text-base">
-                {report.detailedAnalysis.imagingFindings.map((finding, index) => (
-                  <li key={index} className="flex items-start">
-                    <span className="w-2 h-2 bg-warning rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                    <span>{finding}</span>
-                  </li>
-                ))}
-              </ul>
+          {/* Show error message if analysis failed */}
+          {(!report.detailedAnalysis.imagingFindings || report.detailedAnalysis.imagingFindings.length === 0) &&
+           (!report.detailedAnalysis.labAbnormalities || report.detailedAnalysis.labAbnormalities.length === 0) &&
+           (!report.detailedAnalysis.riskFactors || report.detailedAnalysis.riskFactors.length === 0) &&
+           (!report.detailedAnalysis.clinicalReasoning || report.detailedAnalysis.clinicalReasoning.length === 0) && (
+            <div className="bg-gradient-to-br from-red-50 to-orange-50 border border-red-200 rounded-2xl p-6 mb-6 shadow-sm">
+              <div className="flex items-center mb-4">
+                <div className="w-8 h-8 bg-gradient-to-br from-red-500 to-orange-500 rounded-lg flex items-center justify-center mr-4">
+                  <AlertTriangle className="w-4 h-4 text-white" />
+                </div>
+                <h4 className="text-lg font-semibold text-red-800">分析处理遇到问题</h4>
+              </div>
+              <p className="text-red-700 mb-4">AI分析系统在处理您的报告时遇到技术问题，无法生成完整的详细分析。</p>
+              <div className="bg-white/70 rounded-xl p-4 border-l-4 border-red-400">
+                <p className="text-red-800 font-medium">建议操作：</p>
+                <ul className="text-red-700 mt-2 space-y-1">
+                  <li>• 请重新上传您的医疗报告</li>
+                  <li>• 确保文件格式正确且清晰可读</li>
+                  <li>• 如问题持续，请联系技术支持</li>
+                </ul>
+              </div>
             </div>
-          </div>
+          )}
+          
+          {/* Imaging Findings */}
+          {report.detailedAnalysis.imagingFindings && report.detailedAnalysis.imagingFindings.length > 0 && (
+            <div className="mb-6">
+              <h4 className="text-lg font-semibold text-gray-800 mb-4 flex items-center bg-gradient-to-r from-blue-50 to-cyan-50 px-5 py-3 rounded-xl border border-blue-200">
+                <div className="w-4 h-4 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full mr-3 shadow-sm"></div>
+                2.1 影像学发现 (Imaging Findings)
+              </h4>
+              <div className="bg-white/70 border border-blue-200 rounded-xl p-5 shadow-sm">
+                <ul className="space-y-3 text-base">
+                  {report.detailedAnalysis.imagingFindings.map((finding, index) => (
+                    <li key={index} className="flex items-start">
+                      <span className="w-2 h-2 bg-warning rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                      <span>{finding}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          )}
 
           {/* Video Findings */}
           {report.detailedAnalysis.videoFindings && report.detailedAnalysis.videoFindings.length > 0 && report.reportMetadata.hasVideoFiles && (
@@ -247,14 +273,15 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
           )}
           
           {/* Lab Results */}
-          <div className="mb-6">
-            <h4 className="text-lg font-semibold text-gray-800 mb-4 flex items-center bg-gradient-to-r from-teal-50 to-cyan-50 px-5 py-3 rounded-xl border border-teal-200">
-              <div className="w-4 h-4 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-full mr-3 shadow-sm"></div>
-              2.4 实验室检查异常 (Lab Test Abnormalities)
-            </h4>
-            <div className="bg-gradient-to-br from-teal-50 to-cyan-50 border border-teal-200 rounded-2xl p-6 shadow-sm">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                {report.detailedAnalysis.labAbnormalities.map((lab, index) => (
+          {report.detailedAnalysis.labAbnormalities && report.detailedAnalysis.labAbnormalities.length > 0 && (
+            <div className="mb-6">
+              <h4 className="text-lg font-semibold text-gray-800 mb-4 flex items-center bg-gradient-to-r from-teal-50 to-cyan-50 px-5 py-3 rounded-xl border border-teal-200">
+                <div className="w-4 h-4 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-full mr-3 shadow-sm"></div>
+                2.4 实验室检查异常 (Lab Test Abnormalities)
+              </h4>
+              <div className="bg-gradient-to-br from-teal-50 to-cyan-50 border border-teal-200 rounded-2xl p-6 shadow-sm">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  {report.detailedAnalysis.labAbnormalities.map((lab, index) => (
                   <div key={index} className={`p-5 bg-white/70 rounded-2xl border shadow-sm ${getLabStatusClass(lab.status)}`}>
                     <div className="flex justify-between items-start mb-3">
                       <span className="text-base font-semibold text-gray-800">{lab.indicator}</span>
@@ -281,21 +308,23 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
                       {getLabStatusText(lab.status)}
                     </div>
                   </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
+          )}
           
           {/* Risk Factors */}
-          <div className="mb-6">
-            <h4 className="text-lg font-semibold text-gray-800 mb-4 flex items-center bg-gradient-to-r from-orange-50 to-red-50 px-5 py-3 rounded-xl border border-orange-200">
-              <div className="w-4 h-4 bg-gradient-to-br from-orange-500 to-red-500 rounded-full mr-3 shadow-sm"></div>
-              2.5 个人健康风险因素 (Personal Health Risk Factors)
-            </h4>
-            <div className="bg-gradient-to-br from-orange-50 to-red-50 border border-orange-200 rounded-2xl p-6 shadow-sm">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <ul className="space-y-3">
-                  {report.detailedAnalysis.riskFactors.slice(0, Math.ceil(report.detailedAnalysis.riskFactors.length / 2)).map((factor, index) => (
+          {report.detailedAnalysis.riskFactors && report.detailedAnalysis.riskFactors.length > 0 && (
+            <div className="mb-6">
+              <h4 className="text-lg font-semibold text-gray-800 mb-4 flex items-center bg-gradient-to-r from-orange-50 to-red-50 px-5 py-3 rounded-xl border border-orange-200">
+                <div className="w-4 h-4 bg-gradient-to-br from-orange-500 to-red-500 rounded-full mr-3 shadow-sm"></div>
+                2.5 个人健康风险因素 (Personal Health Risk Factors)
+              </h4>
+              <div className="bg-gradient-to-br from-orange-50 to-red-50 border border-orange-200 rounded-2xl p-6 shadow-sm">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <ul className="space-y-3">
+                    {report.detailedAnalysis.riskFactors.slice(0, Math.ceil(report.detailedAnalysis.riskFactors.length / 2)).map((factor, index) => (
                     <li key={index} className="flex items-start bg-white/70 rounded-xl p-3 border border-orange-100">
                       <div className="w-6 h-6 bg-gradient-to-br from-orange-500 to-red-500 rounded-lg flex items-center justify-center mr-3 mt-0.5 flex-shrink-0 shadow-sm">
                         <div className="w-2 h-2 bg-white rounded-full"></div>
@@ -325,10 +354,11 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
                       }}></span>
                     </li>
                   ))}
-                </ul>
+                  </ul>
+                </div>
               </div>
             </div>
-          </div>
+          )}
 
           {/* Possible Diagnoses */}
           {report.detailedAnalysis.possibleDiagnoses && report.detailedAnalysis.possibleDiagnoses.length > 0 && (

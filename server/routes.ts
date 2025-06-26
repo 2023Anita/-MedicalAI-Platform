@@ -365,6 +365,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Create AI prompt for general conversation
       const chatPrompt = `您是Med Agentic-AI智能医疗助手。请根据用户的问题或上传的文件内容，提供专业、准确的医疗相关回答。
 
+输出格式要求：
+- 请使用纯文本格式，不要使用Markdown格式符号（**、*、#、-等）
+- 重点内容用【】标注，例如：【烟雾病】、【重要提醒】
+- 列表使用简单的数字编号或• 符号
+- 段落之间用空行分隔
+- 专业术语后用括号提供通俗解释
+
 用户输入：
 ${combinedContent}
 
@@ -374,7 +381,7 @@ ${combinedContent}
 3. 如有必要，提供进一步的检查建议
 4. 用简单易懂的语言解释医疗术语
 
-注意：您的回答应该专业但易懂，适合患者阅读。`;
+注意：您的回答应该专业但易懂，适合患者阅读，并严格按照上述格式要求输出。`;
 
       // Get AI response using the same service as medical analysis
       const { GoogleGenAI } = await import('@google/genai');
@@ -405,25 +412,11 @@ ${combinedContent}
         aiResponse = null;
       }
       
-      // Debug logging
-      console.log("=== AI RESPONSE DEBUG ===");
-      console.log("Response object keys:", Object.keys(response));
-      console.log("Response.text exists:", !!response.text);
-      console.log("Response.candidates exists:", !!response.candidates);
-      
-      if (response.candidates) {
-        console.log("Candidates length:", response.candidates.length);
-        if (response.candidates[0]) {
-          console.log("First candidate keys:", Object.keys(response.candidates[0]));
-          console.log("First candidate content:", response.candidates[0].content);
-          console.log("Finish reason:", response.candidates[0].finishReason);
-        }
+      // Simple response status logging
+      console.log(`AI response received: ${aiResponse?.length || 0} characters`);
+      if (response.candidates && response.candidates[0]) {
+        console.log(`Response finish reason: ${response.candidates[0].finishReason}`);
       }
-      
-      console.log("AI response text length:", aiResponse?.length || 0);
-      console.log("AI response preview (first 300 chars):", aiResponse?.substring(0, 300));
-      console.log("AI response ending (last 300 chars):", aiResponse?.substring(Math.max(0, (aiResponse?.length || 0) - 300)));
-      console.log("=== END DEBUG ===");
       
       // Check if response is complete
       if (!aiResponse) {

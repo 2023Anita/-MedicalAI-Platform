@@ -1,4 +1,4 @@
-import { FileText, Download, Printer, ClipboardList, Microscope, TrendingUp, Calendar, UserCheck, Heart, Video, Brain, Target, AlertTriangle } from "lucide-react";
+import { FileText, Download, Printer, ClipboardList, Microscope, TrendingUp, Calendar, UserCheck, Heart, Video, Brain, Target } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -166,49 +166,23 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
             二、详细解读与分析 (Detailed Interpretation & Analysis)
           </h3>
           
-          {/* Show error message if analysis failed */}
-          {(!report.detailedAnalysis.imagingFindings || report.detailedAnalysis.imagingFindings.length === 0) &&
-           (!report.detailedAnalysis.labAbnormalities || report.detailedAnalysis.labAbnormalities.length === 0) &&
-           (!report.detailedAnalysis.riskFactors || report.detailedAnalysis.riskFactors.length === 0) &&
-           (!report.detailedAnalysis.clinicalReasoning || report.detailedAnalysis.clinicalReasoning.length === 0) && (
-            <div className="bg-gradient-to-br from-red-50 to-orange-50 border border-red-200 rounded-2xl p-6 mb-6 shadow-sm">
-              <div className="flex items-center mb-4">
-                <div className="w-8 h-8 bg-gradient-to-br from-red-500 to-orange-500 rounded-lg flex items-center justify-center mr-4">
-                  <AlertTriangle className="w-4 h-4 text-white" />
-                </div>
-                <h4 className="text-lg font-semibold text-red-800">分析处理遇到问题</h4>
-              </div>
-              <p className="text-red-700 mb-4">AI分析系统在处理您的报告时遇到技术问题，无法生成完整的详细分析。</p>
-              <div className="bg-white/70 rounded-xl p-4 border-l-4 border-red-400">
-                <p className="text-red-800 font-medium">建议操作：</p>
-                <ul className="text-red-700 mt-2 space-y-1">
-                  <li>• 请重新上传您的医疗报告</li>
-                  <li>• 确保文件格式正确且清晰可读</li>
-                  <li>• 如问题持续，请联系技术支持</li>
-                </ul>
-              </div>
-            </div>
-          )}
-          
           {/* Imaging Findings */}
-          {report.detailedAnalysis.imagingFindings && report.detailedAnalysis.imagingFindings.length > 0 && (
-            <div className="mb-6">
-              <h4 className="text-lg font-semibold text-gray-800 mb-4 flex items-center bg-gradient-to-r from-blue-50 to-cyan-50 px-5 py-3 rounded-xl border border-blue-200">
-                <div className="w-4 h-4 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full mr-3 shadow-sm"></div>
-                2.1 影像学发现 (Imaging Findings)
-              </h4>
-              <div className="bg-white/70 border border-blue-200 rounded-xl p-5 shadow-sm">
-                <ul className="space-y-3 text-base">
-                  {report.detailedAnalysis.imagingFindings.map((finding, index) => (
-                    <li key={index} className="flex items-start">
-                      <span className="w-2 h-2 bg-warning rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                      <span>{finding}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+          <div className="mb-6">
+            <h4 className="text-lg font-semibold text-gray-800 mb-4 flex items-center bg-gradient-to-r from-blue-50 to-cyan-50 px-5 py-3 rounded-xl border border-blue-200">
+              <div className="w-4 h-4 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full mr-3 shadow-sm"></div>
+              2.1 影像学发现 (Imaging Findings)
+            </h4>
+            <div className="bg-white/70 border border-blue-200 rounded-xl p-5 shadow-sm">
+              <ul className="space-y-3 text-base">
+                {report.detailedAnalysis.imagingFindings.map((finding, index) => (
+                  <li key={index} className="flex items-start">
+                    <span className="w-2 h-2 bg-warning rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                    <span>{finding}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
-          )}
+          </div>
 
           {/* Video Findings */}
           {report.detailedAnalysis.videoFindings && report.detailedAnalysis.videoFindings.length > 0 && report.reportMetadata.hasVideoFiles && (
@@ -259,8 +233,8 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
                       </div>
                       <span className="text-base leading-relaxed text-gray-800" dangerouslySetInnerHTML={{
                         __html: reasoning
-                          .replace(/(1型糖尿病|2型糖尿病|妊娠糖尿病|高血压病|冠心病|心肌梗死|脑卒中|肝硬化|肾衰竭|慢性肾病|肺癌|乳腺癌|结直肠癌|胃癌|慢性支气管炎|肺气肿|哮喘|心律失常|心衰|肺结核|代谢综合征|肾病综合征|呼吸衰竭)/g, '<span class="bg-red-100 text-red-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
-                          .replace(/(\d+\.?\d*%?|mg\/dL|mmol\/L|g\/L|IU\/L|U\/L)/g, '<span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-sm font-semibold">$1</span>')
+                          .replace(/(\d+%?)/g, '<span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-sm font-semibold">$1</span>')
+                          .replace(/(高血压|糖尿病|肝硬化|肾功能|心脏病|肺部|脑部|血管|胆固醇|血糖|血脂|蛋白质|肌酐|尿素氮)/g, '<span class="bg-red-100 text-red-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
                           .replace(/(正常|稳定|良好|改善|恢复|健康)/g, '<span class="bg-green-100 text-green-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
                           .replace(/(异常|升高|降低|偏高|偏低|增大|缩小|病变|损伤|炎症|感染)/g, '<span class="bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
                           .replace(/(严重|危险|紧急|立即|马上|急需|重要|关键)/g, '<span class="bg-red-200 text-red-800 px-2 py-0.5 rounded-full text-sm font-bold">$1</span>')
@@ -273,15 +247,14 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
           )}
           
           {/* Lab Results */}
-          {report.detailedAnalysis.labAbnormalities && report.detailedAnalysis.labAbnormalities.length > 0 && (
-            <div className="mb-6">
-              <h4 className="text-lg font-semibold text-gray-800 mb-4 flex items-center bg-gradient-to-r from-teal-50 to-cyan-50 px-5 py-3 rounded-xl border border-teal-200">
-                <div className="w-4 h-4 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-full mr-3 shadow-sm"></div>
-                2.4 实验室检查异常 (Lab Test Abnormalities)
-              </h4>
-              <div className="bg-gradient-to-br from-teal-50 to-cyan-50 border border-teal-200 rounded-2xl p-6 shadow-sm">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  {report.detailedAnalysis.labAbnormalities.map((lab, index) => (
+          <div className="mb-6">
+            <h4 className="text-lg font-semibold text-gray-800 mb-4 flex items-center bg-gradient-to-r from-teal-50 to-cyan-50 px-5 py-3 rounded-xl border border-teal-200">
+              <div className="w-4 h-4 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-full mr-3 shadow-sm"></div>
+              2.4 实验室检查异常 (Lab Test Abnormalities)
+            </h4>
+            <div className="bg-gradient-to-br from-teal-50 to-cyan-50 border border-teal-200 rounded-2xl p-6 shadow-sm">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                {report.detailedAnalysis.labAbnormalities.map((lab, index) => (
                   <div key={index} className={`p-5 bg-white/70 rounded-2xl border shadow-sm ${getLabStatusClass(lab.status)}`}>
                     <div className="flex justify-between items-start mb-3">
                       <span className="text-base font-semibold text-gray-800">{lab.indicator}</span>
@@ -289,8 +262,7 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
                     </div>
                     <p className="text-base text-gray-700 mb-3 leading-relaxed" dangerouslySetInnerHTML={{
                       __html: lab.interpretation
-                        .replace(/(1型糖尿病|2型糖尿病|妊娠糖尿病|高血压病|冠心病|心肌梗死|脑卒中|肝硬化|肾衰竭|慢性肾病|肺癌|乳腺癌|结直肠癌|胃癌|慢性支气管炎|肺气肿|哮喘|心律失常|心衰|肺结核|代谢综合征|肾病综合征|呼吸衰竭)/g, '<span class="bg-red-100 text-red-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
-                        .replace(/(\d+\.?\d*%?|mg\/dL|mmol\/L|g\/L|IU\/L|U\/L|mg\/L|μg\/L|ng\/mL)/g, '<span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-sm font-semibold">$1</span>')
+                        .replace(/(\d+\.?\d*%?|mg\/dL|mmol\/L|g\/L|IU\/L|U\/L)/g, '<span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-sm font-semibold">$1</span>')
                         .replace(/(偏高|偏低|升高|降低|异常|超标)/g, '<span class="bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
                         .replace(/(正常|稳定|良好)/g, '<span class="bg-green-100 text-green-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
                     }}></p>
@@ -308,31 +280,29 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
                       {getLabStatusText(lab.status)}
                     </div>
                   </div>
-                  ))}
-                </div>
+                ))}
               </div>
             </div>
-          )}
+          </div>
           
           {/* Risk Factors */}
-          {report.detailedAnalysis.riskFactors && report.detailedAnalysis.riskFactors.length > 0 && (
-            <div className="mb-6">
-              <h4 className="text-lg font-semibold text-gray-800 mb-4 flex items-center bg-gradient-to-r from-orange-50 to-red-50 px-5 py-3 rounded-xl border border-orange-200">
-                <div className="w-4 h-4 bg-gradient-to-br from-orange-500 to-red-500 rounded-full mr-3 shadow-sm"></div>
-                2.5 个人健康风险因素 (Personal Health Risk Factors)
-              </h4>
-              <div className="bg-gradient-to-br from-orange-50 to-red-50 border border-orange-200 rounded-2xl p-6 shadow-sm">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <ul className="space-y-3">
-                    {report.detailedAnalysis.riskFactors.slice(0, Math.ceil(report.detailedAnalysis.riskFactors.length / 2)).map((factor, index) => (
+          <div className="mb-6">
+            <h4 className="text-lg font-semibold text-gray-800 mb-4 flex items-center bg-gradient-to-r from-orange-50 to-red-50 px-5 py-3 rounded-xl border border-orange-200">
+              <div className="w-4 h-4 bg-gradient-to-br from-orange-500 to-red-500 rounded-full mr-3 shadow-sm"></div>
+              2.5 个人健康风险因素 (Personal Health Risk Factors)
+            </h4>
+            <div className="bg-gradient-to-br from-orange-50 to-red-50 border border-orange-200 rounded-2xl p-6 shadow-sm">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <ul className="space-y-3">
+                  {report.detailedAnalysis.riskFactors.slice(0, Math.ceil(report.detailedAnalysis.riskFactors.length / 2)).map((factor, index) => (
                     <li key={index} className="flex items-start bg-white/70 rounded-xl p-3 border border-orange-100">
                       <div className="w-6 h-6 bg-gradient-to-br from-orange-500 to-red-500 rounded-lg flex items-center justify-center mr-3 mt-0.5 flex-shrink-0 shadow-sm">
                         <div className="w-2 h-2 bg-white rounded-full"></div>
                       </div>
                       <span className="text-base text-gray-800 leading-relaxed" dangerouslySetInnerHTML={{
                         __html: factor
-                          .replace(/(1型糖尿病|2型糖尿病|妊娠糖尿病|高血压病|冠心病|心肌梗死|脑卒中|肝硬化|肾衰竭|慢性肾病|肺癌|乳腺癌|结直肠癌|胃癌|慢性支气管炎|肺气肿|哮喘|心律失常|心衰|肺结核|BMI约?\d+\.?\d*\s?kg\/m²)/g, '<span class="bg-red-100 text-red-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
-                          .replace(/(\d+\.?\d*%?|cm|mmHg|年龄\d+岁?)/g, '<span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-sm font-semibold">$1</span>')
+                          .replace(/(\d+%?|BMI|kg\/m²|cm|mmHg|年龄)/g, '<span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-sm font-semibold">$1</span>')
+                          .replace(/(高血压|糖尿病|肝硬化|肾功能|心脏病|肺部|脑部|血管|胆固醇|血糖|血脂|蛋白质|肌酐|尿素氮|肥胖|腹型肥胖|饮酒|吸烟)/g, '<span class="bg-red-100 text-red-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
                           .replace(/(家族史|遗传|基因)/g, '<span class="bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
                           .replace(/(控制不佳|未控制|超标|异常|升高|偏高|危险)/g, '<span class="bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
                       }}></span>
@@ -347,18 +317,17 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
                       </div>
                       <span className="text-base text-gray-800 leading-relaxed" dangerouslySetInnerHTML={{
                         __html: factor
-                          .replace(/(1型糖尿病|2型糖尿病|妊娠糖尿病|高血压病|冠心病|心肌梗死|脑卒中|肝硬化|肾衰竭|慢性肾病|肺癌|乳腺癌|结直肠癌|胃癌|慢性支气管炎|肺气肿|哮喘|心律失常|心衰|肺结核|BMI约?\d+\.?\d*\s?kg\/m²)/g, '<span class="bg-red-100 text-red-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
-                          .replace(/(\d+\.?\d*%?|cm|mmHg|年龄\d+岁?)/g, '<span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-sm font-semibold">$1</span>')
+                          .replace(/(\d+%?|BMI|kg\/m²|cm|mmHg|年龄)/g, '<span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-sm font-semibold">$1</span>')
+                          .replace(/(高血压|糖尿病|肝硬化|肾功能|心脏病|肺部|脑部|血管|胆固醇|血糖|血脂|蛋白质|肌酐|尿素氮|肥胖|腹型肥胖|饮酒|吸烟)/g, '<span class="bg-red-100 text-red-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
                           .replace(/(家族史|遗传|基因)/g, '<span class="bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
                           .replace(/(控制不佳|未控制|超标|异常|升高|偏高|危险)/g, '<span class="bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
                       }}></span>
                     </li>
                   ))}
-                  </ul>
-                </div>
+                </ul>
               </div>
             </div>
-          )}
+          </div>
 
           {/* Possible Diagnoses */}
           {report.detailedAnalysis.possibleDiagnoses && report.detailedAnalysis.possibleDiagnoses.length > 0 && (
@@ -373,7 +342,7 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
                     <div className="flex justify-between items-start mb-4">
                       <h5 className="text-lg font-semibold text-gray-800" dangerouslySetInnerHTML={{
                         __html: diagnosis.diagnosis
-                          .replace(/(1型糖尿病|2型糖尿病|妊娠糖尿病|高血压病|冠心病|心肌梗死|脑卒中|肝硬化|肾衰竭|慢性肾病|肺癌|乳腺癌|结直肠癌|胃癌|慢性支气管炎|肺气肿|哮喘|心律失常|心衰|肺结核|代谢综合征|肾病综合征|呼吸衰竭)/g, '<span class="bg-red-100 text-red-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
+                          .replace(/(糖尿病|高血压|肝硬化|肾病|心脏病|肺病|脑病|癌症|肿瘤|感染)/g, '<span class="bg-red-100 text-red-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
                           .replace(/(综合征|病变|炎症|功能障碍)/g, '<span class="bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
                       }}></h5>
                       <span className={`px-4 py-2 rounded-full text-sm font-bold ${
@@ -420,7 +389,7 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
                       <div className="flex justify-between items-start mb-3">
                         <span className="text-lg font-semibold text-gray-800" dangerouslySetInnerHTML={{
                           __html: diff.condition
-                            .replace(/(1型糖尿病|2型糖尿病|妊娠糖尿病|高血压病|冠心病|心肌梗死|脑卒中|肝硬化|肾衰竭|慢性肾病|肺癌|乳腺癌|结直肠癌|胃癌|慢性支气管炎|肺气肿|哮喘|心律失常|心衰|肺结核|代谢综合征|肾病综合征|呼吸衰竭)/g, '<span class="bg-red-100 text-red-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
+                            .replace(/(糖尿病|高血压|肝硬化|肾病|心脏病|肺病|脑病|癌症|肿瘤|感染)/g, '<span class="bg-red-100 text-red-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
                             .replace(/(综合征|病变|炎症|功能障碍)/g, '<span class="bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
                         }}></span>
                         <span className="text-sm font-semibold text-amber-700 bg-amber-100 px-3 py-1 rounded-full">{diff.likelihood}</span>
@@ -469,8 +438,7 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
                         </div>
                         <span className="text-base text-gray-800 leading-relaxed" dangerouslySetInnerHTML={{
                           __html: finding
-                            .replace(/(肺部结节|肝脏结节|甲状腺结节|乳腺结节|垂体腺瘤|脑部占位|肝脏占位|肾脏占位|前列腺增生|子宫肌瘤|卵巢囊肿)/g, '<span class="bg-red-100 text-red-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
-                            .replace(/(\d+\.?\d*%?|mm|cm|密度|增强|对比剂)/g, '<span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-sm font-semibold">$1</span>')
+                            .replace(/(\d+%?|mm|cm|密度|增强|对比剂)/g, '<span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-sm font-semibold">$1</span>')
                             .replace(/(结节|占位|肿块|病变|异常|阴影|钙化|积液|肿胀|增厚)/g, '<span class="bg-red-100 text-red-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
                             .replace(/(正常|稳定|良好|清晰|对称)/g, '<span class="bg-green-100 text-green-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
                         }}></span>
@@ -489,7 +457,6 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
                   <div className="bg-white/70 rounded-xl p-4 border border-indigo-100">
                     <p className="text-base text-gray-800 leading-relaxed" dangerouslySetInnerHTML={{
                       __html: report.detailedAnalysis.imagingReportSummary.clinicalCorrelation
-                        .replace(/(1型糖尿病|2型糖尿病|妊娠糖尿病|高血压病|冠心病|心肌梗死|脑卒中|肝硬化|肾衰竭|慢性肾病|肺癌|乳腺癌|结直肠癌|胃癌|慢性支气管炎|肺气肿|哮喘|心律失常|心衰|肺结核|代谢综合征|肾病综合征|呼吸衰竭)/g, '<span class="bg-red-100 text-red-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
                         .replace(/(症状|体征|病史|诊断|治疗|监测)/g, '<span class="bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
                         .replace(/(建议|推荐|需要|应该|可能)/g, '<span class="bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
                     }}></p>
@@ -527,7 +494,7 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
                           __html: step
                             .replace(/(复查|随访|监测|检查|咨询|治疗)/g, '<span class="bg-green-100 text-green-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
                             .replace(/(立即|紧急|尽快|及时|马上)/g, '<span class="bg-red-100 text-red-700 px-2 py-0.5 rounded-full text-sm font-bold">$1</span>')
-                            .replace(/(\d+\.?\d*个?月|\d+\.?\d*周|\d+\.?\d*天)/g, '<span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-sm font-semibold">$1</span>')
+                            .replace(/(\d+个?月|\d+周|\d+天)/g, '<span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-sm font-semibold">$1</span>')
                         }}></span>
                       </li>
                     ))}

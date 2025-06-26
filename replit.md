@@ -95,6 +95,16 @@ The application uses PostgreSQL with two main tables:
 
 ## Recent Changes
 
+- **June 26, 2025**: User Interface and Report Generation Improvements
+  - **Enhanced Font Readability**: Increased font sizes throughout the report display (text-base instead of text-sm) for better readability
+  - **Color-Coded Lab Results**: Implemented enhanced color coding for abnormal lab values with clear annotations
+    - High values: Red background with "↑ 偏高 (Above Normal Range)" indicator
+    - Low values: Blue background with "↓ 偏低 (Below Normal Range)" indicator  
+    - Normal values: Green background with "✓ 正常 (Within Normal Range)" indicator
+  - **Chinese Report Generation**: Updated medical analysis prompt to ensure all reports are generated in Chinese with professional bilingual terminology (中文术语 (English Term) format)
+  - **Conditional Video Display**: Optimized video examination results to only display when video files are actually uploaded
+  - **File Type Tracking**: Added metadata tracking for uploaded file types to enable conditional content display
+
 - **December 26, 2024**: Enhanced system with comprehensive medical diagnostic capabilities
   - Added PostgreSQL database integration for persistent storage
   - Implemented exam date field for medical timeline tracking

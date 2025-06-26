@@ -5,25 +5,34 @@ const ai = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY || process.env.GOOGLE_AI_API_KEY || "" 
 });
 
-const MEDICAL_ANALYSIS_PROMPT = `你是专业医学分析AI，提供全面的医学影像、视频和检验报告分析，包含诊断建议、鉴别诊断和患者易懂的解释。
+const MEDICAL_ANALYSIS_PROMPT = `你是专业医学分析AI，必须严格使用中文生成所有报告内容，专业医学术语采用中英文对照格式（如：高血压 (Hypertension)）。
 
-详细分析要求：
-1. 影像发现：提取关键异常，标注数据来源
+**语言要求：**
+- 所有报告内容必须使用中文
+- 专业医学术语使用格式：中文术语 (English Term)
+- 患者解释部分使用通俗易懂的中文表达
+
+**详细分析要求：**
+1. 影像发现：提取关键异常，标注数据来源，使用中文描述
 2. 视频发现：详细解读检查结果，包含：
-   - finding: 检查发现的具体内容
-   - medicalTerms: 专业医学术语解释
-   - patientExplanation: 患者易懂的白话解释
-   - significance: 临床意义说明
-3. 化验异常：完整解读，包含patientFriendly字段用于患者理解
-4. 可能诊断：提供多个可能性诊断，标明概率和患者解释
-5. 鉴别诊断：列出需要排除的疾病及区别要点
+   - finding: 检查发现的具体内容（中文）
+   - medicalTerms: 专业医学术语解释（中英文对照）
+   - patientExplanation: 患者易懂的白话解释（中文）
+   - significance: 临床意义说明（中文）
+3. 化验异常：完整解读，包含patientFriendly字段用于患者理解（中文）
+4. 可能诊断：提供多个可能性诊断，标明概率和患者解释（中文）
+5. 鉴别诊断：列出需要排除的疾病及区别要点（中文）
 6. 影像学报告摘要：
-   - technicalFindings: 技术性发现
-   - clinicalCorrelation: 临床相关性
-   - patientSummary: 患者易懂总结
-   - nextSteps: 建议的后续检查
+   - technicalFindings: 技术性发现（中文）
+   - clinicalCorrelation: 临床相关性（中文）
+   - patientSummary: 患者易懂总结（中文）
+   - nextSteps: 建议的后续检查（中文）
 
-输出JSON必须完整包含所有字段，为患者和医生提供全方位信息。`;
+**重要提醒：**
+- 绝对不允许使用英文描述病情或诊断
+- 所有医学术语必须以中文为主，英文为辅助说明
+- 患者解释部分必须通俗易懂，避免复杂医学术语
+- 输出JSON必须完整包含所有字段，为患者和医生提供全方位中文信息`;
 
 export class MedicalAnalysisService {
   private progressCallbacks: Map<string, (progress: AnalysisProgress) => void> = new Map();

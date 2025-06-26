@@ -34,25 +34,26 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
   const getLabStatusText = (status: string) => {
     switch (status) {
       case 'high':
-        return '偏高';
+        return '↑ 偏高 (Above Normal Range)';
       case 'low':
-        return '偏低';
+        return '↓ 偏低 (Below Normal Range)';
       case 'normal':
-        return '正常';
+        return '✓ 正常 (Within Normal Range)';
       default:
-        return '异常';
+        return '⚠ 异常 (Abnormal)';
     }
   };
 
   const getLabStatusColor = (status: string) => {
     switch (status) {
       case 'high':
+        return 'text-red-700 bg-red-50 border border-red-200 px-3 py-1 rounded-md font-medium text-sm';
       case 'low':
-        return 'text-warning';
+        return 'text-blue-700 bg-blue-50 border border-blue-200 px-3 py-1 rounded-md font-medium text-sm';
       case 'normal':
-        return 'text-success';
+        return 'text-green-700 bg-green-50 border border-green-200 px-3 py-1 rounded-md font-medium text-sm';
       default:
-        return 'text-warning';
+        return 'text-orange-700 bg-orange-50 border border-orange-200 px-3 py-1 rounded-md font-medium text-sm';
     }
   };
 
@@ -93,15 +94,15 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
         
         {/* Executive Summary */}
         <div className="mb-8">
-          <h3 className="text-lg font-semibold text-professional mb-4 flex items-center">
-            <ClipboardList className="text-primary mr-2 w-5 h-5" />
+          <h3 className="text-xl font-semibold text-professional mb-4 flex items-center">
+            <ClipboardList className="text-primary mr-2 w-6 h-6" />
             一、核心摘要 (Executive Summary)
           </h3>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="bg-blue-50 border-l-4 border-secondary p-4 rounded-r-lg">
-              <h4 className="font-medium text-secondary mb-2">主要发现</h4>
-              <ul className="text-sm space-y-1 text-muted-foreground">
+              <h4 className="font-medium text-secondary mb-2 text-base">主要发现</h4>
+              <ul className="text-base space-y-1 text-muted-foreground">
                 {report.executiveSummary.mainFindings.map((finding, index) => (
                   <li key={index}>• {finding}</li>
                 ))}
@@ -109,8 +110,8 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
             </div>
             
             <div className="bg-red-50 border-l-4 border-warning p-4 rounded-r-lg">
-              <h4 className="font-medium text-warning mb-2">核心风险</h4>
-              <ul className="text-sm space-y-1 text-muted-foreground">
+              <h4 className="font-medium text-warning mb-2 text-base">核心风险</h4>
+              <ul className="text-base space-y-1 text-muted-foreground">
                 {report.executiveSummary.coreRisks.map((risk, index) => (
                   <li key={index}>• {risk}</li>
                 ))}
@@ -118,8 +119,8 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
             </div>
             
             <div className="bg-green-50 border-l-4 border-success p-4 rounded-r-lg">
-              <h4 className="font-medium text-success mb-2">首要建议</h4>
-              <ul className="text-sm space-y-1 text-muted-foreground">
+              <h4 className="font-medium text-success mb-2 text-base">首要建议</h4>
+              <ul className="text-base space-y-1 text-muted-foreground">
                 {report.executiveSummary.primaryRecommendations.map((recommendation, index) => (
                   <li key={index}>• {recommendation}</li>
                 ))}
@@ -130,8 +131,8 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
         
         {/* Detailed Analysis */}
         <div className="mb-8">
-          <h3 className="text-lg font-semibold text-professional mb-6 flex items-center">
-            <Microscope className="text-primary mr-2 w-5 h-5" />
+          <h3 className="text-xl font-semibold text-professional mb-6 flex items-center">
+            <Microscope className="text-primary mr-2 w-6 h-6" />
             二、详细解读与分析 (Detailed Interpretation & Analysis)
           </h3>
           
@@ -224,7 +225,7 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
                         <span className="font-medium text-green-700">通俗解释:</span> {lab.patientFriendly}
                       </div>
                     )}
-                    <p className={`text-xs mt-1 ${getLabStatusColor(lab.status)}`}>{getLabStatusText(lab.status)}</p>
+                    <div className={`mt-2 inline-block ${getLabStatusColor(lab.status)}`}>{getLabStatusText(lab.status)}</div>
                   </div>
                 ))}
               </div>
@@ -362,8 +363,8 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
         
         {/* Risk Assessment & Recommendations */}
         <div>
-          <h3 className="text-lg font-semibold text-professional mb-6 flex items-center">
-            <TrendingUp className="text-primary mr-2 w-5 h-5" />
+          <h3 className="text-xl font-semibold text-professional mb-6 flex items-center">
+            <TrendingUp className="text-primary mr-2 w-6 h-6" />
             三、综合风险评估与建议 (Overall Risk Assessment & Recommendations)
           </h3>
           
@@ -375,7 +376,7 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
                 1. 最终诊断结论 (Final Diagnostic Conclusion)
               </h4>
               <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-                <p className="text-sm leading-relaxed font-medium text-red-800">
+                <p className="text-base leading-relaxed font-medium text-red-800">
                   {report.riskAssessment.diagnosticConclusion}
                 </p>
               </div>
@@ -386,7 +387,7 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
           <div className="mb-6">
             <h4 className="font-medium text-professional mb-3">2. 综合评估 (Overall Assessment)</h4>
             <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
-              <p className="text-sm leading-relaxed">
+              <p className="text-base leading-relaxed">
                 {report.riskAssessment.overallAssessment}
               </p>
             </div>
@@ -401,7 +402,7 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
                   <Calendar className="mr-2 w-4 h-4" />
                   复查与随访
                 </h5>
-                <ul className="text-sm space-y-2 text-muted-foreground">
+                <ul className="text-base space-y-2 text-muted-foreground">
                   {report.riskAssessment.actionableRecommendations.followUp.map((item, index) => (
                     <li key={index}>• {item}</li>
                   ))}
@@ -413,7 +414,7 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
                   <UserCheck className="mr-2 w-4 h-4" />
                   专科咨询
                 </h5>
-                <ul className="text-sm space-y-2 text-muted-foreground">
+                <ul className="text-base space-y-2 text-muted-foreground">
                   {report.riskAssessment.actionableRecommendations.specialistConsultation.map((item, index) => (
                     <li key={index}>• {item}</li>
                   ))}
@@ -425,7 +426,7 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
                   <Heart className="mr-2 w-4 h-4" />
                   生活方式调整
                 </h5>
-                <ul className="text-sm space-y-2 text-muted-foreground">
+                <ul className="text-base space-y-2 text-muted-foreground">
                   {report.riskAssessment.actionableRecommendations.lifestyleAdjustments.map((item, index) => (
                     <li key={index}>• {item}</li>
                   ))}

@@ -1,0 +1,163 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(210, 17%, 98%);
+  --foreground: hsl(210, 22%, 22%);
+  --muted: hsl(210, 17%, 98%);
+  --muted-foreground: hsl(215, 16%, 47%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(210, 22%, 22%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(210, 22%, 22%);
+  --border: hsl(214, 32%, 91%);
+  --input: hsl(214, 32%, 91%);
+  --primary: hsl(184, 47%, 34%);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(213, 66%, 56%);
+  --secondary-foreground: hsl(0, 0%, 100%);
+  --accent: hsl(210, 17%, 98%);
+  --accent-foreground: hsl(210, 22%, 22%);
+  --destructive: hsl(0, 72%, 51%);
+  --destructive-foreground: hsl(0, 0%, 100%);
+  --ring: hsl(184, 47%, 34%);
+  --radius: 0.75rem;
+  --success: hsl(142, 53%, 42%);
+  --warning: hsl(0, 72%, 51%);
+  --clinical: hsl(210, 17%, 98%);
+  --professional: hsl(210, 22%, 22%);
+}
+
+.dark {
+  --background: hsl(240, 10%, 3.9%);
+  --foreground: hsl(0, 0%, 98%);
+  --muted: hsl(240, 3.7%, 15.9%);
+  --muted-foreground: hsl(240, 5%, 64.9%);
+  --popover: hsl(240, 10%, 3.9%);
+  --popover-foreground: hsl(0, 0%, 98%);
+  --card: hsl(240, 10%, 3.9%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --border: hsl(240, 3.7%, 15.9%);
+  --input: hsl(240, 3.7%, 15.9%);
+  --primary: hsl(184, 47%, 34%);
+  --primary-foreground: hsl(210, 40%, 98%);
+  --secondary: hsl(213, 66%, 56%);
+  --secondary-foreground: hsl(210, 40%, 98%);
+  --accent: hsl(240, 3.7%, 15.9%);
+  --accent-foreground: hsl(0, 0%, 98%);
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(240, 4.9%, 83.9%);
+  --radius: 0.5rem;
+  --success: hsl(142, 53%, 42%);
+  --warning: hsl(0, 72%, 51%);
+  --clinical: hsl(240, 3.7%, 15.9%);
+  --professional: hsl(0, 0%, 98%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased;
+    background-color: hsl(var(--clinical));
+    color: hsl(var(--professional));
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    color: hsl(var(--professional));
+  }
+}
+
+@layer components {
+  .medical-primary {
+    background-color: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+  }
+  
+  .medical-secondary {
+    background-color: hsl(var(--secondary));
+    color: hsl(var(--secondary-foreground));
+  }
+  
+  .medical-success {
+    background-color: hsl(var(--success));
+    color: white;
+  }
+  
+  .medical-warning {
+    background-color: hsl(var(--warning));
+    color: white;
+  }
+  
+  .medical-clinical {
+    background-color: hsl(var(--clinical));
+  }
+  
+  .text-professional {
+    color: hsl(var(--professional));
+  }
+  
+  .text-primary {
+    color: hsl(var(--primary));
+  }
+  
+  .text-secondary {
+    color: hsl(var(--secondary));
+  }
+  
+  .text-success {
+    color: hsl(var(--success));
+  }
+  
+  .text-warning {
+    color: hsl(var(--warning));
+  }
+  
+  .text-muted-foreground {
+    color: hsl(var(--muted-foreground));
+  }
+  
+  .status-indicator {
+    @apply w-4 h-4 rounded-full flex items-center justify-center;
+  }
+  
+  .status-completed {
+    background-color: hsl(var(--success));
+    color: white;
+  }
+  
+  .status-processing {
+    background-color: hsl(var(--secondary));
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  
+  .status-pending {
+    @apply bg-gray-300;
+  }
+  
+  .lab-result-high {
+    border-left: 4px solid hsl(var(--warning));
+    @apply bg-red-50;
+  }
+  
+  .lab-result-low {
+    border-left: 4px solid hsl(var(--warning));
+    @apply bg-yellow-50;
+  }
+  
+  .lab-result-normal {
+    border-left: 4px solid hsl(var(--success));
+    @apply bg-green-50;
+  }
+}
+
+@layer utilities {
+  .animate-pulse-slow {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+}

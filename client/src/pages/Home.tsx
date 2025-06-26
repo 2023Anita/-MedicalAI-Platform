@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Activity, Stethoscope, Shield, User } from "lucide-react";
+import { Activity, User } from "lucide-react";
 import ReportInput from "@/components/ReportInput";
 import AnalysisProgress from "@/components/AnalysisProgress";
 import ReportDisplay from "@/components/ReportDisplay";
 import HistoricalComparison from "@/components/HistoricalComparison";
 import type { HealthAssessmentReport, AnalysisProgress as AnalysisProgressType } from "@shared/schema";
+import logoImage from "@assets/image_1750951783733.png";
 
 export default function Home() {
   const [currentReport, setCurrentReport] = useState<HealthAssessmentReport | null>(null);
@@ -20,8 +21,8 @@ export default function Home() {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-                  <Stethoscope className="text-white w-5 h-5" />
+                <div className="w-10 h-10 rounded-lg overflow-hidden">
+                  <img src={logoImage} alt="Med Agentic-AI Logo" className="w-full h-full object-contain" />
                 </div>
                 <div>
                   <h1 className="text-xl font-semibold text-professional">Med Agentic-AI</h1>

@@ -8,6 +8,7 @@ import ReportInput from "@/components/ReportInput";
 import AnalysisProgress from "@/components/AnalysisProgress";
 import ReportDisplay from "@/components/ReportDisplay";
 import HistoricalComparison from "@/components/HistoricalComparison";
+import AIChat from "@/components/AIChat";
 import type { HealthAssessmentReport, AnalysisProgress as AnalysisProgressType } from "@shared/schema";
 import logoImage from "@assets/image_1750951783733.png";
 
@@ -16,7 +17,7 @@ export default function Dashboard() {
   const [analysisProgress, setAnalysisProgress] = useState<AnalysisProgressType | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<'analysis' | 'history' | 'settings'>('analysis');
+  const [activeTab, setActiveTab] = useState<'analysis' | 'history' | 'chat' | 'settings'>('analysis');
   const [, setLocation] = useLocation();
   const { toast } = useToast();
 
@@ -110,6 +111,16 @@ export default function Dashboard() {
                 }`}
               >
                 历史记录
+              </button>
+              <button 
+                onClick={() => setActiveTab('chat')}
+                className={`transition-colors pb-1 ${
+                  activeTab === 'chat' 
+                    ? 'text-primary font-medium border-b-2 border-primary' 
+                    : 'text-muted-foreground hover:text-primary'
+                }`}
+              >
+                AI对话
               </button>
               <button
                 onClick={() => setActiveTab('settings')}
@@ -301,6 +312,13 @@ export default function Dashboard() {
                 </button>
               </div>
             )}
+          </div>
+        )}
+        
+        {activeTab === 'chat' && (
+          /* Chat View */
+          <div className="max-w-6xl mx-auto">
+            <AIChat />
           </div>
         )}
         

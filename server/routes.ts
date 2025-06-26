@@ -327,6 +327,91 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Chat API endpoint for AI conversations
+  app.post("/api/chat", upload.array('files'), async (req: Request, res: Response) => {
+    try {
+      const { message } = req.body;
+      const files = req.files as Express.Multer.File[];
+
+      if (!message && (!files || files.length === 0)) {
+        return res.status(400).json({
+          success: false,
+          error: "请提供消息或上传文件",
+        });
+      }
+
+      let combinedContent = message || '';
+      let processedFiles: any[] = [];
+
+      // Process uploaded files if any
+      if (files && files.length > 0) {
+        processedFiles = await fileProcessorService.processFiles(files);
+        
+        // Extract content from files
+        const extractedTexts = processedFiles
+          .filter(file => file.extractedText)
+          .map(file => {
+            const fileType = file.mimeType.startsWith('image/') ? '图像分析' : 
+                           file.mimeType.startsWith('video/') ? '视频分析' : '文档内容';
+            return `\n\n=== ${fileType}: ${file.originalName} ===\n${file.extractedText}`;
+          })
+          .join('\n');
+        
+        if (extractedTexts) {
+          combinedContent = message ? `${message}\n\n文件内容:${extractedTexts}` : `请分析以下文件内容:${extractedTexts}`;
+        }
+      }
+
+      // Create AI prompt for general conversation
+      const chatPrompt = `您是Med Agentic-AI智能医疗助手。请根据用户的问题或上传的文件内容，提供专业、准确的医疗相关回答。
+
+用户输入：
+${combinedContent}
+
+请提供：
+1. 如果有文件分析，请详细解读文件内容
+2. 针对用户问题的专业医疗建议
+3. 如有必要，提供进一步的检查建议
+4. 用简单易懂的语言解释医疗术语
+
+注意：您的回答应该专业但易懂，适合患者阅读。`;
+
+      // Get AI response using the same service as medical analysis
+      const { GoogleGenAI } = await import('@google/genai');
+      const ai = new GoogleGenAI({ 
+        apiKey: process.env.GEMINI_API_KEY || "" 
+      });
+
+      const response = await ai.models.generateContent({
+        model: "gemini-2.5-flash",
+        contents: chatPrompt,
+        config: {
+          temperature: 0.7,
+          maxOutputTokens: 2000,
+        }
+      });
+
+      const aiResponse = response.text || "抱歉，我无法处理您的请求，请重新尝试。";
+
+      // Clean up temporary files
+      if (processedFiles.length > 0) {
+        await fileProcessorService.cleanupFiles(processedFiles);
+      }
+
+      res.json({
+        success: true,
+        message: aiResponse,
+      });
+
+    } catch (error) {
+      console.error("Chat API error:", error);
+      res.status(500).json({
+        success: false,
+        error: "对话处理失败，请稍后重试",
+      });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

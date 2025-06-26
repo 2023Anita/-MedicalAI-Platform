@@ -47,12 +47,12 @@ D. 持久化记忆: 如有历史数据，进行纵向对比分析
 - reportMetadata: 报告元数据
 
 重要要求：
-1. 在imagingFindings中必须明确标注每个发现的具体来源
-2. 提供详细的clinicalReasoning推理过程
-3. 在diagnosticConclusion中给出明确的最终诊断
-4. 基于不同数据源的发现进行综合分析
+1. 在imagingFindings中明确标注数据来源（影像来源/视频来源/报告来源）
+2. clinicalReasoning保持简洁，重点突出关键推理步骤（3-5条即可）
+3. diagnosticConclusion给出明确简洁的最终诊断
+4. 响应必须是有效的JSON格式，避免过长的文本导致解析错误
 
-请基于提供的体检报告数据（包括影像和视频分析）进行全面分析。`;
+请基于提供的体检报告数据进行快速精准分析，重点突出关键发现和结论。`;
 
 export class MedicalAnalysisService {
   private progressCallbacks: Map<string, (progress: AnalysisProgress) => void> = new Map();
@@ -76,21 +76,21 @@ export class MedicalAnalysisService {
     };
 
     try {
-      // Step 1: Orchestrator
+      // Step 1: Orchestrator - Fast processing
       this.updateProgress(analysisId, { ...progress, orchestrator: 'completed', imagingAgent: 'processing' });
-      await this.delay(1000);
+      await this.delay(300);
 
-      // Step 2: Imaging Analysis
+      // Step 2: Imaging Analysis - Optimized
       this.updateProgress(analysisId, { ...progress, orchestrator: 'completed', imagingAgent: 'completed', labAgent: 'processing' });
-      await this.delay(1500);
+      await this.delay(400);
 
-      // Step 3: Lab Analysis
+      // Step 3: Lab Analysis - Quick processing
       this.updateProgress(analysisId, { ...progress, orchestrator: 'completed', imagingAgent: 'completed', labAgent: 'completed', medicalHistoryAgent: 'processing' });
-      await this.delay(1000);
+      await this.delay(300);
 
-      // Step 4: Medical History Analysis
+      // Step 4: Medical History Analysis - Fast completion
       this.updateProgress(analysisId, { ...progress, orchestrator: 'completed', imagingAgent: 'completed', labAgent: 'completed', medicalHistoryAgent: 'completed', comprehensiveAnalysis: 'processing' });
-      await this.delay(2000);
+      await this.delay(500);
 
       // Step 5: Comprehensive Analysis using Gemini 2.5-Pro
       const analysisPrompt = `${MEDICAL_ANALYSIS_PROMPT}
@@ -106,10 +106,12 @@ ${request.reportData}
 请进行全面分析并返回结构化的健康评估报告。`;
 
       const response = await ai.models.generateContent({
-        model: "gemini-2.5-flash-lite-preview-06-17",
+        model: "gemini-2.5-flash",
         config: {
           systemInstruction: MEDICAL_ANALYSIS_PROMPT,
           responseMimeType: "application/json",
+          maxOutputTokens: 2500,
+          temperature: 0.1,
           responseSchema: {
             type: "object",
             properties: {
@@ -134,34 +136,38 @@ ${request.reportData}
               detailedAnalysis: {
                 type: "object",
                 properties: {
-                  imagingFindings: { type: "array", items: { type: "string" } },
+                  imagingFindings: { type: "array", items: { type: "string", maxLength: 150 }, maxItems: 6 },
+                  videoFindings: { type: "array", items: { type: "string", maxLength: 150 }, maxItems: 4 },
                   labAbnormalities: {
                     type: "array",
+                    maxItems: 8,
                     items: {
                       type: "object",
                       properties: {
-                        indicator: { type: "string" },
-                        value: { type: "string" },
+                        indicator: { type: "string", maxLength: 50 },
+                        value: { type: "string", maxLength: 30 },
                         status: { type: "string", enum: ["high", "low", "normal"] },
-                        interpretation: { type: "string" }
+                        interpretation: { type: "string", maxLength: 80 }
                       },
                       required: ["indicator", "value", "status", "interpretation"]
                     }
                   },
-                  riskFactors: { type: "array", items: { type: "string" } }
+                  clinicalReasoning: { type: "array", items: { type: "string", maxLength: 120 }, maxItems: 4 },
+                  riskFactors: { type: "array", items: { type: "string", maxLength: 80 }, maxItems: 5 }
                 },
                 required: ["imagingFindings", "labAbnormalities", "riskFactors"]
               },
               riskAssessment: {
                 type: "object",
                 properties: {
-                  overallAssessment: { type: "string" },
+                  overallAssessment: { type: "string", maxLength: 300 },
+                  diagnosticConclusion: { type: "string", maxLength: 150 },
                   actionableRecommendations: {
                     type: "object",
                     properties: {
-                      followUp: { type: "array", items: { type: "string" } },
-                      specialistConsultation: { type: "array", items: { type: "string" } },
-                      lifestyleAdjustments: { type: "array", items: { type: "string" } }
+                      followUp: { type: "array", items: { type: "string", maxLength: 80 }, maxItems: 3 },
+                      specialistConsultation: { type: "array", items: { type: "string", maxLength: 80 }, maxItems: 3 },
+                      lifestyleAdjustments: { type: "array", items: { type: "string", maxLength: 80 }, maxItems: 3 }
                     },
                     required: ["followUp", "specialistConsultation", "lifestyleAdjustments"]
                   }
@@ -175,14 +181,71 @@ ${request.reportData}
         contents: analysisPrompt,
       });
 
-      const analysisResult = JSON.parse(response.text || '{}') as HealthAssessmentReport;
+      let analysisResult: HealthAssessmentReport;
       
-      // Add metadata
-      analysisResult.reportMetadata = {
-        reportId: `MSI-${new Date().toISOString().split('T')[0].replace(/-/g, '')}-${analysisId}`,
-        generatedAt: new Date().toISOString(),
-        model: "Gemini 2.5-Flash Lite"
-      };
+      try {
+        const responseText = response.text || '{}';
+        console.log('Response length:', responseText.length);
+        
+        // Validate JSON before parsing
+        if (!responseText.trim()) {
+          throw new Error('Empty response from AI model');
+        }
+        
+        analysisResult = JSON.parse(responseText) as HealthAssessmentReport;
+        
+        // Validate required fields
+        if (!analysisResult.patientInfo || !analysisResult.executiveSummary || !analysisResult.detailedAnalysis) {
+          throw new Error('Invalid response structure from AI model');
+        }
+      } catch (parseError) {
+        console.error('JSON parsing error:', parseError);
+        console.error('Response text:', response.text?.substring(0, 1000));
+        
+        // Create fallback structure
+        analysisResult = {
+          patientInfo: {
+            name: request.patientName,
+            age: request.patientAge,
+            gender: request.patientGender || '未提供'
+          },
+          executiveSummary: {
+            mainFindings: ['AI分析遇到技术问题，请重新提交'],
+            coreRisks: ['数据解析失败'],
+            primaryRecommendations: ['请重新上传报告']
+          },
+          detailedAnalysis: {
+            imagingFindings: ['分析失败，请重试'],
+            videoFindings: [],
+            labAbnormalities: [],
+            clinicalReasoning: ['AI处理遇到问题'],
+            riskFactors: []
+          },
+          riskAssessment: {
+            overallAssessment: '由于技术问题，无法完成完整分析。请重新提交报告。',
+            diagnosticConclusion: '分析失败',
+            actionableRecommendations: {
+              followUp: ['重新提交报告'],
+              specialistConsultation: ['咨询医生'],
+              lifestyleAdjustments: []
+            }
+          },
+          reportMetadata: {
+            reportId: `MSI-ERROR-${analysisId}`,
+            generatedAt: new Date().toISOString(),
+            model: "Gemini 2.5-Flash (Error Recovery)"
+          }
+        };
+      }
+      
+      // Ensure metadata exists
+      if (!analysisResult.reportMetadata) {
+        analysisResult.reportMetadata = {
+          reportId: `MSI-${new Date().toISOString().split('T')[0].replace(/-/g, '')}-${analysisId}`,
+          generatedAt: new Date().toISOString(),
+          model: "Gemini 2.5-Flash"
+        };
+      }
 
       // Final progress update
       this.updateProgress(analysisId, { 

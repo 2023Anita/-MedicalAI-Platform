@@ -73,7 +73,7 @@ export class MedicalAnalysisService {
       this.updateProgress(analysisId, { ...progress, orchestrator: 'completed', imagingAgent: 'completed', labAgent: 'completed', medicalHistoryAgent: 'completed', comprehensiveAnalysis: 'processing' });
       await this.delay(500);
 
-      // Step 5: Comprehensive Analysis using Gemini 2.5-Pro
+      // Step 5: Comprehensive Analysis using Med Agentic-AI
       const analysisPrompt = `${MEDICAL_ANALYSIS_PROMPT}
 
 患者信息：

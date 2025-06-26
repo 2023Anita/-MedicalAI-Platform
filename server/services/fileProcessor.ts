@@ -160,7 +160,7 @@ export class FileProcessorService {
       
       result.thumbnailPath = thumbnailPath;
 
-      // Use Gemini to analyze medical images and extract text
+      // Use Med Agentic-AI to analyze medical images and extract text
       const extractedText = await this.analyzeImageWithGemini(file.path);
       if (extractedText) {
         result.extractedText = extractedText;
@@ -217,7 +217,7 @@ export class FileProcessorService {
 
       return response.text || '';
     } catch (error) {
-      console.error('Gemini image analysis error:', error);
+      console.error('Med Agentic-AI image analysis error:', error);
       return `图像文件: ${path.basename(imagePath)} - 图像分析失败，请手动输入图像中的文本内容`;
     }
   }
@@ -257,7 +257,7 @@ export class FileProcessorService {
             .on('end', async () => {
               result.thumbnailPath = thumbnailPath;
               
-              // Analyze video content with Gemini for medical videos
+              // Analyze video content with Med Agentic-AI for medical videos
               try {
                 const videoAnalysis = await this.analyzeVideoWithGemini(file.path);
                 if (videoAnalysis) {

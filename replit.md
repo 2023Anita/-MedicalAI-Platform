@@ -102,9 +102,11 @@ The application uses PostgreSQL with two main tables:
     - Data management section with report count and supported file formats
     - System status monitoring with real-time connection indicators
     - Action buttons for cache clearing, data export, and navigation
-  - **Brand Neutrality**: Removed all Gemini and Google branding from settings interface
-    - AI model displayed as "先进医疗分析模型" (Advanced Medical Analysis Model)
+  - **Brand Neutrality**: Removed all Gemini and Google branding throughout the application
+    - AI model displayed as "Agentic-AI" in settings interface
     - AI service shown as "智能医疗分析引擎" (Intelligent Medical Analysis Engine)
+    - Updated all error messages and code comments to use "Med Agentic-AI" branding
+    - Replaced technical documentation references to maintain brand consistency
   - **Enhanced Historical Reports**: Fixed API response to include complete analysis results
     - Historical report viewing now displays full diagnostic content
     - Added functional delete buttons with confirmation dialogs
@@ -139,13 +141,13 @@ The application uses PostgreSQL with two main tables:
   - Added PostgreSQL database integration for persistent storage
   - Implemented exam date field for medical timeline tracking
   - Added support for PDF, DOCX, PNG/JPEG, MP4, and DICOM file uploads
-  - **Enhanced image recognition**: Gemini Vision API extracts text from lab reports, identifies medical indicators, and converts images to structured medical data
+  - **Enhanced image recognition**: Med Agentic-AI Vision API extracts text from lab reports, identifies medical indicators, and converts images to structured medical data
   - **Video analysis**: Medical video content recognition for ultrasound, endoscopy, and diagnostic procedures with FFmpeg support
   - **Enhanced diagnostic output**: Added source attribution (影像来源/视频来源/报告来源), clinical reasoning process, and final diagnostic conclusions
   - **Comprehensive reporting**: Structured diagnostic workflow with detailed推理过程 and specific medical recommendations
   - Updated UI with enhanced diagnostic display including video findings and clinical reasoning sections
   - Fixed FormData validation and database ID conversion issues
-  - Integrated Gemini 2.5-Flash model for comprehensive medical analysis
+  - Integrated Med Agentic-AI model for comprehensive medical analysis
 
 ## Changelog
 

@@ -27,11 +27,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       
       // Log the registration request
-      console.log(`New registration request: ${email}`);
+      console.log(`New user registered: ${email}`);
       
       res.json({ 
         success: true, 
-        message: '注册申请已提交，我们将在24小时内审核并发送确认邮件' 
+        message: '注册成功，您现在可以直接使用系统' 
       });
     } catch (error) {
       console.error('Registration error:', error);

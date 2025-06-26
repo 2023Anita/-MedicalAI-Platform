@@ -40,14 +40,18 @@ export default function Register() {
     },
     onSuccess: () => {
       toast({
-        title: "注册申请已提交",
-        description: "我们将在24小时内审核您的申请并发送确认邮件。",
+        title: "注册成功",
+        description: "您的账户已创建，现在可以直接使用系统。",
         variant: "default",
       });
-      // Reset form
+      // Reset form and redirect to home
       setEmail("");
       setPassword("");
       setConfirmPassword("");
+      // Redirect to home page after successful registration
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 2000);
     },
     onError: (error: Error) => {
       toast({
@@ -163,15 +167,15 @@ export default function Register() {
                 </div>
               </div>
 
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+              <div className="bg-green-50 border border-green-200 rounded-lg p-3">
                 <div className="flex items-start space-x-2">
-                  <CheckCircle className="h-4 w-4 text-blue-600 mt-0.5 flex-shrink-0" />
-                  <div className="text-sm text-blue-800">
+                  <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
+                  <div className="text-sm text-green-800">
                     <p className="font-medium mb-1">注册说明：</p>
                     <ul className="space-y-1 text-xs">
-                      <li>• 提交注册申请后，我们将在24小时内审核</li>
-                      <li>• 审核通过后会发送激活邮件到您的邮箱</li>
+                      <li>• 注册成功后可立即使用系统，无需激活</li>
                       <li>• 密码长度至少6个字符，建议包含数字和字母</li>
+                      <li>• 请妥善保管您的登录信息</li>
                     </ul>
                   </div>
                 </div>
@@ -182,7 +186,7 @@ export default function Register() {
                 className="w-full" 
                 disabled={registerMutation.isPending}
               >
-                {registerMutation.isPending ? "提交中..." : "提交注册申请"}
+                {registerMutation.isPending ? "注册中..." : "立即注册"}
               </Button>
             </form>
 

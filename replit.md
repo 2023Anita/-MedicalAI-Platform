@@ -97,6 +97,13 @@ The application uses PostgreSQL with two main tables:
 
 - **June 26, 2025**: User Interface and Report Generation Improvements
   - **System Rebranding**: Updated system name from "医检智解 (MediScan-Insight)" to "Med Agentic-AI 体检报告·分析平台"
+  - **Custom Logo Integration**: Replaced default stethoscope icon with custom Med Agentic-AI logo in header
+  - **User Registration System**: Added user registration page with immediate login capability
+    - Email and password registration form with validation
+    - No activation codes required - users can register and use immediately
+    - Registration route at `/register` accessible via user icon in header
+    - Backend API endpoint `/api/auth/register` handles user registration
+  - **Enhanced Status Indicator**: Updated connection status to show "Med Agentic-AI 已连接" with green pulsing indicator
   - **Enhanced Font Readability**: Increased font sizes throughout the report display (text-base instead of text-sm) for better readability
   - **Color-Coded Lab Results**: Implemented enhanced color coding for abnormal lab values with clear annotations
     - High values: Red background with "↑ 偏高 (Above Normal Range)" indicator

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Activity, User } from "lucide-react";
+import { Link } from "wouter";
 import ReportInput from "@/components/ReportInput";
 import AnalysisProgress from "@/components/AnalysisProgress";
 import ReportDisplay from "@/components/ReportDisplay";
@@ -42,9 +43,11 @@ export default function Home() {
                 <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
                 <span className="text-green-600 font-medium">Med Agentic-AI 已连接</span>
               </div>
-              <button className="p-2 text-muted-foreground hover:text-primary transition-colors">
-                <User className="w-5 h-5" />
-              </button>
+              <Link href="/register">
+                <button className="p-2 text-muted-foreground hover:text-primary transition-colors">
+                  <User className="w-5 h-5" />
+                </button>
+              </Link>
             </div>
           </div>
         </div>

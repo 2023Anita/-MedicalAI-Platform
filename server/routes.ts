@@ -7,6 +7,41 @@ import { analysisRequestSchema } from "@shared/schema";
 import type { AnalysisProgress } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // User registration route
+  app.post('/api/auth/register', async (req: Request, res: Response) => {
+    try {
+      const { email, password } = req.body;
+      
+      if (!email || !password) {
+        return res.status(400).json({ 
+          success: false, 
+          message: '邮箱和密码都是必填项' 
+        });
+      }
+      
+      if (password.length < 6) {
+        return res.status(400).json({ 
+          success: false, 
+          message: '密码长度至少需要6个字符' 
+        });
+      }
+      
+      // Log the registration request
+      console.log(`New registration request: ${email}`);
+      
+      res.json({ 
+        success: true, 
+        message: '注册申请已提交，我们将在24小时内审核并发送确认邮件' 
+      });
+    } catch (error) {
+      console.error('Registration error:', error);
+      res.status(500).json({ 
+        success: false, 
+        message: '服务器错误，请稍后重试' 
+      });
+    }
+  });
+
   // File upload endpoint for medical reports
   app.post("/api/upload", upload.array('files', 10), async (req, res) => {
     try {

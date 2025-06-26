@@ -384,21 +384,40 @@ ${combinedContent}
 
       const response = await ai.models.generateContent({
         model: "gemini-2.5-flash",
-        contents: chatPrompt,
-        config: {
+        contents: [{ role: "user", parts: [{ text: chatPrompt }] }],
+        generationConfig: {
           temperature: 0.7,
           maxOutputTokens: 1000000,
+          topP: 0.95,
+          topK: 40,
         }
       });
 
-      let aiResponse = response.text;
+      let aiResponse;
+      
+      // Try different ways to extract the response text
+      if (response.text) {
+        aiResponse = response.text;
+      } else if (response.candidates && response.candidates[0] && response.candidates[0].content) {
+        aiResponse = response.candidates[0].content.parts.map(part => part.text).join('');
+      } else {
+        console.error("Unable to extract response text from response object");
+        aiResponse = null;
+      }
+      
+      // Debug logging
+      console.log("Raw AI response object:", JSON.stringify(response, null, 2));
+      console.log("AI response text length:", aiResponse?.length || 0);
+      console.log("AI response preview:", aiResponse?.substring(0, 200) + "...");
       
       // Check if response is complete
       if (!aiResponse) {
+        console.error("No response text received from AI");
         aiResponse = "抱歉，我无法处理您的请求，请重新尝试。";
       } else if (aiResponse.length < 10) {
-        // If response is too short, it might be incomplete
         console.warn("AI response seems incomplete:", aiResponse);
+      } else {
+        console.log("AI response appears complete, length:", aiResponse.length);
       }
 
       // Clean up temporary files

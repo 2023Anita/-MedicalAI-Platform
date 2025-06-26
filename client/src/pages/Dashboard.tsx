@@ -74,80 +74,79 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-clinical">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b border-border sticky top-0 z-50">
+      <header className="bg-gradient-to-r from-blue-600 to-teal-600 shadow-lg border-b border-blue-200/50 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 rounded-lg overflow-hidden">
-                  <img src={logoImage} alt="Med Agentic-AI Logo" className="w-full h-full object-contain" />
+              <div className="flex items-center space-x-4">
+                <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center ring-2 ring-white/30">
+                  <img src={logoImage} alt="Med Agentic-AI Logo" className="w-8 h-8 object-contain" />
                 </div>
                 <div>
-                  <h1 className="text-xl font-semibold text-professional">Med Agentic-AI</h1>
-                  <p className="text-xs text-muted-foreground">体检报告·分析平台</p>
+                  <h1 className="text-xl font-bold text-white">Med Agentic-AI</h1>
+                  <p className="text-sm text-blue-100">智能医疗分析平台</p>
                 </div>
               </div>
             </div>
             
-            <nav className="hidden md:flex items-center space-x-6">
+            <nav className="hidden md:flex items-center space-x-2 bg-white/10 backdrop-blur-sm rounded-xl p-1">
               <button 
                 onClick={() => setActiveTab('analysis')}
-                className={`transition-colors pb-1 ${
+                className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
                   activeTab === 'analysis' 
-                    ? 'text-primary font-medium border-b-2 border-primary' 
-                    : 'text-muted-foreground hover:text-primary'
+                    ? 'bg-white text-blue-600 shadow-lg' 
+                    : 'text-white hover:bg-white/20'
                 }`}
               >
-                报告分析
+                智能分析
               </button>
               <button 
                 onClick={() => setActiveTab('history')}
-                className={`transition-colors pb-1 ${
+                className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
                   activeTab === 'history' 
-                    ? 'text-primary font-medium border-b-2 border-primary' 
-                    : 'text-muted-foreground hover:text-primary'
+                    ? 'bg-white text-blue-600 shadow-lg' 
+                    : 'text-white hover:bg-white/20'
                 }`}
               >
                 历史记录
               </button>
               <button 
                 onClick={() => setActiveTab('chat')}
-                className={`transition-colors pb-1 ${
+                className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
                   activeTab === 'chat' 
-                    ? 'text-primary font-medium border-b-2 border-primary' 
-                    : 'text-muted-foreground hover:text-primary'
+                    ? 'bg-white text-blue-600 shadow-lg' 
+                    : 'text-white hover:bg-white/20'
                 }`}
               >
                 AI对话
               </button>
               <button
                 onClick={() => setActiveTab('settings')}
-                className={`flex items-center space-x-1 transition-colors pb-1 ${
+                className={`p-2 rounded-lg transition-all duration-200 ${
                   activeTab === 'settings' 
-                    ? 'text-primary font-medium border-b-2 border-primary' 
-                    : 'text-muted-foreground hover:text-primary'
+                    ? 'bg-white text-blue-600 shadow-lg' 
+                    : 'text-white hover:bg-white/20'
                 }`}
               >
-                <Settings className="w-4 h-4" />
-                <span>设置</span>
+                <Settings className="w-5 h-5" />
               </button>
             </nav>
             
             <div className="flex items-center space-x-4">
-              <div className="hidden md:flex items-center space-x-2 text-sm text-muted-foreground">
-                <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                <span className="text-green-600 font-medium">Med Agentic-AI 已连接</span>
+              <div className="hidden md:flex items-center space-x-3 bg-white/20 backdrop-blur-sm rounded-full px-4 py-2">
+                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                <span className="text-sm font-medium text-white">AI已连接</span>
               </div>
               
               {/* User Info */}
-              <div className="flex items-center space-x-3 bg-gradient-to-r from-primary/5 to-blue-50 px-4 py-2 rounded-full border border-primary/10">
-                <div className="flex items-center justify-center w-8 h-8 bg-primary/10 rounded-full">
-                  <User className="w-4 h-4 text-primary" />
+              <div className="flex items-center space-x-3 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full">
+                <div className="flex items-center justify-center w-8 h-8 bg-white/20 rounded-full">
+                  <User className="w-4 h-4 text-white" />
                 </div>
                 <div className="hidden sm:block">
-                  <p className="text-sm font-medium text-primary">
+                  <p className="text-sm font-medium text-white">
                     {localStorage.getItem("userEmail")?.split("@")[0] || "用户"}
                   </p>
                   <p className="text-xs text-muted-foreground">
@@ -210,12 +209,12 @@ export default function Dashboard() {
                   )}
                 </>
               ) : (
-                <div className="bg-white rounded-xl shadow-sm border border-border p-12 text-center">
-                  <Activity className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold text-professional mb-2">
+                <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-blue-200/50 p-12 text-center">
+                  <Activity className="w-16 h-16 text-blue-400 mx-auto mb-4" />
+                  <h3 className="text-lg font-semibold text-gray-800 mb-2">
                     等待分析数据
                   </h3>
-                  <p className="text-muted-foreground">
+                  <p className="text-gray-600">
                     请在左侧输入体检报告数据，开始智能分析
                   </p>
                 </div>
@@ -227,46 +226,46 @@ export default function Dashboard() {
         {activeTab === 'history' && (
           /* History View */
           <div className="space-y-6">
-            <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-bold text-professional">历史记录</h2>
-              <div className="text-sm text-muted-foreground">
+            <div className="flex items-center justify-between bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-blue-200/50">
+              <h2 className="text-2xl font-bold text-gray-800">历史记录</h2>
+              <div className="text-sm text-gray-600 bg-blue-50 px-3 py-1 rounded-full">
                 共 {historicalReports?.reports?.length || 0} 条记录
               </div>
             </div>
             
             {isLoadingHistory ? (
-              <div className="bg-white rounded-xl shadow-sm border border-border p-12 text-center">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-                <p className="text-muted-foreground">加载历史记录中...</p>
+              <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-blue-200/50 p-12 text-center">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mx-auto mb-4"></div>
+                <p className="text-gray-600">加载历史记录中...</p>
               </div>
             ) : historicalReports?.reports?.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {historicalReports.reports.map((report: any) => (
-                  <div key={report.id} className="bg-white rounded-xl shadow-sm border border-border p-6 hover:shadow-md transition-shadow">
+                  <div key={report.id} className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-blue-200/50 p-6 hover:shadow-xl transition-all duration-300 hover:scale-105">
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
-                          <FileText className="w-5 h-5 text-primary" />
+                        <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-teal-500 rounded-xl flex items-center justify-center shadow-md">
+                          <FileText className="w-6 h-6 text-white" />
                         </div>
                         <div>
-                          <h3 className="font-semibold text-professional">{report.patientName}</h3>
-                          <p className="text-sm text-muted-foreground">{report.patientAge}岁 {report.patientGender}</p>
+                          <h3 className="font-semibold text-gray-800 text-lg">{report.patientName}</h3>
+                          <p className="text-sm text-gray-600">{report.patientAge}岁 {report.patientGender}</p>
                         </div>
                       </div>
                     </div>
                     
-                    <div className="flex items-center space-x-4 text-sm text-muted-foreground mb-4">
-                      <div className="flex items-center space-x-1">
-                        <Calendar className="w-4 h-4" />
+                    <div className="flex items-center space-x-4 text-sm text-gray-600 mb-4 bg-gray-50 rounded-lg p-3">
+                      <div className="flex items-center space-x-2">
+                        <Calendar className="w-4 h-4 text-blue-500" />
                         <span>{new Date(report.createdAt).toLocaleDateString('zh-CN')}</span>
                       </div>
-                      <div className="flex items-center space-x-1">
-                        <Clock className="w-4 h-4" />
+                      <div className="flex items-center space-x-2">
+                        <Clock className="w-4 h-4 text-teal-500" />
                         <span>{new Date(report.createdAt).toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })}</span>
                       </div>
                     </div>
                     
-                    <div className="flex space-x-2">
+                    <div className="flex space-x-3">
                       <button 
                         onClick={() => {
                           console.log('Historical report data:', report);
@@ -274,7 +273,7 @@ export default function Dashboard() {
                           setSelectedPatient(report.patientName);
                           setActiveTab('analysis');
                         }}
-                        className="flex-1 bg-primary/5 hover:bg-primary/10 text-primary font-medium py-2 px-4 rounded-lg transition-colors"
+                        className="flex-1 bg-gradient-to-r from-blue-500 to-teal-500 hover:from-blue-600 hover:to-teal-600 text-white font-medium py-3 px-4 rounded-xl transition-all duration-200 shadow-md"
                       >
                         查看报告
                       </button>
@@ -286,27 +285,27 @@ export default function Dashboard() {
                           }
                         }}
                         disabled={deleteReportMutation.isPending}
-                        className="p-2 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50"
+                        className="p-3 text-red-500 hover:text-red-700 hover:bg-red-100 rounded-xl transition-all duration-200 disabled:opacity-50 shadow-sm"
                         title="删除报告"
                       >
-                        <Trash2 className="w-4 h-4" />
+                        <Trash2 className="w-5 h-5" />
                       </button>
                     </div>
                   </div>
                 ))}
               </div>
             ) : (
-              <div className="bg-white rounded-xl shadow-sm border border-border p-12 text-center">
-                <FileText className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-                <h3 className="text-lg font-semibold text-professional mb-2">
+              <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-blue-200/50 p-12 text-center">
+                <FileText className="w-16 h-16 text-blue-400 mx-auto mb-4" />
+                <h3 className="text-lg font-semibold text-gray-800 mb-2">
                   暂无历史记录
                 </h3>
-                <p className="text-muted-foreground mb-4">
+                <p className="text-gray-600 mb-6">
                   您还没有分析过任何体检报告
                 </p>
                 <button 
                   onClick={() => setActiveTab('analysis')}
-                  className="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary/90 transition-colors"
+                  className="bg-gradient-to-r from-blue-500 to-teal-500 hover:from-blue-600 hover:to-teal-600 text-white px-8 py-3 rounded-xl font-medium transition-all duration-200 shadow-md"
                 >
                   开始分析
                 </button>
@@ -325,38 +324,40 @@ export default function Dashboard() {
         {activeTab === 'settings' && (
           /* Settings View */
           <div className="space-y-6">
-            <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-bold text-professional">系统设置</h2>
+            <div className="flex items-center justify-between bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-blue-200/50">
+              <h2 className="text-2xl font-bold text-gray-800">系统设置</h2>
             </div>
             
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Account Settings */}
-              <div className="bg-white rounded-xl shadow-sm border border-border p-6">
-                <h3 className="text-lg font-semibold text-professional mb-4 flex items-center">
-                  <User className="w-5 h-5 mr-2 text-primary" />
+              <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-blue-200/50 p-6">
+                <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                  <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-teal-500 rounded-lg flex items-center justify-center mr-3">
+                    <User className="w-4 h-4 text-white" />
+                  </div>
                   账户信息
                 </h3>
                 <div className="space-y-4">
-                  <div className="flex justify-between items-center py-3 border-b border-border/50">
+                  <div className="flex justify-between items-center py-4 border-b border-blue-200/30">
                     <div>
-                      <p className="font-medium text-professional">用户名</p>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="font-medium text-gray-800">用户名</p>
+                      <p className="text-sm text-gray-600 bg-blue-50 px-2 py-1 rounded-md mt-1">
                         {localStorage.getItem("userEmail")?.split("@")[0] || "未设置"}
                       </p>
                     </div>
                   </div>
-                  <div className="flex justify-between items-center py-3 border-b border-border/50">
+                  <div className="flex justify-between items-center py-4 border-b border-blue-200/30">
                     <div>
-                      <p className="font-medium text-professional">邮箱地址</p>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="font-medium text-gray-800">邮箱地址</p>
+                      <p className="text-sm text-gray-600 bg-teal-50 px-2 py-1 rounded-md mt-1">
                         {localStorage.getItem("userEmail") || "未设置"}
                       </p>
                     </div>
                   </div>
-                  <div className="flex justify-between items-center py-3">
+                  <div className="flex justify-between items-center py-4">
                     <div>
-                      <p className="font-medium text-professional">注册时间</p>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="font-medium text-gray-800">注册时间</p>
+                      <p className="text-sm text-gray-600 bg-purple-50 px-2 py-1 rounded-md mt-1">
                         {new Date().toLocaleDateString('zh-CN')}
                       </p>
                     </div>
@@ -365,90 +366,96 @@ export default function Dashboard() {
               </div>
 
               {/* System Settings */}
-              <div className="bg-white rounded-xl shadow-sm border border-border p-6">
-                <h3 className="text-lg font-semibold text-professional mb-4 flex items-center">
-                  <Settings className="w-5 h-5 mr-2 text-primary" />
+              <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-blue-200/50 p-6">
+                <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                  <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center mr-3">
+                    <Settings className="w-4 h-4 text-white" />
+                  </div>
                   系统偏好
                 </h3>
                 <div className="space-y-4">
-                  <div className="flex justify-between items-center py-3 border-b border-border/50">
+                  <div className="flex justify-between items-center py-4 border-b border-blue-200/30">
                     <div>
-                      <p className="font-medium text-professional">AI 模型</p>
-                      <p className="text-sm text-muted-foreground">Agentic-AI</p>
+                      <p className="font-medium text-gray-800">AI 模型</p>
+                      <p className="text-sm text-gray-600 bg-green-50 px-2 py-1 rounded-md mt-1">Agentic-AI</p>
                     </div>
-                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                    <div className="w-3 h-3 bg-green-400 rounded-full shadow-sm"></div>
                   </div>
-                  <div className="flex justify-between items-center py-3 border-b border-border/50">
+                  <div className="flex justify-between items-center py-4 border-b border-blue-200/30">
                     <div>
-                      <p className="font-medium text-professional">报告语言</p>
-                      <p className="text-sm text-muted-foreground">中文（简体）</p>
+                      <p className="font-medium text-gray-800">报告语言</p>
+                      <p className="text-sm text-gray-600 bg-orange-50 px-2 py-1 rounded-md mt-1">中文（简体）</p>
                     </div>
                   </div>
-                  <div className="flex justify-between items-center py-3">
+                  <div className="flex justify-between items-center py-4">
                     <div>
-                      <p className="font-medium text-professional">数据存储</p>
-                      <p className="text-sm text-muted-foreground">PostgreSQL 数据库</p>
+                      <p className="font-medium text-gray-800">数据存储</p>
+                      <p className="text-sm text-gray-600 bg-indigo-50 px-2 py-1 rounded-md mt-1">PostgreSQL 数据库</p>
                     </div>
-                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                    <div className="w-3 h-3 bg-green-400 rounded-full shadow-sm"></div>
                   </div>
                 </div>
               </div>
 
               {/* Data Management */}
-              <div className="bg-white rounded-xl shadow-sm border border-border p-6">
-                <h3 className="text-lg font-semibold text-professional mb-4 flex items-center">
-                  <FileText className="w-5 h-5 mr-2 text-primary" />
+              <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-blue-200/50 p-6">
+                <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                  <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-emerald-500 rounded-lg flex items-center justify-center mr-3">
+                    <FileText className="w-4 h-4 text-white" />
+                  </div>
                   数据管理
                 </h3>
                 <div className="space-y-4">
-                  <div className="flex justify-between items-center py-3 border-b border-border/50">
+                  <div className="flex justify-between items-center py-4 border-b border-blue-200/30">
                     <div>
-                      <p className="font-medium text-professional">历史报告数量</p>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="font-medium text-gray-800">历史报告数量</p>
+                      <p className="text-sm text-gray-600 bg-cyan-50 px-2 py-1 rounded-md mt-1">
                         {historicalReports?.reports?.length || 0} 条报告
                       </p>
                     </div>
                   </div>
-                  <div className="flex justify-between items-center py-3 border-b border-border/50">
+                  <div className="flex justify-between items-center py-4 border-b border-blue-200/30">
                     <div>
-                      <p className="font-medium text-professional">支持文件格式</p>
-                      <p className="text-sm text-muted-foreground">PDF, DOCX, PNG, JPEG, MP4, DICOM</p>
+                      <p className="font-medium text-gray-800">支持文件格式</p>
+                      <p className="text-sm text-gray-600 bg-pink-50 px-2 py-1 rounded-md mt-1">PDF, DOCX, PNG, JPEG, MP4, DICOM</p>
                     </div>
                   </div>
-                  <div className="flex justify-between items-center py-3">
+                  <div className="flex justify-between items-center py-4">
                     <div>
-                      <p className="font-medium text-professional">最大文件大小</p>
-                      <p className="text-sm text-muted-foreground">100MB</p>
+                      <p className="font-medium text-gray-800">最大文件大小</p>
+                      <p className="text-sm text-gray-600 bg-violet-50 px-2 py-1 rounded-md mt-1">100MB</p>
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* System Status */}
-              <div className="bg-white rounded-xl shadow-sm border border-border p-6">
-                <h3 className="text-lg font-semibold text-professional mb-4 flex items-center">
-                  <Activity className="w-5 h-5 mr-2 text-primary" />
+              <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-blue-200/50 p-6">
+                <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                  <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-red-500 rounded-lg flex items-center justify-center mr-3">
+                    <Activity className="w-4 h-4 text-white" />
+                  </div>
                   系统状态
                 </h3>
                 <div className="space-y-4">
-                  <div className="flex justify-between items-center py-3 border-b border-border/50">
+                  <div className="flex justify-between items-center py-4 border-b border-blue-200/30">
                     <div>
-                      <p className="font-medium text-professional">服务器状态</p>
-                      <p className="text-sm text-muted-foreground">正常运行</p>
+                      <p className="font-medium text-gray-800">服务器状态</p>
+                      <p className="text-sm text-gray-600 bg-green-50 px-2 py-1 rounded-md mt-1">正常运行</p>
                     </div>
-                    <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                    <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse shadow-sm"></div>
                   </div>
-                  <div className="flex justify-between items-center py-3 border-b border-border/50">
+                  <div className="flex justify-between items-center py-4 border-b border-blue-200/30">
                     <div>
-                      <p className="font-medium text-professional">AI 服务</p>
-                      <p className="text-sm text-muted-foreground">智能医疗分析引擎</p>
+                      <p className="font-medium text-gray-800">AI 服务</p>
+                      <p className="text-sm text-gray-600 bg-blue-50 px-2 py-1 rounded-md mt-1">智能医疗分析引擎</p>
                     </div>
-                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                    <div className="w-3 h-3 bg-green-400 rounded-full shadow-sm"></div>
                   </div>
-                  <div className="flex justify-between items-center py-3">
+                  <div className="flex justify-between items-center py-4">
                     <div>
-                      <p className="font-medium text-professional">版本信息</p>
-                      <p className="text-sm text-muted-foreground">Med Agentic-AI v1.0</p>
+                      <p className="font-medium text-gray-800">版本信息</p>
+                      <p className="text-sm text-gray-600 bg-gray-50 px-2 py-1 rounded-md mt-1">Med Agentic-AI v1.0</p>
                     </div>
                   </div>
                 </div>
@@ -456,8 +463,13 @@ export default function Dashboard() {
             </div>
 
             {/* Action Buttons */}
-            <div className="bg-white rounded-xl shadow-sm border border-border p-6">
-              <h3 className="text-lg font-semibold text-professional mb-4">操作</h3>
+            <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-blue-200/50 p-6">
+              <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-lg flex items-center justify-center mr-3">
+                  <Settings className="w-4 h-4 text-white" />
+                </div>
+                操作
+              </h3>
               <div className="flex flex-wrap gap-4">
                 <button
                   onClick={() => {
@@ -467,7 +479,7 @@ export default function Dashboard() {
                       variant: "default",
                     });
                   }}
-                  className="px-4 py-2 bg-primary/10 text-primary font-medium rounded-lg hover:bg-primary/20 transition-colors"
+                  className="px-6 py-3 bg-gradient-to-r from-gray-500 to-slate-500 hover:from-gray-600 hover:to-slate-600 text-white font-medium rounded-xl transition-all duration-200 shadow-md"
                 >
                   清除缓存
                 </button>
@@ -491,13 +503,13 @@ export default function Dashboard() {
                       variant: "default",
                     });
                   }}
-                  className="px-4 py-2 bg-blue-50 text-blue-600 font-medium rounded-lg hover:bg-blue-100 transition-colors"
+                  className="px-6 py-3 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-medium rounded-xl transition-all duration-200 shadow-md"
                 >
                   导出数据
                 </button>
                 <button
                   onClick={() => setActiveTab('analysis')}
-                  className="px-4 py-2 bg-green-50 text-green-600 font-medium rounded-lg hover:bg-green-100 transition-colors"
+                  className="px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white font-medium rounded-xl transition-all duration-200 shadow-md"
                 >
                   返回分析
                 </button>

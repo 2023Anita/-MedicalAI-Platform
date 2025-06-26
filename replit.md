@@ -112,6 +112,10 @@ The application uses PostgreSQL with two main tables:
   - **Navigation Improvements**: Settings button now functional with gear icon
     - Consistent styling with other navigation elements
     - Proper tab switching between analysis, history, and settings
+  - **File Upload Enhancement**: Increased video file upload limit from 50MB to 100MB
+    - Updated both frontend validation and backend multer configuration
+    - Added client-side file size validation with clear error messages
+    - Settings page now displays correct 100MB maximum file size
 
 - **June 26, 2025**: User Interface and Report Generation Improvements
   - **System Rebranding**: Updated system name from "医检智解 (MediScan-Insight)" to "Med Agentic-AI 体检报告·分析平台"

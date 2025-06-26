@@ -107,6 +107,8 @@ export default function ReportInput({
 
     const validFiles = files.filter(file => {
       const isValidType = allowedTypes.includes(file.type) || file.name.toLowerCase().endsWith('.dcm');
+      const isValidSize = file.size <= 100 * 1024 * 1024; // 100MB limit
+      
       if (!isValidType) {
         toast({
           title: "文件格式不支持",
@@ -115,6 +117,16 @@ export default function ReportInput({
         });
         return false;
       }
+      
+      if (!isValidSize) {
+        toast({
+          title: "文件过大",
+          description: `文件 ${file.name} 大小超过100MB限制`,
+          variant: "destructive",
+        });
+        return false;
+      }
+      
       return true;
     });
 

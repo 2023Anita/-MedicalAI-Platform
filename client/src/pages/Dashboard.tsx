@@ -400,7 +400,7 @@ export default function Dashboard() {
                   <div className="flex justify-between items-center py-3">
                     <div>
                       <p className="font-medium text-professional">最大文件大小</p>
-                      <p className="text-sm text-muted-foreground">50MB</p>
+                      <p className="text-sm text-muted-foreground">100MB</p>
                     </div>
                   </div>
                 </div>

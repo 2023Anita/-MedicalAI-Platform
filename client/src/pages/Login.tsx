@@ -26,9 +26,9 @@ export default function Login() {
   useEffect(() => {
     const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
     if (isLoggedIn) {
-      window.location.href = "/dashboard";
+      setLocation("/dashboard");
     }
-  }, []);
+  }, [setLocation]);
 
   const loginMutation = useMutation({
     mutationFn: async (data: AuthData) => {
@@ -52,8 +52,8 @@ export default function Login() {
       localStorage.setItem("isLoggedIn", "true");
       localStorage.setItem("userEmail", email);
       
-      // Immediate redirect without delay
-      window.location.href = "/dashboard";
+      // Use setLocation for faster navigation
+      setLocation("/dashboard");
     },
     onError: (error: Error) => {
       toast({
@@ -86,8 +86,8 @@ export default function Login() {
       localStorage.setItem("isLoggedIn", "true");
       localStorage.setItem("userEmail", email);
       
-      // Immediate redirect without delay
-      window.location.href = "/dashboard";
+      // Use setLocation for faster navigation
+      setLocation("/dashboard");
     },
     onError: (error: Error) => {
       toast({

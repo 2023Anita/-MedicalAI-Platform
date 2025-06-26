@@ -19,17 +19,17 @@ export default function Dashboard() {
   useEffect(() => {
     const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
     if (!isLoggedIn) {
-      window.location.href = "/";
+      setLocation("/");
     }
-  }, []);
+  }, [setLocation]);
 
   const handleLogout = () => {
     // Clear any stored session data
     localStorage.clear();
     sessionStorage.clear();
     
-    // Immediate redirect to login page
-    window.location.href = "/";
+    // Use setLocation for faster navigation
+    setLocation("/");
   };
 
   return (

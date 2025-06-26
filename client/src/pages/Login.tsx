@@ -49,7 +49,11 @@ export default function Login() {
         description: "欢迎使用Med Agentic-AI体检报告分析平台",
         variant: "default",
       });
-      setLocation("/dashboard");
+      
+      // Force a page reload to trigger the auth state change
+      setTimeout(() => {
+        window.location.href = "/dashboard";
+      }, 500);
     },
     onError: (error: Error) => {
       toast({
@@ -87,8 +91,10 @@ export default function Login() {
         description: "您的账户已创建，正在为您登录...",
         variant: "default",
       });
+      
+      // Force redirect to dashboard
       setTimeout(() => {
-        setLocation("/dashboard");
+        window.location.href = "/dashboard";
       }, 1000);
     },
     onError: (error: Error) => {

@@ -387,11 +387,19 @@ ${combinedContent}
         contents: chatPrompt,
         config: {
           temperature: 0.7,
-          maxOutputTokens: 2000,
+          maxOutputTokens: 8000,
         }
       });
 
-      const aiResponse = response.text || "抱歉，我无法处理您的请求，请重新尝试。";
+      let aiResponse = response.text;
+      
+      // Check if response is complete
+      if (!aiResponse) {
+        aiResponse = "抱歉，我无法处理您的请求，请重新尝试。";
+      } else if (aiResponse.length < 10) {
+        // If response is too short, it might be incomplete
+        console.warn("AI response seems incomplete:", aiResponse);
+      }
 
       // Clean up temporary files
       if (processedFiles.length > 0) {

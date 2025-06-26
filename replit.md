@@ -118,6 +118,13 @@ The application uses PostgreSQL with two main tables:
     - Updated both frontend validation and backend multer configuration
     - Added client-side file size validation with clear error messages
     - Settings page now displays correct 100MB maximum file size
+  - **AI Chat Integration**: Added comprehensive AI conversation interface
+    - New "AI对话" tab in main navigation for real-time chat with Med Agentic-AI
+    - Support for text messages and file uploads (images, videos, PDFs, DOCX)
+    - Same file analysis capabilities as main medical report system
+    - Clean chat UI with message bubbles, file previews, and typing indicators
+    - 8000 token output limit for complete AI responses
+    - Automatic file cleanup after analysis
 
 - **June 26, 2025**: User Interface and Report Generation Improvements
   - **System Rebranding**: Updated system name from "医检智解 (MediScan-Insight)" to "Med Agentic-AI 体检报告·分析平台"

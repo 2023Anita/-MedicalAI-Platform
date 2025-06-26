@@ -95,13 +95,15 @@ The application uses PostgreSQL with two main tables:
 
 ## Recent Changes
 
-- **December 26, 2024**: Enhanced system with AI-powered medical image recognition
+- **December 26, 2024**: Enhanced system with comprehensive medical diagnostic capabilities
   - Added PostgreSQL database integration for persistent storage
   - Implemented exam date field for medical timeline tracking
   - Added support for PDF, DOCX, PNG/JPEG, MP4, and DICOM file uploads
   - **Enhanced image recognition**: Gemini Vision API extracts text from lab reports, identifies medical indicators, and converts images to structured medical data
-  - **Video analysis**: Medical video content recognition for ultrasound, endoscopy, and diagnostic procedures
-  - Updated UI with intuitive drag-drop file upload interface
+  - **Video analysis**: Medical video content recognition for ultrasound, endoscopy, and diagnostic procedures with FFmpeg support
+  - **Enhanced diagnostic output**: Added source attribution (影像来源/视频来源/报告来源), clinical reasoning process, and final diagnostic conclusions
+  - **Comprehensive reporting**: Structured diagnostic workflow with detailed推理过程 and specific medical recommendations
+  - Updated UI with enhanced diagnostic display including video findings and clinical reasoning sections
   - Fixed FormData validation and database ID conversion issues
   - Integrated Gemini 2.5-Flash model for comprehensive medical analysis
 

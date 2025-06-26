@@ -69,16 +69,19 @@ export interface HealthAssessmentReport {
   };
   detailedAnalysis: {
     imagingFindings: string[];
+    videoFindings?: string[];
     labAbnormalities: Array<{
       indicator: string;
       value: string;
       status: 'high' | 'low' | 'normal';
       interpretation: string;
     }>;
+    clinicalReasoning: string[];
     riskFactors: string[];
   };
   riskAssessment: {
     overallAssessment: string;
+    diagnosticConclusion: string;
     actionableRecommendations: {
       followUp: string[];
       specialistConsultation: string[];

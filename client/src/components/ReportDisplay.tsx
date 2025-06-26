@@ -1,4 +1,4 @@
-import { FileText, Download, Printer, ClipboardList, Microscope, TrendingUp, Calendar, UserCheck, Heart } from "lucide-react";
+import { FileText, Download, Printer, ClipboardList, Microscope, TrendingUp, Calendar, UserCheck, Heart, Video, Brain, Target } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -152,6 +152,46 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
               </ul>
             </div>
           </div>
+
+          {/* Video Findings */}
+          {report.detailedAnalysis.videoFindings && report.detailedAnalysis.videoFindings.length > 0 && (
+            <div className="mb-6">
+              <h4 className="font-medium text-professional mb-3 flex items-center">
+                <div className="w-2 h-2 bg-secondary rounded-full mr-2"></div>
+                1.5. 视频检查结果 (Video Examination Results)
+              </h4>
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <ul className="space-y-2 text-sm">
+                  {report.detailedAnalysis.videoFindings.map((finding, index) => (
+                    <li key={index} className="flex items-start">
+                      <Video className="mr-2 w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
+                      <span className="text-foreground">{finding}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          )}
+
+          {/* Clinical Reasoning */}
+          {report.detailedAnalysis.clinicalReasoning && report.detailedAnalysis.clinicalReasoning.length > 0 && (
+            <div className="mb-6">
+              <h4 className="font-medium text-professional mb-3 flex items-center">
+                <div className="w-2 h-2 bg-secondary rounded-full mr-2"></div>
+                1.6. 临床推理过程 (Clinical Reasoning Process)
+              </h4>
+              <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                <ul className="space-y-3 text-sm">
+                  {report.detailedAnalysis.clinicalReasoning.map((reasoning, index) => (
+                    <li key={index} className="flex items-start">
+                      <Brain className="mr-2 w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+                      <span className="text-foreground leading-relaxed">{reasoning}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          )}
           
           {/* Lab Results */}
           <div className="mb-6">
@@ -213,9 +253,24 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
             三、综合风险评估与建议 (Overall Risk Assessment & Recommendations)
           </h3>
           
+          {/* Diagnostic Conclusion */}
+          {report.riskAssessment.diagnosticConclusion && (
+            <div className="mb-6">
+              <h4 className="font-medium text-professional mb-3 flex items-center">
+                <Target className="mr-2 w-4 h-4" />
+                1. 最终诊断结论 (Final Diagnostic Conclusion)
+              </h4>
+              <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                <p className="text-sm leading-relaxed font-medium text-red-800">
+                  {report.riskAssessment.diagnosticConclusion}
+                </p>
+              </div>
+            </div>
+          )}
+
           {/* Overall Assessment */}
           <div className="mb-6">
-            <h4 className="font-medium text-professional mb-3">1. 综合评估 (Overall Assessment)</h4>
+            <h4 className="font-medium text-professional mb-3">2. 综合评估 (Overall Assessment)</h4>
             <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
               <p className="text-sm leading-relaxed">
                 {report.riskAssessment.overallAssessment}
@@ -225,7 +280,7 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
           
           {/* Actionable Recommendations */}
           <div>
-            <h4 className="font-medium text-professional mb-4">2. 行动建议 (Actionable Recommendations)</h4>
+            <h4 className="font-medium text-professional mb-4">3. 行动建议 (Actionable Recommendations)</h4>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="bg-blue-50 rounded-lg p-4">
                 <h5 className="font-medium text-secondary mb-3 flex items-center">

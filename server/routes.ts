@@ -71,13 +71,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
       }
       
+      // Track uploaded file types
+      const hasVideoFiles = processedFiles.some(file => file.mimeType.startsWith('video/'));
+      const hasImageFiles = processedFiles.some(file => file.mimeType.startsWith('image/'));
+      const uploadedFileTypes = processedFiles.map(file => file.mimeType);
+      
       let progressData: AnalysisProgress | null = null;
       
       const analysisResult = await medicalAnalysisService.analyzeReport(
         { ...validatedData, reportData: combinedReportData },
         (progress) => {
           progressData = progress;
-        }
+        },
+        { hasVideoFiles, hasImageFiles, uploadedFileTypes }
       );
 
       // Save the report to storage

@@ -154,7 +154,7 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
           </div>
 
           {/* Video Findings */}
-          {report.detailedAnalysis.videoFindings && report.detailedAnalysis.videoFindings.length > 0 && (
+          {report.detailedAnalysis.videoFindings && report.detailedAnalysis.videoFindings.length > 0 && report.reportMetadata.hasVideoFiles && (
             <div className="mb-6">
               <h4 className="font-medium text-professional mb-3 flex items-center">
                 <div className="w-2 h-2 bg-secondary rounded-full mr-2"></div>

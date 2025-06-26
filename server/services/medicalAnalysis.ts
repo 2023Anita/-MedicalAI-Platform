@@ -30,7 +30,8 @@ export class MedicalAnalysisService {
 
   async analyzeReport(
     request: AnalysisRequest,
-    progressCallback?: (progress: AnalysisProgress) => void
+    progressCallback?: (progress: AnalysisProgress) => void,
+    fileMetadata?: { hasVideoFiles: boolean; hasImageFiles: boolean; uploadedFileTypes: string[] }
   ): Promise<HealthAssessmentReport> {
     const analysisId = Math.random().toString(36).substring(7);
     
@@ -312,6 +313,13 @@ ${request.reportData}
           generatedAt: new Date().toISOString(),
           model: "Gemini 2.5-Flash"
         };
+      }
+
+      // Set file metadata flags
+      if (fileMetadata) {
+        analysisResult.reportMetadata.hasVideoFiles = fileMetadata.hasVideoFiles;
+        analysisResult.reportMetadata.hasImageFiles = fileMetadata.hasImageFiles;
+        analysisResult.reportMetadata.uploadedFileTypes = fileMetadata.uploadedFileTypes;
       }
 
       // Final progress update

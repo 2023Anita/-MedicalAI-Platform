@@ -116,5 +116,8 @@ export interface HealthAssessmentReport {
     reportId: string;
     generatedAt: string;
     model: string;
+    hasVideoFiles?: boolean;
+    hasImageFiles?: boolean;
+    uploadedFileTypes?: string[];
   };
 }

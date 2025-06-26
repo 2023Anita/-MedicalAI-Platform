@@ -1,4 +1,4 @@
-# 医检智解 (MediScan-Insight) - Medical Report Analysis System
+# Med Agentic-AI 体检报告·分析平台 - Medical Report Analysis System
 
 ## Overview
 
@@ -96,6 +96,7 @@ The application uses PostgreSQL with two main tables:
 ## Recent Changes
 
 - **June 26, 2025**: User Interface and Report Generation Improvements
+  - **System Rebranding**: Updated system name from "医检智解 (MediScan-Insight)" to "Med Agentic-AI 体检报告·分析平台"
   - **Enhanced Font Readability**: Increased font sizes throughout the report display (text-base instead of text-sm) for better readability
   - **Color-Coded Lab Results**: Implemented enhanced color coding for abnormal lab values with clear annotations
     - High values: Red background with "↑ 偏高 (Above Normal Range)" indicator

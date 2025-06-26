@@ -24,8 +24,8 @@ export default function Home() {
                   <Stethoscope className="text-white w-5 h-5" />
                 </div>
                 <div>
-                  <h1 className="text-xl font-semibold text-professional">医检智解</h1>
-                  <p className="text-xs text-muted-foreground">MediScan-Insight</p>
+                  <h1 className="text-xl font-semibold text-professional">Med Agentic-AI</h1>
+                  <p className="text-xs text-muted-foreground">体检报告·分析平台</p>
                 </div>
               </div>
             </div>

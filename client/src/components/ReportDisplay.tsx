@@ -63,7 +63,7 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
         <div className="flex items-center justify-between">
           <CardTitle className="flex items-center text-xl font-semibold text-professional">
             <FileText className="text-primary mr-3 w-6 h-6" />
-            综合健康评估报告
+            Med Agentic-AI 综合健康评估报告
           </CardTitle>
           <div className="flex items-center space-x-3">
             <span className="text-sm text-muted-foreground">

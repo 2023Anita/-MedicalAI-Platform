@@ -233,7 +233,7 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
                       </div>
                       <span className="text-base leading-relaxed text-gray-800" dangerouslySetInnerHTML={{
                         __html: reasoning
-                          .replace(/(\d+%?)/g, '<span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-sm font-semibold">$1</span>')
+                          .replace(/(\d+\.?\d*%?)/g, '<span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-sm font-semibold">$1</span>')
                           .replace(/(高血压|糖尿病|肝硬化|肾功能|心脏病|肺部|脑部|血管|胆固醇|血糖|血脂|蛋白质|肌酐|尿素氮)/g, '<span class="bg-red-100 text-red-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
                           .replace(/(正常|稳定|良好|改善|恢复|健康)/g, '<span class="bg-green-100 text-green-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
                           .replace(/(异常|升高|降低|偏高|偏低|增大|缩小|病变|损伤|炎症|感染)/g, '<span class="bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
@@ -262,7 +262,7 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
                     </div>
                     <p className="text-base text-gray-700 mb-3 leading-relaxed" dangerouslySetInnerHTML={{
                       __html: lab.interpretation
-                        .replace(/(\d+\.?\d*%?|mg\/dL|mmol\/L|g\/L|IU\/L|U\/L)/g, '<span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-sm font-semibold">$1</span>')
+                        .replace(/(\d+\.?\d*%?|mg\/dL|mmol\/L|g\/L|IU\/L|U\/L|mg\/L|μg\/L|ng\/mL)/g, '<span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-sm font-semibold">$1</span>')
                         .replace(/(偏高|偏低|升高|降低|异常|超标)/g, '<span class="bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
                         .replace(/(正常|稳定|良好)/g, '<span class="bg-green-100 text-green-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
                     }}></p>
@@ -301,7 +301,7 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
                       </div>
                       <span className="text-base text-gray-800 leading-relaxed" dangerouslySetInnerHTML={{
                         __html: factor
-                          .replace(/(\d+%?|BMI|kg\/m²|cm|mmHg|年龄)/g, '<span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-sm font-semibold">$1</span>')
+                          .replace(/(\d+\.?\d*%?|BMI|kg\/m²|cm|mmHg|年龄)/g, '<span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-sm font-semibold">$1</span>')
                           .replace(/(高血压|糖尿病|肝硬化|肾功能|心脏病|肺部|脑部|血管|胆固醇|血糖|血脂|蛋白质|肌酐|尿素氮|肥胖|腹型肥胖|饮酒|吸烟)/g, '<span class="bg-red-100 text-red-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
                           .replace(/(家族史|遗传|基因)/g, '<span class="bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
                           .replace(/(控制不佳|未控制|超标|异常|升高|偏高|危险)/g, '<span class="bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
@@ -317,7 +317,7 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
                       </div>
                       <span className="text-base text-gray-800 leading-relaxed" dangerouslySetInnerHTML={{
                         __html: factor
-                          .replace(/(\d+%?|BMI|kg\/m²|cm|mmHg|年龄)/g, '<span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-sm font-semibold">$1</span>')
+                          .replace(/(\d+\.?\d*%?|BMI|kg\/m²|cm|mmHg|年龄)/g, '<span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-sm font-semibold">$1</span>')
                           .replace(/(高血压|糖尿病|肝硬化|肾功能|心脏病|肺部|脑部|血管|胆固醇|血糖|血脂|蛋白质|肌酐|尿素氮|肥胖|腹型肥胖|饮酒|吸烟)/g, '<span class="bg-red-100 text-red-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
                           .replace(/(家族史|遗传|基因)/g, '<span class="bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
                           .replace(/(控制不佳|未控制|超标|异常|升高|偏高|危险)/g, '<span class="bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
@@ -438,7 +438,7 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
                         </div>
                         <span className="text-base text-gray-800 leading-relaxed" dangerouslySetInnerHTML={{
                           __html: finding
-                            .replace(/(\d+%?|mm|cm|密度|增强|对比剂)/g, '<span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-sm font-semibold">$1</span>')
+                            .replace(/(\d+\.?\d*%?|mm|cm|密度|增强|对比剂)/g, '<span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-sm font-semibold">$1</span>')
                             .replace(/(结节|占位|肿块|病变|异常|阴影|钙化|积液|肿胀|增厚)/g, '<span class="bg-red-100 text-red-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
                             .replace(/(正常|稳定|良好|清晰|对称)/g, '<span class="bg-green-100 text-green-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
                         }}></span>
@@ -494,7 +494,7 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
                           __html: step
                             .replace(/(复查|随访|监测|检查|咨询|治疗)/g, '<span class="bg-green-100 text-green-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
                             .replace(/(立即|紧急|尽快|及时|马上)/g, '<span class="bg-red-100 text-red-700 px-2 py-0.5 rounded-full text-sm font-bold">$1</span>')
-                            .replace(/(\d+个?月|\d+周|\d+天)/g, '<span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-sm font-semibold">$1</span>')
+                            .replace(/(\d+\.?\d*个?月|\d+\.?\d*周|\d+\.?\d*天)/g, '<span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-sm font-semibold">$1</span>')
                         }}></span>
                       </li>
                     ))}

@@ -160,15 +160,26 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
                 <div className="w-2 h-2 bg-secondary rounded-full mr-2"></div>
                 1.5. 视频检查结果 (Video Examination Results)
               </h4>
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                <ul className="space-y-2 text-sm">
-                  {report.detailedAnalysis.videoFindings.map((finding, index) => (
-                    <li key={index} className="flex items-start">
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 space-y-4">
+                {report.detailedAnalysis.videoFindings.map((finding, index) => (
+                  <div key={index} className="border-l-4 border-blue-400 pl-4">
+                    <div className="flex items-start mb-2">
                       <Video className="mr-2 w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
-                      <span className="text-foreground">{finding}</span>
-                    </li>
-                  ))}
-                </ul>
+                      <div className="flex-1">
+                        <p className="text-sm font-medium text-foreground mb-1">{finding.finding}</p>
+                        <div className="text-xs text-muted-foreground mb-2">
+                          <span className="font-medium">专业术语:</span> {finding.medicalTerms}
+                        </div>
+                        <div className="text-xs bg-white p-2 rounded border-l-2 border-green-300">
+                          <span className="font-medium text-green-700">通俗解释:</span> {finding.patientExplanation}
+                        </div>
+                        <div className="text-xs text-blue-700 mt-1">
+                          <span className="font-medium">临床意义:</span> {finding.significance}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           )}
@@ -202,15 +213,18 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
             <div className="bg-muted rounded-lg p-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {report.detailedAnalysis.labAbnormalities.map((lab, index) => (
-                  <div key={index} className={`flex justify-between items-center p-3 bg-white rounded ${getLabStatusClass(lab.status)}`}>
-                    <div>
+                  <div key={index} className={`p-3 bg-white rounded ${getLabStatusClass(lab.status)}`}>
+                    <div className="flex justify-between items-start mb-2">
                       <span className="font-medium">{lab.indicator}</span>
-                      <p className="text-xs text-muted-foreground mt-1">{lab.interpretation}</p>
-                    </div>
-                    <div className="text-right">
                       <span className={`font-semibold ${getLabStatusColor(lab.status)}`}>{lab.value}</span>
-                      <p className={`text-xs ${getLabStatusColor(lab.status)}`}>{getLabStatusText(lab.status)}</p>
                     </div>
+                    <p className="text-xs text-muted-foreground mb-2">{lab.interpretation}</p>
+                    {lab.patientFriendly && (
+                      <div className="text-xs bg-green-50 p-2 rounded border-l-2 border-green-300">
+                        <span className="font-medium text-green-700">通俗解释:</span> {lab.patientFriendly}
+                      </div>
+                    )}
+                    <p className={`text-xs mt-1 ${getLabStatusColor(lab.status)}`}>{getLabStatusText(lab.status)}</p>
                   </div>
                 ))}
               </div>
@@ -244,6 +258,106 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
               </div>
             </div>
           </div>
+
+          {/* Possible Diagnoses */}
+          {report.detailedAnalysis.possibleDiagnoses && report.detailedAnalysis.possibleDiagnoses.length > 0 && (
+            <div className="mb-6">
+              <h4 className="font-medium text-professional mb-3 flex items-center">
+                <div className="w-2 h-2 bg-secondary rounded-full mr-2"></div>
+                4. 可能的诊断 (Possible Diagnoses)
+              </h4>
+              <div className="space-y-4">
+                {report.detailedAnalysis.possibleDiagnoses.map((diagnosis, index) => (
+                  <div key={index} className="bg-white border border-gray-200 rounded-lg p-4">
+                    <div className="flex justify-between items-start mb-2">
+                      <h5 className="font-medium text-foreground">{diagnosis.diagnosis}</h5>
+                      <span className={`px-2 py-1 rounded text-xs font-medium ${
+                        diagnosis.probability === 'high' ? 'bg-red-100 text-red-700' :
+                        diagnosis.probability === 'moderate' ? 'bg-yellow-100 text-yellow-700' :
+                        'bg-green-100 text-green-700'
+                      }`}>
+                        {diagnosis.probability === 'high' ? '高可能性' : 
+                         diagnosis.probability === 'moderate' ? '中等可能性' : '低可能性'}
+                      </span>
+                    </div>
+                    <p className="text-sm text-muted-foreground mb-2">{diagnosis.reasoning}</p>
+                    <div className="text-sm bg-blue-50 p-2 rounded border-l-2 border-blue-300">
+                      <span className="font-medium text-blue-700">患者解释:</span> {diagnosis.patientExplanation}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Differential Diagnosis */}
+          {report.detailedAnalysis.differentialDiagnosis && report.detailedAnalysis.differentialDiagnosis.length > 0 && (
+            <div className="mb-6">
+              <h4 className="font-medium text-professional mb-3 flex items-center">
+                <div className="w-2 h-2 bg-secondary rounded-full mr-2"></div>
+                5. 鉴别诊断 (Differential Diagnosis)
+              </h4>
+              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                <div className="space-y-3">
+                  {report.detailedAnalysis.differentialDiagnosis.map((diff, index) => (
+                    <div key={index} className="bg-white p-3 rounded border-l-4 border-yellow-400">
+                      <div className="flex justify-between items-start mb-1">
+                        <span className="font-medium text-foreground">{diff.condition}</span>
+                        <span className="text-xs text-muted-foreground">{diff.likelihood}</span>
+                      </div>
+                      <p className="text-sm text-muted-foreground mb-2">{diff.distinguishingFeatures}</p>
+                      <p className="text-xs text-yellow-700">{diff.explanation}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Imaging Report Summary */}
+          {report.detailedAnalysis.imagingReportSummary && (
+            <div className="mb-6">
+              <h4 className="font-medium text-professional mb-3 flex items-center">
+                <div className="w-2 h-2 bg-secondary rounded-full mr-2"></div>
+                6. 影像学报告总结 (Imaging Report Summary)
+              </h4>
+              <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 space-y-4">
+                <div>
+                  <h5 className="font-medium text-sm mb-2 text-gray-700">技术发现 (Technical Findings)</h5>
+                  <ul className="space-y-1">
+                    {report.detailedAnalysis.imagingReportSummary.technicalFindings.map((finding, index) => (
+                      <li key={index} className="text-sm text-muted-foreground flex items-start">
+                        <div className="w-1.5 h-1.5 bg-gray-400 rounded-full mr-2 mt-2"></div>
+                        {finding}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                
+                <div>
+                  <h5 className="font-medium text-sm mb-2 text-gray-700">临床相关性 (Clinical Correlation)</h5>
+                  <p className="text-sm text-muted-foreground">{report.detailedAnalysis.imagingReportSummary.clinicalCorrelation}</p>
+                </div>
+                
+                <div className="bg-white p-3 rounded border-l-4 border-blue-400">
+                  <h5 className="font-medium text-sm mb-2 text-blue-700">患者总结 (Patient Summary)</h5>
+                  <p className="text-sm text-blue-600">{report.detailedAnalysis.imagingReportSummary.patientSummary}</p>
+                </div>
+                
+                <div>
+                  <h5 className="font-medium text-sm mb-2 text-gray-700">建议后续步骤 (Next Steps)</h5>
+                  <ul className="space-y-1">
+                    {report.detailedAnalysis.imagingReportSummary.nextSteps.map((step, index) => (
+                      <li key={index} className="text-sm text-green-600 flex items-start">
+                        <div className="w-1.5 h-1.5 bg-green-500 rounded-full mr-2 mt-2"></div>
+                        {step}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
         
         {/* Risk Assessment & Recommendations */}

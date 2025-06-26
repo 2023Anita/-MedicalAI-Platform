@@ -5,16 +5,25 @@ const ai = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY || process.env.GOOGLE_AI_API_KEY || "" 
 });
 
-const MEDICAL_ANALYSIS_PROMPT = `你是专业医学分析AI，分析医学影像、视频和检验报告，返回简洁的JSON格式诊断结果。
+const MEDICAL_ANALYSIS_PROMPT = `你是专业医学分析AI，提供全面的医学影像、视频和检验报告分析，包含诊断建议、鉴别诊断和患者易懂的解释。
 
-分析要求：
-1. 影像发现：提取关键异常，标注"(影像来源)"
-2. 视频发现：识别检查异常，标注"(视频来源)"  
-3. 化验异常：解读指标，标注状态(high/low/normal)
-4. 推理过程：简明推理链条
-5. 诊断结论：明确诊断建议
+详细分析要求：
+1. 影像发现：提取关键异常，标注数据来源
+2. 视频发现：详细解读检查结果，包含：
+   - finding: 检查发现的具体内容
+   - medicalTerms: 专业医学术语解释
+   - patientExplanation: 患者易懂的白话解释
+   - significance: 临床意义说明
+3. 化验异常：完整解读，包含patientFriendly字段用于患者理解
+4. 可能诊断：提供多个可能性诊断，标明概率和患者解释
+5. 鉴别诊断：列出需要排除的疾病及区别要点
+6. 影像学报告摘要：
+   - technicalFindings: 技术性发现
+   - clinicalCorrelation: 临床相关性
+   - patientSummary: 患者易懂总结
+   - nextSteps: 建议的后续检查
 
-输出要求：返回完整JSON结构，内容简洁准确，避免过长描述。`;
+输出JSON必须完整包含所有字段，为患者和医生提供全方位信息。`;
 
 export class MedicalAnalysisService {
   private progressCallbacks: Map<string, (progress: AnalysisProgress) => void> = new Map();
@@ -99,7 +108,20 @@ ${request.reportData}
                 type: "object",
                 properties: {
                   imagingFindings: { type: "array", items: { type: "string", maxLength: 150 }, maxItems: 6 },
-                  videoFindings: { type: "array", items: { type: "string", maxLength: 150 }, maxItems: 4 },
+                  videoFindings: {
+                    type: "array",
+                    maxItems: 4,
+                    items: {
+                      type: "object",
+                      properties: {
+                        finding: { type: "string", maxLength: 120 },
+                        medicalTerms: { type: "string", maxLength: 100 },
+                        patientExplanation: { type: "string", maxLength: 150 },
+                        significance: { type: "string", maxLength: 100 }
+                      },
+                      required: ["finding", "medicalTerms", "patientExplanation", "significance"]
+                    }
+                  },
                   labAbnormalities: {
                     type: "array",
                     maxItems: 8,
@@ -109,15 +131,54 @@ ${request.reportData}
                         indicator: { type: "string", maxLength: 50 },
                         value: { type: "string", maxLength: 30 },
                         status: { type: "string", enum: ["high", "low", "normal"] },
-                        interpretation: { type: "string", maxLength: 80 }
+                        interpretation: { type: "string", maxLength: 80 },
+                        patientFriendly: { type: "string", maxLength: 120 }
                       },
-                      required: ["indicator", "value", "status", "interpretation"]
+                      required: ["indicator", "value", "status", "interpretation", "patientFriendly"]
                     }
+                  },
+                  possibleDiagnoses: {
+                    type: "array",
+                    maxItems: 5,
+                    items: {
+                      type: "object",
+                      properties: {
+                        diagnosis: { type: "string", maxLength: 80 },
+                        probability: { type: "string", enum: ["high", "moderate", "low"] },
+                        reasoning: { type: "string", maxLength: 150 },
+                        patientExplanation: { type: "string", maxLength: 150 }
+                      },
+                      required: ["diagnosis", "probability", "reasoning", "patientExplanation"]
+                    }
+                  },
+                  differentialDiagnosis: {
+                    type: "array",
+                    maxItems: 4,
+                    items: {
+                      type: "object",
+                      properties: {
+                        condition: { type: "string", maxLength: 80 },
+                        likelihood: { type: "string", maxLength: 50 },
+                        distinguishingFeatures: { type: "string", maxLength: 120 },
+                        explanation: { type: "string", maxLength: 100 }
+                      },
+                      required: ["condition", "likelihood", "distinguishingFeatures", "explanation"]
+                    }
+                  },
+                  imagingReportSummary: {
+                    type: "object",
+                    properties: {
+                      technicalFindings: { type: "array", items: { type: "string", maxLength: 100 }, maxItems: 5 },
+                      clinicalCorrelation: { type: "string", maxLength: 200 },
+                      patientSummary: { type: "string", maxLength: 250 },
+                      nextSteps: { type: "array", items: { type: "string", maxLength: 80 }, maxItems: 4 }
+                    },
+                    required: ["technicalFindings", "clinicalCorrelation", "patientSummary", "nextSteps"]
                   },
                   clinicalReasoning: { type: "array", items: { type: "string", maxLength: 120 }, maxItems: 4 },
                   riskFactors: { type: "array", items: { type: "string", maxLength: 80 }, maxItems: 5 }
                 },
-                required: ["imagingFindings", "labAbnormalities", "riskFactors"]
+                required: ["imagingFindings", "labAbnormalities", "riskFactors", "possibleDiagnoses", "differentialDiagnosis", "imagingReportSummary"]
               },
               riskAssessment: {
                 type: "object",
@@ -212,7 +273,20 @@ ${request.reportData}
             videoFindings: [],
             labAbnormalities: [],
             clinicalReasoning: ['AI处理遇到问题'],
-            riskFactors: []
+            riskFactors: [],
+            possibleDiagnoses: [{
+              diagnosis: '技术故障',
+              probability: 'high' as const,
+              reasoning: 'AI分析遇到技术问题',
+              patientExplanation: '系统暂时无法完成分析，请重新提交'
+            }],
+            differentialDiagnosis: [],
+            imagingReportSummary: {
+              technicalFindings: ['系统错误'],
+              clinicalCorrelation: '无法完成分析',
+              patientSummary: '由于技术问题，无法提供完整分析结果',
+              nextSteps: ['请重新上传报告']
+            }
           },
           riskAssessment: {
             overallAssessment: '由于技术问题，无法完成完整分析。请重新提交报告。',

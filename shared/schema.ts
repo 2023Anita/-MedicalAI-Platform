@@ -69,15 +69,39 @@ export interface HealthAssessmentReport {
   };
   detailedAnalysis: {
     imagingFindings: string[];
-    videoFindings?: string[];
+    videoFindings?: Array<{
+      finding: string;
+      medicalTerms: string;
+      patientExplanation: string;
+      significance: string;
+    }>;
     labAbnormalities: Array<{
       indicator: string;
       value: string;
       status: 'high' | 'low' | 'normal';
       interpretation: string;
+      patientFriendly: string;
     }>;
     clinicalReasoning: string[];
     riskFactors: string[];
+    possibleDiagnoses: Array<{
+      diagnosis: string;
+      probability: 'high' | 'moderate' | 'low';
+      reasoning: string;
+      patientExplanation: string;
+    }>;
+    differentialDiagnosis: Array<{
+      condition: string;
+      likelihood: string;
+      distinguishingFeatures: string;
+      explanation: string;
+    }>;
+    imagingReportSummary: {
+      technicalFindings: string[];
+      clinicalCorrelation: string;
+      patientSummary: string;
+      nextSteps: string[];
+    };
   };
   riskAssessment: {
     overallAssessment: string;

@@ -255,6 +255,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           patientGender: report.patientGender,
           createdAt: report.createdAt,
           hasAnalysis: !!report.analysisResult,
+          analysisResult: report.analysisResult,
         })),
       });
     } catch (error) {

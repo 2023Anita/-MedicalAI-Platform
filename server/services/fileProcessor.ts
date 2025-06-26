@@ -159,11 +159,67 @@ export class FileProcessorService {
         .toFile(thumbnailPath);
       
       result.thumbnailPath = thumbnailPath;
+
+      // Use Gemini to analyze medical images and extract text
+      const extractedText = await this.analyzeImageWithGemini(file.path);
+      if (extractedText) {
+        result.extractedText = extractedText;
+      }
     } catch (error) {
       console.error('Image processing error:', error);
     }
     
     return result;
+  }
+
+  private async analyzeImageWithGemini(imagePath: string): Promise<string> {
+    try {
+      const { GoogleGenAI } = await import('@google/genai');
+      const ai = new GoogleGenAI({ 
+        apiKey: process.env.GEMINI_API_KEY || "" 
+      });
+
+      const imageBytes = fs.readFileSync(imagePath);
+      const base64Image = imageBytes.toString('base64');
+
+      // Determine MIME type based on file extension
+      const mimeType = imagePath.toLowerCase().endsWith('.png') ? 'image/png' : 'image/jpeg';
+
+      const response = await ai.models.generateContent({
+        model: "gemini-2.5-flash",
+        contents: [
+          {
+            inlineData: {
+              data: base64Image,
+              mimeType: mimeType
+            }
+          },
+          `请详细分析这张医疗图像，如果这是化验报告单、检查报告或医学影像，请：
+
+1. 识别并提取所有数字、指标名称和数值
+2. 识别患者信息（如有）
+3. 提取检查项目、检查结果和参考范围
+4. 识别异常指标和建议
+5. 转录所有可见的医疗文本内容
+
+请以结构化格式输出，包含：
+- 报告类型：[血常规/生化/影像学等]
+- 患者信息：[姓名、年龄、性别等]
+- 检查项目和结果：
+  - 项目名称：数值 [参考范围] 状态
+- 异常指标：[列出所有异常项目]
+- 医生建议：[如有]
+- 其他重要信息：[日期、医院等]
+
+如果不是医疗相关图像，请简要说明图像内容。`
+        ]
+      });
+
+      return response.text || '';
+    } catch (error) {
+      console.error('Gemini image analysis error:', error);
+      return `图像文件: ${path.basename(imagePath)} - 图像分析失败，请手动输入图像中的文本内容`;
+    }
   }
 
   private async processVideo(file: Express.Multer.File, result: ProcessedFile): Promise<ProcessedFile> {
@@ -198,8 +254,19 @@ export class FileProcessorService {
               folder: path.dirname(thumbnailPath),
               size: '300x300'
             })
-            .on('end', () => {
+            .on('end', async () => {
               result.thumbnailPath = thumbnailPath;
+              
+              // Analyze video content with Gemini for medical videos
+              try {
+                const videoAnalysis = await this.analyzeVideoWithGemini(file.path);
+                if (videoAnalysis) {
+                  result.extractedText = videoAnalysis;
+                }
+              } catch (error) {
+                console.error('Video analysis error:', error);
+              }
+              
               resolve(result);
             })
             .on('error', (error) => {
@@ -211,6 +278,52 @@ export class FileProcessorService {
     } catch (error) {
       console.error('Video processing error:', error);
       return result;
+    }
+  }
+
+  private async analyzeVideoWithGemini(videoPath: string): Promise<string> {
+    try {
+      const { GoogleGenAI } = await import('@google/genai');
+      const ai = new GoogleGenAI({ 
+        apiKey: process.env.GEMINI_API_KEY || "" 
+      });
+
+      const videoBytes = fs.readFileSync(videoPath);
+      const base64Video = videoBytes.toString('base64');
+
+      const response = await ai.models.generateContent({
+        model: "gemini-2.5-flash",
+        contents: [
+          {
+            inlineData: {
+              data: base64Video,
+              mimeType: "video/mp4"
+            }
+          },
+          `请分析这个医疗视频内容，如果包含医疗检查、手术或诊断相关内容，请提取：
+
+1. 视频类型（超声、内镜、X光透视等）
+2. 检查部位和发现
+3. 可见的异常表现
+4. 医疗设备读数或测量值
+5. 医生的口述内容或诊断意见
+
+请以结构化格式输出：
+- 视频类型：[检查类型]
+- 检查部位：[部位描述]
+- 主要发现：[检查结果]
+- 异常表现：[如有异常]
+- 测量数据：[如有数值]
+- 诊断意见：[医生建议]
+
+如果不是医疗视频，请简要说明视频内容。`
+        ]
+      });
+
+      return response.text || '';
+    } catch (error) {
+      console.error('Gemini video analysis error:', error);
+      return `视频文件: ${path.basename(videoPath)} - 视频分析失败，建议手动描述视频中的医疗内容`;
     }
   }
 

@@ -132,6 +132,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/reports/:id", async (req, res) => {
     try {
       const reportId = parseInt(req.params.id);
+      if (isNaN(reportId)) {
+        return res.status(400).json({
+          success: false,
+          error: "无效的报告ID",
+        });
+      }
       const report = await storage.getMedicalReport(reportId);
       
       if (!report) {

@@ -220,16 +220,25 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
           {/* Clinical Reasoning */}
           {report.detailedAnalysis.clinicalReasoning && report.detailedAnalysis.clinicalReasoning.length > 0 && (
             <div className="mb-6">
-              <h4 className="font-medium text-professional mb-3 flex items-center">
-                <div className="w-2 h-2 bg-secondary rounded-full mr-2"></div>
+              <h4 className="text-lg font-semibold text-gray-800 mb-4 flex items-center bg-gradient-to-r from-green-50 to-teal-50 px-5 py-3 rounded-xl border border-green-200">
+                <div className="w-4 h-4 bg-gradient-to-br from-green-500 to-teal-500 rounded-full mr-3 shadow-sm"></div>
                 1.6. 临床推理过程 (Clinical Reasoning Process)
               </h4>
-              <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                <ul className="space-y-3 text-sm">
+              <div className="bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-2xl p-6 shadow-sm">
+                <ul className="space-y-4">
                   {report.detailedAnalysis.clinicalReasoning.map((reasoning, index) => (
-                    <li key={index} className="flex items-start">
-                      <Brain className="mr-2 w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
-                      <span className="text-foreground leading-relaxed">{reasoning}</span>
+                    <li key={index} className="flex items-start bg-white/70 rounded-xl p-4 border border-green-100">
+                      <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-teal-500 rounded-lg flex items-center justify-center mr-4 mt-0.5 flex-shrink-0 shadow-sm">
+                        <Brain className="w-4 h-4 text-white" />
+                      </div>
+                      <span className="text-base leading-relaxed text-gray-800" dangerouslySetInnerHTML={{
+                        __html: reasoning
+                          .replace(/(\d+%?)/g, '<span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-sm font-semibold">$1</span>')
+                          .replace(/(高血压|糖尿病|肝硬化|肾功能|心脏病|肺部|脑部|血管|胆固醇|血糖|血脂|蛋白质|肌酐|尿素氮)/g, '<span class="bg-red-100 text-red-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
+                          .replace(/(正常|稳定|良好|改善|恢复|健康)/g, '<span class="bg-green-100 text-green-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
+                          .replace(/(异常|升高|降低|偏高|偏低|增大|缩小|病变|损伤|炎症|感染)/g, '<span class="bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
+                          .replace(/(严重|危险|紧急|立即|马上|急需|重要|关键)/g, '<span class="bg-red-200 text-red-800 px-2 py-0.5 rounded-full text-sm font-bold">$1</span>')
+                      }}></span>
                     </li>
                   ))}
                 </ul>
@@ -239,25 +248,37 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
           
           {/* Lab Results */}
           <div className="mb-6">
-            <h4 className="font-medium text-professional mb-3 flex items-center">
-              <div className="w-2 h-2 bg-secondary rounded-full mr-2"></div>
+            <h4 className="text-lg font-semibold text-gray-800 mb-4 flex items-center bg-gradient-to-r from-teal-50 to-cyan-50 px-5 py-3 rounded-xl border border-teal-200">
+              <div className="w-4 h-4 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-full mr-3 shadow-sm"></div>
               2. 实验室检查异常 (Lab Test Abnormalities)
             </h4>
-            <div className="bg-muted rounded-lg p-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="bg-gradient-to-br from-teal-50 to-cyan-50 border border-teal-200 rounded-2xl p-6 shadow-sm">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 {report.detailedAnalysis.labAbnormalities.map((lab, index) => (
-                  <div key={index} className={`p-3 bg-white rounded ${getLabStatusClass(lab.status)}`}>
-                    <div className="flex justify-between items-start mb-2">
-                      <span className="font-medium">{lab.indicator}</span>
-                      <span className={`font-semibold ${getLabStatusColor(lab.status)}`}>{lab.value}</span>
+                  <div key={index} className={`p-5 bg-white/70 rounded-2xl border shadow-sm ${getLabStatusClass(lab.status)}`}>
+                    <div className="flex justify-between items-start mb-3">
+                      <span className="text-base font-semibold text-gray-800">{lab.indicator}</span>
+                      <span className={`text-lg font-bold px-3 py-1 rounded-full ${getLabStatusColor(lab.status)}`}>{lab.value}</span>
                     </div>
-                    <p className="text-xs text-muted-foreground mb-2">{lab.interpretation}</p>
+                    <p className="text-base text-gray-700 mb-3 leading-relaxed" dangerouslySetInnerHTML={{
+                      __html: lab.interpretation
+                        .replace(/(\d+\.?\d*%?|mg\/dL|mmol\/L|g\/L|IU\/L|U\/L)/g, '<span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-sm font-semibold">$1</span>')
+                        .replace(/(偏高|偏低|升高|降低|异常|超标)/g, '<span class="bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
+                        .replace(/(正常|稳定|良好)/g, '<span class="bg-green-100 text-green-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
+                    }}></p>
                     {lab.patientFriendly && (
-                      <div className="text-xs bg-green-50 p-2 rounded border-l-2 border-green-300">
-                        <span className="font-medium text-green-700">通俗解释:</span> {lab.patientFriendly}
+                      <div className="text-base bg-gradient-to-r from-green-50 to-emerald-50 p-4 rounded-xl border-l-4 border-green-400 shadow-sm">
+                        <span className="font-semibold text-green-800">通俗解释:</span> 
+                        <span className="text-green-700 ml-2" dangerouslySetInnerHTML={{
+                          __html: lab.patientFriendly
+                            .replace(/(建议|注意|需要|应该)/g, '<span class="bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
+                            .replace(/(控制|管理|调节|改善)/g, '<span class="bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
+                        }}></span>
                       </div>
                     )}
-                    <div className={`mt-2 inline-block ${getLabStatusColor(lab.status)}`}>{getLabStatusText(lab.status)}</div>
+                    <div className={`mt-3 inline-block px-3 py-1 rounded-full text-sm font-bold ${getLabStatusColor(lab.status)}`}>
+                      {getLabStatusText(lab.status)}
+                    </div>
                   </div>
                 ))}
               </div>
@@ -266,25 +287,41 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
           
           {/* Risk Factors */}
           <div className="mb-6">
-            <h4 className="font-medium text-professional mb-3 flex items-center">
-              <div className="w-2 h-2 bg-secondary rounded-full mr-2"></div>
+            <h4 className="text-lg font-semibold text-gray-800 mb-4 flex items-center bg-gradient-to-r from-orange-50 to-red-50 px-5 py-3 rounded-xl border border-orange-200">
+              <div className="w-4 h-4 bg-gradient-to-br from-orange-500 to-red-500 rounded-full mr-3 shadow-sm"></div>
               3. 个人健康风险因素 (Personal Health Risk Factors)
             </h4>
-            <div className="bg-muted rounded-lg p-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <ul className="space-y-2 text-sm">
+            <div className="bg-gradient-to-br from-orange-50 to-red-50 border border-orange-200 rounded-2xl p-6 shadow-sm">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <ul className="space-y-3">
                   {report.detailedAnalysis.riskFactors.slice(0, Math.ceil(report.detailedAnalysis.riskFactors.length / 2)).map((factor, index) => (
-                    <li key={index} className="flex items-center">
-                      <div className="w-2 h-2 bg-warning rounded-full mr-2"></div>
-                      <span>{factor}</span>
+                    <li key={index} className="flex items-start bg-white/70 rounded-xl p-3 border border-orange-100">
+                      <div className="w-6 h-6 bg-gradient-to-br from-orange-500 to-red-500 rounded-lg flex items-center justify-center mr-3 mt-0.5 flex-shrink-0 shadow-sm">
+                        <div className="w-2 h-2 bg-white rounded-full"></div>
+                      </div>
+                      <span className="text-base text-gray-800 leading-relaxed" dangerouslySetInnerHTML={{
+                        __html: factor
+                          .replace(/(\d+%?|BMI|kg\/m²|cm|mmHg|年龄)/g, '<span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-sm font-semibold">$1</span>')
+                          .replace(/(高血压|糖尿病|肝硬化|肾功能|心脏病|肺部|脑部|血管|胆固醇|血糖|血脂|蛋白质|肌酐|尿素氮|肥胖|腹型肥胖|饮酒|吸烟)/g, '<span class="bg-red-100 text-red-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
+                          .replace(/(家族史|遗传|基因)/g, '<span class="bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
+                          .replace(/(控制不佳|未控制|超标|异常|升高|偏高|危险)/g, '<span class="bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
+                      }}></span>
                     </li>
                   ))}
                 </ul>
-                <ul className="space-y-2 text-sm">
+                <ul className="space-y-3">
                   {report.detailedAnalysis.riskFactors.slice(Math.ceil(report.detailedAnalysis.riskFactors.length / 2)).map((factor, index) => (
-                    <li key={index} className="flex items-center">
-                      <div className="w-2 h-2 bg-warning rounded-full mr-2"></div>
-                      <span>{factor}</span>
+                    <li key={index} className="flex items-start bg-white/70 rounded-xl p-3 border border-orange-100">
+                      <div className="w-6 h-6 bg-gradient-to-br from-orange-500 to-red-500 rounded-lg flex items-center justify-center mr-3 mt-0.5 flex-shrink-0 shadow-sm">
+                        <div className="w-2 h-2 bg-white rounded-full"></div>
+                      </div>
+                      <span className="text-base text-gray-800 leading-relaxed" dangerouslySetInnerHTML={{
+                        __html: factor
+                          .replace(/(\d+%?|BMI|kg\/m²|cm|mmHg|年龄)/g, '<span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-sm font-semibold">$1</span>')
+                          .replace(/(高血压|糖尿病|肝硬化|肾功能|心脏病|肺部|脑部|血管|胆固醇|血糖|血脂|蛋白质|肌酐|尿素氮|肥胖|腹型肥胖|饮酒|吸烟)/g, '<span class="bg-red-100 text-red-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
+                          .replace(/(家族史|遗传|基因)/g, '<span class="bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
+                          .replace(/(控制不佳|未控制|超标|异常|升高|偏高|危险)/g, '<span class="bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
+                      }}></span>
                     </li>
                   ))}
                 </ul>
@@ -295,27 +332,42 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
           {/* Possible Diagnoses */}
           {report.detailedAnalysis.possibleDiagnoses && report.detailedAnalysis.possibleDiagnoses.length > 0 && (
             <div className="mb-6">
-              <h4 className="font-medium text-professional mb-3 flex items-center">
-                <div className="w-2 h-2 bg-secondary rounded-full mr-2"></div>
+              <h4 className="text-lg font-semibold text-gray-800 mb-4 flex items-center bg-gradient-to-r from-rose-50 to-pink-50 px-5 py-3 rounded-xl border border-rose-200">
+                <div className="w-4 h-4 bg-gradient-to-br from-rose-500 to-pink-500 rounded-full mr-3 shadow-sm"></div>
                 4. 可能的诊断 (Possible Diagnoses)
               </h4>
-              <div className="space-y-4">
+              <div className="space-y-5">
                 {report.detailedAnalysis.possibleDiagnoses.map((diagnosis, index) => (
-                  <div key={index} className="bg-white border border-gray-200 rounded-lg p-4">
-                    <div className="flex justify-between items-start mb-2">
-                      <h5 className="font-medium text-foreground">{diagnosis.diagnosis}</h5>
-                      <span className={`px-2 py-1 rounded text-xs font-medium ${
-                        diagnosis.probability === 'high' ? 'bg-red-100 text-red-700' :
-                        diagnosis.probability === 'moderate' ? 'bg-yellow-100 text-yellow-700' :
-                        'bg-green-100 text-green-700'
+                  <div key={index} className="bg-gradient-to-br from-rose-50 to-pink-50 border border-rose-200 rounded-2xl p-6 shadow-sm">
+                    <div className="flex justify-between items-start mb-4">
+                      <h5 className="text-lg font-semibold text-gray-800" dangerouslySetInnerHTML={{
+                        __html: diagnosis.diagnosis
+                          .replace(/(糖尿病|高血压|肝硬化|肾病|心脏病|肺病|脑病|癌症|肿瘤|感染)/g, '<span class="bg-red-100 text-red-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
+                          .replace(/(综合征|病变|炎症|功能障碍)/g, '<span class="bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
+                      }}></h5>
+                      <span className={`px-4 py-2 rounded-full text-sm font-bold ${
+                        diagnosis.probability === 'high' ? 'bg-red-200 text-red-800' :
+                        diagnosis.probability === 'moderate' ? 'bg-yellow-200 text-yellow-800' :
+                        'bg-green-200 text-green-800'
                       }`}>
                         {diagnosis.probability === 'high' ? '高可能性' : 
                          diagnosis.probability === 'moderate' ? '中等可能性' : '低可能性'}
                       </span>
                     </div>
-                    <p className="text-sm text-muted-foreground mb-2">{diagnosis.reasoning}</p>
-                    <div className="text-sm bg-blue-50 p-2 rounded border-l-2 border-blue-300">
-                      <span className="font-medium text-blue-700">患者解释:</span> {diagnosis.patientExplanation}
+                    <p className="text-base text-gray-700 mb-4 leading-relaxed" dangerouslySetInnerHTML={{
+                      __html: diagnosis.reasoning
+                        .replace(/(症状|体征|检查|结果|发现|表现)/g, '<span class="bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
+                        .replace(/(异常|升高|降低|偏高|偏低|病变)/g, '<span class="bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
+                        .replace(/(支持|证实|提示|表明|符合)/g, '<span class="bg-green-100 text-green-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
+                    }}></p>
+                    <div className="bg-gradient-to-r from-blue-50 to-cyan-50 p-4 rounded-xl border-l-4 border-blue-400 shadow-sm">
+                      <span className="text-base font-semibold text-blue-800">患者解释:</span> 
+                      <span className="text-base text-blue-700 ml-2 leading-relaxed" dangerouslySetInnerHTML={{
+                        __html: diagnosis.patientExplanation
+                          .replace(/(治疗|管理|控制|预防|改善|康复)/g, '<span class="bg-green-100 text-green-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
+                          .replace(/(注意|重要|关键|必须|需要)/g, '<span class="bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
+                          .replace(/(风险|危险|严重|紧急)/g, '<span class="bg-red-100 text-red-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
+                      }}></span>
                     </div>
                   </div>
                 ))}
@@ -326,20 +378,36 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
           {/* Differential Diagnosis */}
           {report.detailedAnalysis.differentialDiagnosis && report.detailedAnalysis.differentialDiagnosis.length > 0 && (
             <div className="mb-6">
-              <h4 className="font-medium text-professional mb-3 flex items-center">
-                <div className="w-2 h-2 bg-secondary rounded-full mr-2"></div>
+              <h4 className="text-lg font-semibold text-gray-800 mb-4 flex items-center bg-gradient-to-r from-amber-50 to-yellow-50 px-5 py-3 rounded-xl border border-amber-200">
+                <div className="w-4 h-4 bg-gradient-to-br from-amber-500 to-yellow-500 rounded-full mr-3 shadow-sm"></div>
                 5. 鉴别诊断 (Differential Diagnosis)
               </h4>
-              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-                <div className="space-y-3">
+              <div className="bg-gradient-to-br from-amber-50 to-yellow-50 border border-amber-200 rounded-2xl p-6 shadow-sm">
+                <div className="space-y-5">
                   {report.detailedAnalysis.differentialDiagnosis.map((diff, index) => (
-                    <div key={index} className="bg-white p-3 rounded border-l-4 border-yellow-400">
-                      <div className="flex justify-between items-start mb-1">
-                        <span className="font-medium text-foreground">{diff.condition}</span>
-                        <span className="text-xs text-muted-foreground">{diff.likelihood}</span>
+                    <div key={index} className="bg-white/70 p-5 rounded-2xl border-l-4 border-amber-400 shadow-sm">
+                      <div className="flex justify-between items-start mb-3">
+                        <span className="text-lg font-semibold text-gray-800" dangerouslySetInnerHTML={{
+                          __html: diff.condition
+                            .replace(/(糖尿病|高血压|肝硬化|肾病|心脏病|肺病|脑病|癌症|肿瘤|感染)/g, '<span class="bg-red-100 text-red-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
+                            .replace(/(综合征|病变|炎症|功能障碍)/g, '<span class="bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
+                        }}></span>
+                        <span className="text-sm font-semibold text-amber-700 bg-amber-100 px-3 py-1 rounded-full">{diff.likelihood}</span>
                       </div>
-                      <p className="text-sm text-muted-foreground mb-2">{diff.distinguishingFeatures}</p>
-                      <p className="text-xs text-yellow-700">{diff.explanation}</p>
+                      <p className="text-base text-gray-700 mb-3 leading-relaxed" dangerouslySetInnerHTML={{
+                        __html: diff.distinguishingFeatures
+                          .replace(/(特征|症状|体征|检查|结果|发现)/g, '<span class="bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
+                          .replace(/(典型|特有|独特|明显|显著)/g, '<span class="bg-green-100 text-green-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
+                          .replace(/(区别|不同|差异|鉴别)/g, '<span class="bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
+                      }}></p>
+                      <div className="bg-gradient-to-r from-yellow-50 to-amber-50 p-4 rounded-xl border border-yellow-200">
+                        <p className="text-base text-amber-800 leading-relaxed" dangerouslySetInnerHTML={{
+                          __html: diff.explanation
+                            .replace(/(重要|关键|注意|需要|建议)/g, '<span class="bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
+                            .replace(/(排除|确认|诊断|检查|治疗)/g, '<span class="bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
+                            .replace(/(可能|或许|也许|怀疑)/g, '<span class="bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
+                        }}></p>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -350,40 +418,84 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
           {/* Imaging Report Summary */}
           {report.detailedAnalysis.imagingReportSummary && (
             <div className="mb-6">
-              <h4 className="font-medium text-professional mb-3 flex items-center">
-                <div className="w-2 h-2 bg-secondary rounded-full mr-2"></div>
+              <h4 className="text-lg font-semibold text-gray-800 mb-4 flex items-center bg-gradient-to-r from-indigo-50 to-blue-50 px-5 py-3 rounded-xl border border-indigo-200">
+                <div className="w-4 h-4 bg-gradient-to-br from-indigo-500 to-blue-500 rounded-full mr-3 shadow-sm"></div>
                 6. 影像学报告总结 (Imaging Report Summary)
               </h4>
-              <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 space-y-4">
+              <div className="bg-gradient-to-br from-indigo-50 to-blue-50 border border-indigo-200 rounded-2xl p-6 shadow-sm space-y-6">
                 <div>
-                  <h5 className="font-medium text-sm mb-2 text-gray-700">技术发现 (Technical Findings)</h5>
-                  <ul className="space-y-1">
+                  <h5 className="text-base font-semibold text-indigo-700 mb-3 flex items-center">
+                    <div className="w-5 h-5 bg-gradient-to-br from-indigo-500 to-blue-500 rounded-lg flex items-center justify-center mr-2">
+                      <div className="w-2 h-2 bg-white rounded-full"></div>
+                    </div>
+                    技术发现 (Technical Findings)
+                  </h5>
+                  <ul className="space-y-3">
                     {report.detailedAnalysis.imagingReportSummary.technicalFindings.map((finding, index) => (
-                      <li key={index} className="text-sm text-muted-foreground flex items-start">
-                        <div className="w-1.5 h-1.5 bg-gray-400 rounded-full mr-2 mt-2"></div>
-                        {finding}
+                      <li key={index} className="flex items-start bg-white/70 rounded-xl p-3 border border-indigo-100">
+                        <div className="w-6 h-6 bg-gradient-to-br from-indigo-500 to-blue-500 rounded-lg flex items-center justify-center mr-3 mt-0.5 flex-shrink-0 shadow-sm">
+                          <div className="w-2 h-2 bg-white rounded-full"></div>
+                        </div>
+                        <span className="text-base text-gray-800 leading-relaxed" dangerouslySetInnerHTML={{
+                          __html: finding
+                            .replace(/(\d+%?|mm|cm|密度|增强|对比剂)/g, '<span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-sm font-semibold">$1</span>')
+                            .replace(/(结节|占位|肿块|病变|异常|阴影|钙化|积液|肿胀|增厚)/g, '<span class="bg-red-100 text-red-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
+                            .replace(/(正常|稳定|良好|清晰|对称)/g, '<span class="bg-green-100 text-green-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
+                        }}></span>
                       </li>
                     ))}
                   </ul>
                 </div>
                 
                 <div>
-                  <h5 className="font-medium text-sm mb-2 text-gray-700">临床相关性 (Clinical Correlation)</h5>
-                  <p className="text-sm text-muted-foreground">{report.detailedAnalysis.imagingReportSummary.clinicalCorrelation}</p>
+                  <h5 className="text-base font-semibold text-indigo-700 mb-3 flex items-center">
+                    <div className="w-5 h-5 bg-gradient-to-br from-indigo-500 to-blue-500 rounded-lg flex items-center justify-center mr-2">
+                      <div className="w-2 h-2 bg-white rounded-full"></div>
+                    </div>
+                    临床相关性 (Clinical Correlation)
+                  </h5>
+                  <div className="bg-white/70 rounded-xl p-4 border border-indigo-100">
+                    <p className="text-base text-gray-800 leading-relaxed" dangerouslySetInnerHTML={{
+                      __html: report.detailedAnalysis.imagingReportSummary.clinicalCorrelation
+                        .replace(/(症状|体征|病史|诊断|治疗|监测)/g, '<span class="bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
+                        .replace(/(建议|推荐|需要|应该|可能)/g, '<span class="bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
+                    }}></p>
+                  </div>
                 </div>
                 
-                <div className="bg-white p-3 rounded border-l-4 border-blue-400">
-                  <h5 className="font-medium text-sm mb-2 text-blue-700">患者总结 (Patient Summary)</h5>
-                  <p className="text-sm text-blue-600">{report.detailedAnalysis.imagingReportSummary.patientSummary}</p>
+                <div className="bg-gradient-to-br from-blue-100 to-cyan-100 p-5 rounded-2xl border-l-4 border-blue-500 shadow-sm">
+                  <h5 className="text-base font-semibold text-blue-700 mb-3 flex items-center">
+                    <div className="w-5 h-5 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center mr-2">
+                      <div className="w-2 h-2 bg-white rounded-full"></div>
+                    </div>
+                    患者总结 (Patient Summary)
+                  </h5>
+                  <p className="text-base text-blue-800 leading-relaxed font-medium" dangerouslySetInnerHTML={{
+                    __html: report.detailedAnalysis.imagingReportSummary.patientSummary
+                      .replace(/(正常|良好|稳定|恢复|健康)/g, '<span class="bg-green-200 text-green-800 px-2 py-0.5 rounded-full text-sm font-bold">$1</span>')
+                      .replace(/(异常|病变|问题|风险|注意)/g, '<span class="bg-orange-200 text-orange-800 px-2 py-0.5 rounded-full text-sm font-bold">$1</span>')
+                  }}></p>
                 </div>
                 
                 <div>
-                  <h5 className="font-medium text-sm mb-2 text-gray-700">建议后续步骤 (Next Steps)</h5>
-                  <ul className="space-y-1">
+                  <h5 className="text-base font-semibold text-green-700 mb-3 flex items-center">
+                    <div className="w-5 h-5 bg-gradient-to-br from-green-500 to-emerald-500 rounded-lg flex items-center justify-center mr-2">
+                      <div className="w-2 h-2 bg-white rounded-full"></div>
+                    </div>
+                    建议后续步骤 (Next Steps)
+                  </h5>
+                  <ul className="space-y-3">
                     {report.detailedAnalysis.imagingReportSummary.nextSteps.map((step, index) => (
-                      <li key={index} className="text-sm text-green-600 flex items-start">
-                        <div className="w-1.5 h-1.5 bg-green-500 rounded-full mr-2 mt-2"></div>
-                        {step}
+                      <li key={index} className="flex items-start bg-white/70 rounded-xl p-3 border border-green-100">
+                        <div className="w-6 h-6 bg-gradient-to-br from-green-500 to-emerald-500 rounded-lg flex items-center justify-center mr-3 mt-0.5 flex-shrink-0 shadow-sm">
+                          <div className="w-2 h-2 bg-white rounded-full"></div>
+                        </div>
+                        <span className="text-base text-gray-800 leading-relaxed" dangerouslySetInnerHTML={{
+                          __html: step
+                            .replace(/(复查|随访|监测|检查|咨询|治疗)/g, '<span class="bg-green-100 text-green-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
+                            .replace(/(立即|紧急|尽快|及时|马上)/g, '<span class="bg-red-100 text-red-700 px-2 py-0.5 rounded-full text-sm font-bold">$1</span>')
+                            .replace(/(\d+个?月|\d+周|\d+天)/g, '<span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-sm font-semibold">$1</span>')
+                        }}></span>
                       </li>
                     ))}
                   </ul>

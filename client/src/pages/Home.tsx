@@ -39,8 +39,8 @@ export default function Home() {
             
             <div className="flex items-center space-x-4">
               <div className="hidden md:flex items-center space-x-2 text-sm text-muted-foreground">
-                <div className="w-2 h-2 bg-success rounded-full"></div>
-                <span>Gemini API 已连接</span>
+                <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                <span className="text-green-600 font-medium">Med Agentic-AI 已连接</span>
               </div>
               <button className="p-2 text-muted-foreground hover:text-primary transition-colors">
                 <User className="w-5 h-5" />

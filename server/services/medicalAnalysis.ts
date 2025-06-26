@@ -72,7 +72,7 @@ ${request.reportData}
         config: {
           systemInstruction: MEDICAL_ANALYSIS_PROMPT,
           responseMimeType: "application/json",
-          maxOutputTokens: 4000,
+          maxOutputTokens: 1000000,
           temperature: 0.1,
           responseSchema: {
             type: "object",

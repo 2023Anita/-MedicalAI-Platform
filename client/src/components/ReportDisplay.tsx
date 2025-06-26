@@ -96,9 +96,9 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
         
         {/* Executive Summary */}
         <div className="mb-8">
-          <h3 className="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-            <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-emerald-500 rounded-lg flex items-center justify-center mr-3">
-              <ClipboardList className="text-white w-4 h-4" />
+          <h3 className="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+            <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl flex items-center justify-center mr-4 shadow-lg">
+              <ClipboardList className="text-white w-5 h-5" />
             </div>
             一、核心摘要 (Executive Summary)
           </h3>
@@ -159,17 +159,17 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
         
         {/* Detailed Analysis */}
         <div className="mb-8">
-          <h3 className="text-xl font-semibold text-gray-800 mb-6 flex items-center">
-            <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center mr-3">
-              <Microscope className="text-white w-4 h-4" />
+          <h3 className="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+            <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center mr-4 shadow-lg">
+              <Microscope className="text-white w-5 h-5" />
             </div>
             二、详细解读与分析 (Detailed Interpretation & Analysis)
           </h3>
           
           {/* Imaging Findings */}
           <div className="mb-6">
-            <h4 className="font-medium text-gray-800 mb-4 flex items-center bg-blue-50 px-4 py-2 rounded-xl">
-              <div className="w-3 h-3 bg-blue-500 rounded-full mr-3"></div>
+            <h4 className="text-lg font-semibold text-gray-800 mb-4 flex items-center bg-gradient-to-r from-blue-50 to-cyan-50 px-5 py-3 rounded-xl border border-blue-200">
+              <div className="w-4 h-4 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full mr-3 shadow-sm"></div>
               1. 影像学发现 (Imaging Findings)
             </h4>
             <div className="bg-white/70 border border-blue-200 rounded-xl p-5 shadow-sm">
@@ -187,8 +187,8 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
           {/* Video Findings */}
           {report.detailedAnalysis.videoFindings && report.detailedAnalysis.videoFindings.length > 0 && report.reportMetadata.hasVideoFiles && (
             <div className="mb-6">
-              <h4 className="font-medium text-gray-800 mb-4 flex items-center bg-purple-50 px-4 py-2 rounded-xl">
-                <div className="w-3 h-3 bg-purple-500 rounded-full mr-3"></div>
+              <h4 className="text-lg font-semibold text-gray-800 mb-4 flex items-center bg-gradient-to-r from-purple-50 to-pink-50 px-5 py-3 rounded-xl border border-purple-200">
+                <div className="w-4 h-4 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full mr-3 shadow-sm"></div>
                 1.5. 视频检查结果 (Video Examination Results)
               </h4>
               <div className="bg-gradient-to-br from-purple-50 to-pink-50 border border-purple-200 rounded-2xl p-5 space-y-4 shadow-sm">
@@ -395,16 +395,18 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
         
         {/* Risk Assessment & Recommendations */}
         <div>
-          <h3 className="text-xl font-semibold text-professional mb-6 flex items-center">
-            <TrendingUp className="text-primary mr-2 w-6 h-6" />
+          <h3 className="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+            <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-red-500 rounded-xl flex items-center justify-center mr-4 shadow-lg">
+              <TrendingUp className="text-white w-5 h-5" />
+            </div>
             三、综合风险评估与建议 (Overall Risk Assessment & Recommendations)
           </h3>
           
           {/* Diagnostic Conclusion */}
           {report.riskAssessment.diagnosticConclusion && (
             <div className="mb-6">
-              <h4 className="font-medium text-professional mb-3 flex items-center">
-                <Target className="mr-2 w-4 h-4" />
+              <h4 className="text-lg font-semibold text-gray-800 mb-4 flex items-center bg-gradient-to-r from-red-50 to-orange-50 px-5 py-3 rounded-xl border border-red-200">
+                <div className="w-4 h-4 bg-gradient-to-br from-red-500 to-orange-500 rounded-full mr-3 shadow-sm"></div>
                 1. 最终诊断结论 (Final Diagnostic Conclusion)
               </h4>
               <div className="bg-red-50 border border-red-200 rounded-lg p-4">
@@ -417,7 +419,10 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
 
           {/* Overall Assessment */}
           <div className="mb-6">
-            <h4 className="font-medium text-professional mb-3">2. 综合评估 (Overall Assessment)</h4>
+            <h4 className="text-lg font-semibold text-gray-800 mb-4 flex items-center bg-gradient-to-r from-amber-50 to-yellow-50 px-5 py-3 rounded-xl border border-amber-200">
+              <div className="w-4 h-4 bg-gradient-to-br from-amber-500 to-yellow-500 rounded-full mr-3 shadow-sm"></div>
+              2. 综合评估 (Overall Assessment)
+            </h4>
             <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
               <p className="text-base leading-relaxed">
                 {report.riskAssessment.overallAssessment}
@@ -427,40 +432,58 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
           
           {/* Actionable Recommendations */}
           <div>
-            <h4 className="font-medium text-professional mb-4">3. 行动建议 (Actionable Recommendations)</h4>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="bg-blue-50 rounded-lg p-4">
-                <h5 className="font-medium text-secondary mb-3 flex items-center">
-                  <Calendar className="mr-2 w-4 h-4" />
+            <h4 className="text-lg font-semibold text-gray-800 mb-5 flex items-center bg-gradient-to-r from-emerald-50 to-green-50 px-5 py-3 rounded-xl border border-emerald-200">
+              <div className="w-4 h-4 bg-gradient-to-br from-emerald-500 to-green-500 rounded-full mr-3 shadow-sm"></div>
+              3. 行动建议 (Actionable Recommendations)
+            </h4>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-200 rounded-2xl p-5 shadow-sm">
+                <h5 className="text-base font-semibold text-blue-700 mb-4 flex items-center">
+                  <div className="w-6 h-6 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center mr-3">
+                    <Calendar className="w-3 h-3 text-white" />
+                  </div>
                   复查与随访
                 </h5>
-                <ul className="text-base space-y-2 text-muted-foreground">
+                <ul className="text-base space-y-2 text-gray-700">
                   {report.riskAssessment.actionableRecommendations.followUp.map((item, index) => (
-                    <li key={index}>• {item}</li>
+                    <li key={index} className="flex items-start">
+                      <span className="text-blue-500 mr-2">•</span>
+                      <span>{item}</span>
+                    </li>
                   ))}
                 </ul>
               </div>
               
-              <div className="bg-purple-50 rounded-lg p-4">
-                <h5 className="font-medium text-purple-600 mb-3 flex items-center">
-                  <UserCheck className="mr-2 w-4 h-4" />
+              <div className="bg-gradient-to-br from-purple-50 to-pink-50 border border-purple-200 rounded-2xl p-5 shadow-sm">
+                <h5 className="text-base font-semibold text-purple-700 mb-4 flex items-center">
+                  <div className="w-6 h-6 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center mr-3">
+                    <UserCheck className="w-3 h-3 text-white" />
+                  </div>
                   专科咨询
                 </h5>
-                <ul className="text-base space-y-2 text-muted-foreground">
+                <ul className="text-base space-y-2 text-gray-700">
                   {report.riskAssessment.actionableRecommendations.specialistConsultation.map((item, index) => (
-                    <li key={index}>• {item}</li>
+                    <li key={index} className="flex items-start">
+                      <span className="text-purple-500 mr-2">•</span>
+                      <span>{item}</span>
+                    </li>
                   ))}
                 </ul>
               </div>
               
-              <div className="bg-green-50 rounded-lg p-4">
-                <h5 className="font-medium text-success mb-3 flex items-center">
-                  <Heart className="mr-2 w-4 h-4" />
+              <div className="bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-2xl p-5 shadow-sm">
+                <h5 className="text-base font-semibold text-green-700 mb-4 flex items-center">
+                  <div className="w-6 h-6 bg-gradient-to-br from-green-500 to-emerald-500 rounded-lg flex items-center justify-center mr-3">
+                    <Heart className="w-3 h-3 text-white" />
+                  </div>
                   生活方式调整
                 </h5>
-                <ul className="text-base space-y-2 text-muted-foreground">
+                <ul className="text-base space-y-2 text-gray-700">
                   {report.riskAssessment.actionableRecommendations.lifestyleAdjustments.map((item, index) => (
-                    <li key={index}>• {item}</li>
+                    <li key={index} className="flex items-start">
+                      <span className="text-green-500 mr-2">•</span>
+                      <span>{item}</span>
+                    </li>
                   ))}
                 </ul>
               </div>
@@ -469,15 +492,15 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
         </div>
       </CardContent>
       
-      <div className="px-6 py-4 medical-clinical border-t border-border rounded-b-xl">
-        <div className="flex items-center justify-between text-xs text-muted-foreground">
-          <div className="flex items-center space-x-4">
-            <span>报告编号: {report.reportMetadata.reportId}</span>
-            <span>AI分析模型: {report.reportMetadata.model}</span>
+      <div className="px-6 py-4 bg-gradient-to-r from-gray-50 to-blue-50 border-t border-blue-200/30 rounded-b-2xl">
+        <div className="flex items-center justify-between text-sm text-gray-600">
+          <div className="flex items-center space-x-6">
+            <span className="bg-blue-100 px-3 py-1 rounded-full font-medium">报告编号: {report.reportMetadata.reportId}</span>
+            <span className="bg-purple-100 px-3 py-1 rounded-full font-medium">AI分析模型: {report.reportMetadata.model}</span>
           </div>
-          <div className="flex items-center space-x-2">
-            <div className="w-3 h-3 bg-success rounded-full"></div>
-            <span>医疗级数据安全保护</span>
+          <div className="flex items-center space-x-3">
+            <div className="w-3 h-3 bg-green-500 rounded-full shadow-sm animate-pulse"></div>
+            <span className="bg-green-100 px-3 py-1 rounded-full font-medium text-green-700">医疗级数据安全保护</span>
           </div>
         </div>
       </div>

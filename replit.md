@@ -125,6 +125,7 @@ The application uses PostgreSQL with two main tables:
     - Clean chat UI with message bubbles, file previews, and typing indicators
     - 1,000,000 token output limit for extensive and complete AI responses
     - Automatic file cleanup after analysis
+    - Enhanced output formatting with automatic Markdown symbol removal and 【】 emphasis style
 
 - **June 26, 2025**: User Interface and Report Generation Improvements
   - **System Rebranding**: Updated system name from "医检智解 (MediScan-Insight)" to "Med Agentic-AI 体检报告·分析平台"

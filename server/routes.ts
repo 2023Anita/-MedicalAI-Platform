@@ -363,25 +363,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       // Create AI prompt for general conversation
-      const chatPrompt = `您是Med Agentic-AI智能医疗助手。请根据用户的问题或上传的文件内容，提供专业、准确的医疗相关回答。
-
-输出格式要求：
-- 请使用纯文本格式，不要使用Markdown格式符号（**、*、#、-等）
-- 重点内容用【】标注，例如：【烟雾病】、【重要提醒】
-- 列表使用简单的数字编号或• 符号
-- 段落之间用空行分隔
-- 专业术语后用括号提供通俗解释
-
-用户输入：
-${combinedContent}
-
-请提供：
-1. 如果有文件分析，请详细解读文件内容
-2. 针对用户问题的专业医疗建议
-3. 如有必要，提供进一步的检查建议
-4. 用简单易懂的语言解释医疗术语
-
-注意：您的回答应该专业但易懂，适合患者阅读，并严格按照上述格式要求输出。`;
+      const systemPrompt = "您是Med Agentic-AI智能医疗助手。请根据用户的问题或上传的文件内容，提供专业、准确的医疗相关回答。格式要求：绝对禁止使用星号、井号等Markdown符号。重点内容用【】标注。列表用数字编号。专业术语后用括号解释。用户输入：";
+      const chatPrompt = systemPrompt + combinedContent;
 
       // Get AI response using the same service as medical analysis
       const { GoogleGenAI } = await import('@google/genai');
@@ -426,6 +409,15 @@ ${combinedContent}
         console.warn("AI response seems incomplete:", aiResponse);
       } else {
         console.log("AI response appears complete, length:", aiResponse.length);
+        
+        // Clean up any remaining Markdown formatting
+        aiResponse = aiResponse
+          .replace(/\*\*(.*?)\*\*/g, '【$1】')  // Convert **text** to 【text】
+          .replace(/\*(.*?)\*/g, '$1')         // Remove single asterisks
+          .replace(/#{1,6}\s+/g, '')           // Remove headers
+          .replace(/`(.*?)`/g, '$1')           // Remove code backticks
+          .replace(/^[-*+]\s+/gm, '• ')        // Convert list markers to bullets
+          .replace(/^\d+\.\s+/gm, (match) => match); // Keep numbered lists as is
       }
 
       // Clean up temporary files

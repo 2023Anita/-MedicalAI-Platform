@@ -10,7 +10,8 @@ interface HistoricalComparisonProps {
 
 export default function HistoricalComparison({ patientName, currentReport }: HistoricalComparisonProps) {
   const { data: historicalData, isLoading } = useQuery({
-    queryKey: ['/api/reports/patient', encodeURIComponent(patientName)],
+    queryKey: ['/api/reports/patient', patientName],
+    queryFn: () => fetch(`/api/reports/patient/${encodeURIComponent(patientName)}`).then(res => res.json()),
     enabled: !!patientName,
   });
 

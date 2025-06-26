@@ -56,14 +56,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
         const files = req.files as Express.Multer.File[];
         processedFiles = await fileProcessorService.processFiles(files);
         
-        // Combine extracted text from files with manual input
+        // Combine extracted text from files with enhanced medical analysis
         const extractedTexts = processedFiles
           .filter(file => file.extractedText)
-          .map(file => `\n\n=== ${file.originalName} ===\n${file.extractedText}`)
+          .map(file => {
+            const fileType = file.mimeType.startsWith('image/') ? '医学影像分析' : 
+                           file.mimeType.startsWith('video/') ? '医学视频分析' : '医学文档';
+            return `\n\n=== ${fileType}: ${file.originalName} ===\n${file.extractedText}`;
+          })
           .join('\n');
         
         if (extractedTexts) {
-          combinedReportData = validatedData.reportData + extractedTexts;
+          combinedReportData = validatedData.reportData + '\n\n=== 影像与视频诊断分析 ===' + extractedTexts;
         }
       }
       

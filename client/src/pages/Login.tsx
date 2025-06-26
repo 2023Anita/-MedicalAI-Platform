@@ -40,6 +40,10 @@ export default function Login() {
       return response.json();
     },
     onSuccess: () => {
+      // Set login state in localStorage
+      localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("userEmail", email);
+      
       toast({
         title: "登录成功",
         description: "欢迎使用Med Agentic-AI体检报告分析平台",
@@ -73,7 +77,11 @@ export default function Login() {
       
       return response.json();
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      // Set login state after successful registration
+      localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("userEmail", email);
+      
       toast({
         title: "注册成功",
         description: "您的账户已创建，正在为您登录...",

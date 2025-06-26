@@ -123,7 +123,7 @@ The application uses PostgreSQL with two main tables:
     - Support for text messages and file uploads (images, videos, PDFs, DOCX)
     - Same file analysis capabilities as main medical report system
     - Clean chat UI with message bubbles, file previews, and typing indicators
-    - 8000 token output limit for complete AI responses
+    - 1,000,000 token output limit for extensive and complete AI responses
     - Automatic file cleanup after analysis
 
 - **June 26, 2025**: User Interface and Report Generation Improvements

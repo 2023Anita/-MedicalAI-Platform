@@ -387,7 +387,7 @@ ${combinedContent}
         contents: chatPrompt,
         config: {
           temperature: 0.7,
-          maxOutputTokens: 8000,
+          maxOutputTokens: 1000000,
         }
       });
 

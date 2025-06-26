@@ -93,6 +93,17 @@ The application uses PostgreSQL with two main tables:
 - **Port Configuration**: Backend serves on port 5000, mapped to external port 80
 - **Module Dependencies**: Node.js 20, web server, and PostgreSQL 16
 
+## Recent Changes
+
+- **December 26, 2024**: Enhanced system with multi-format file uploads
+  - Added PostgreSQL database integration for persistent storage
+  - Implemented exam date field for medical timeline tracking
+  - Added support for PDF, DOCX, PNG/JPEG, MP4, and DICOM file uploads
+  - Enhanced file processing with text extraction and metadata analysis
+  - Updated UI with intuitive drag-drop file upload interface
+  - Fixed FormData validation issues for seamless file upload experience
+  - Integrated Gemini 2.5-Flash Lite model for faster analysis
+
 ## Changelog
 
 - June 26, 2025. Initial setup

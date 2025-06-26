@@ -36,10 +36,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Medical report analysis endpoint with file support
   app.post("/api/analyze", upload.array('files', 10), async (req, res) => {
     try {
-      const validatedData = analysisRequestSchema.parse({
-        ...req.body,
+      // Handle FormData conversion for proper validation
+      const formData = {
+        patientName: req.body.patientName || '',
+        patientAge: req.body.patientAge || '',
+        patientGender: req.body.patientGender || '',
         examDate: req.body.examDate || new Date().toISOString().split('T')[0],
-      });
+        reportData: req.body.reportData || '',
+        compareWithHistory: req.body.compareWithHistory === 'true',
+      };
+      
+      const validatedData = analysisRequestSchema.parse(formData);
       
       let processedFiles: any[] = [];
       let combinedReportData = validatedData.reportData;

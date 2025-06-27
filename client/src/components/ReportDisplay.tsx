@@ -200,13 +200,13 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
                       </div>
                       <div className="flex-1">
                         <p className="text-base font-medium text-gray-800 mb-2">{finding.finding}</p>
-                        <div className="text-sm text-gray-600 mb-3 bg-blue-50 px-3 py-2 rounded-lg">
+                        <div className="text-base text-gray-600 mb-3 bg-blue-50 px-3 py-2 rounded-lg leading-relaxed">
                           <span className="font-medium text-blue-700">专业术语:</span> {finding.medicalTerms}
                         </div>
-                        <div className="text-sm bg-green-50 p-3 rounded-lg border-l-3 border-green-400 mb-2">
+                        <div className="text-base bg-green-50 p-3 rounded-lg border-l-3 border-green-400 mb-2 leading-relaxed">
                           <span className="font-medium text-green-700">通俗解释:</span> {finding.patientExplanation}
                         </div>
-                        <div className="text-sm text-purple-700 bg-purple-50 px-3 py-2 rounded-lg">
+                        <div className="text-base text-purple-700 bg-purple-50 px-3 py-2 rounded-lg leading-relaxed">
                           <span className="font-medium">临床意义:</span> {finding.significance}
                         </div>
                       </div>

@@ -96,6 +96,7 @@ export default function ReportInput({
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files || []);
+    
     const allowedTypes = [
       'application/pdf',
       'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -153,6 +154,7 @@ export default function ReportInput({
     const hasTextData = data.reportData && data.reportData.trim().length >= 10;
     const hasFiles = selectedFiles.length > 0;
     
+    // 如果既没有文本也没有文件，显示错误
     if (!hasTextData && !hasFiles) {
       toast({
         title: "数据不完整",

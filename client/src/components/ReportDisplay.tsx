@@ -265,7 +265,7 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
           <div className="mb-6">
             <h4 className="text-lg font-semibold text-gray-800 mb-4 flex items-center bg-gradient-to-r from-teal-50 to-cyan-50 px-5 py-3 rounded-xl border border-teal-200">
               <div className="w-4 h-4 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-full mr-3 shadow-sm"></div>
-              2.{sectionCounter++} 实验室检查异常 (Lab Test Abnormalities)
+              2.{sectionCounter++} 实验室检查分析 (Laboratory Analysis)
             </h4>
             <div className="bg-gradient-to-br from-teal-50 to-cyan-50 border border-teal-200 rounded-2xl p-6 shadow-sm">
               {report.detailedAnalysis.labAbnormalities && report.detailedAnalysis.labAbnormalities.length > 0 ? (

@@ -525,11 +525,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
       combinedContent += historicalContext;
 
       // Create AI prompt for context-aware medical conversation
-      const systemPrompt = `您是Med Agentic-AI智能医疗助手。您正在与一位已有医疗历史记录的用户对话。
+      let systemPrompt = '';
+      
+      if (userReports.length > 0) {
+        // User has historical reports - provide context-aware responses
+        systemPrompt = `您是Med Agentic-AI智能医疗助手。您正在与一位有医疗历史记录的用户对话。
+
+【重要说明】: 用户有 ${userReports.length} 份医疗报告记录
 
 【重要能力】:
 1. 结合用户的历史医疗数据提供个性化建议
-2. 识别历史报告中的趋势和变化
+2. 识别历史报告中的趋势和变化  
 3. 基于既往检查结果进行对比分析
 4. 提供连续性医疗建议和健康管理指导
 
@@ -543,6 +549,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
 - 提供基于历史数据的个性化健康建议
 
 用户输入：`;
+      } else {
+        // User has no historical reports - be honest about this
+        systemPrompt = `您是Med Agentic-AI智能医疗助手。您正在与一位新用户对话。
+
+【当前状态】: 用户还没有上传任何医疗报告
+
+【重要说明】: 
+- 如果用户询问历史记录、既往报告或检查结果，请明确告知他们还没有上传过任何医疗报告
+- 不要编造或假设任何医疗数据
+- 建议用户通过"医疗分析"功能上传报告来建立医疗档案
+- 可以解释平台功能和上传文件类型
+
+【支持的文件类型】:
+1. 病历文档: PDF、DOCX格式的医疗报告
+2. 化验检查: PNG、JPEG格式的检验报告照片
+3. 医学影像: DICOM格式的影像文件
+4. 动态检查: MP4格式的检查视频
+
+【对话规则】:
+- 绝对禁止使用星号、井号等Markdown符号
+- 重点内容用【】标注
+- 列表用数字编号
+- 专业术语后用括号解释
+- 绝对不要编造任何医疗数据或历史记录
+- 诚实告知用户当前没有历史数据可供分析
+
+用户输入：`;
+      }
       const chatPrompt = systemPrompt + combinedContent;
 
       // Get AI response using the same service as medical analysis

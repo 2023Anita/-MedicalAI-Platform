@@ -23,10 +23,43 @@ export default function Dashboard() {
 
   // Check authentication on component mount
   useEffect(() => {
-    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-    if (!isLoggedIn) {
-      setLocation("/");
-    }
+    const checkAuthStatus = async () => {
+      try {
+        const response = await fetch('/api/auth/status', {
+          credentials: 'include'
+        });
+        
+        if (!response.ok) {
+          console.log('Authentication check failed, redirecting to login');
+          localStorage.removeItem("isLoggedIn");
+          localStorage.removeItem("userEmail");
+          setLocation("/");
+          return;
+        }
+        
+        const authData = await response.json();
+        if (!authData.authenticated) {
+          console.log('User not authenticated, redirecting to login');
+          localStorage.removeItem("isLoggedIn");
+          localStorage.removeItem("userEmail");
+          setLocation("/");
+          return;
+        }
+        
+        // Update localStorage with current auth status
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("userEmail", authData.user.email);
+        console.log('Authentication verified for user:', authData.user.email);
+        
+      } catch (error) {
+        console.error('Auth status check error:', error);
+        localStorage.removeItem("isLoggedIn");
+        localStorage.removeItem("userEmail");
+        setLocation("/");
+      }
+    };
+    
+    checkAuthStatus();
   }, [setLocation]);
 
   // Fetch historical reports

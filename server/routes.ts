@@ -53,12 +53,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
       req.session.userId = newUser.id;
       req.session.userEmail = email;
       
-      console.log(`New user registered: ${email}`);
-      
-      res.json({ 
-        success: true, 
-        message: '注册成功，您现在可以直接使用系统',
-        user: { id: newUser.id, email: email }
+      // Save session explicitly
+      req.session.save((err) => {
+        if (err) {
+          console.error('Session save error:', err);
+          return res.status(500).json({
+            success: false,
+            message: '会话保存失败'
+          });
+        }
+        
+        console.log(`New user registered: ${email}, session ID: ${req.sessionID}`);
+        
+        res.json({ 
+          success: true, 
+          message: '注册成功，您现在可以直接使用系统',
+          user: { id: newUser.id, email: email }
+        });
       });
     } catch (error) {
       console.error('Registration error:', error);
@@ -94,18 +105,56 @@ export async function registerRoutes(app: Express): Promise<Server> {
       req.session.userId = user.id;
       req.session.userEmail = email;
       
-      console.log(`User login: ${email}`);
-      
-      res.json({ 
-        success: true, 
-        message: '登录成功',
-        user: { id: user.id, email: email }
+      // Save session explicitly
+      req.session.save((err) => {
+        if (err) {
+          console.error('Session save error:', err);
+          return res.status(500).json({
+            success: false,
+            message: '会话保存失败'
+          });
+        }
+        
+        console.log(`User login successful: ${email}, session ID: ${req.sessionID}`);
+        
+        res.json({ 
+          success: true, 
+          message: '登录成功',
+          user: { id: user.id, email: email }
+        });
       });
     } catch (error) {
       console.error('Login error:', error);
       res.status(500).json({ 
         success: false, 
         message: '服务器错误，请稍后重试' 
+      });
+    }
+  });
+
+  // Auth status check endpoint
+  app.get('/api/auth/status', (req: Request, res: Response) => {
+    const sessionData = req.session as any;
+    console.log('Auth status check:', {
+      sessionID: req.sessionID,
+      userId: sessionData?.userId,
+      userEmail: sessionData?.userEmail
+    });
+    
+    if (sessionData?.userId) {
+      res.json({
+        success: true,
+        authenticated: true,
+        user: {
+          id: sessionData.userId,
+          email: sessionData.userEmail
+        }
+      });
+    } else {
+      res.status(401).json({
+        success: false,
+        authenticated: false,
+        error: "用户未登录"
       });
     }
   });
@@ -405,7 +454,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/chat", upload.array('files'), async (req: Request, res: Response) => {
     try {
       const sessionData = req.session as any;
+      console.log('Chat request session check:', {
+        sessionID: req.sessionID,
+        userId: sessionData?.userId,
+        userEmail: sessionData?.userEmail,
+        sessionExists: !!req.session
+      });
+      
       if (!sessionData?.userId) {
+        console.log('Chat rejected: No valid session found');
         return res.status(401).json({ success: false, error: "请先登录" });
       }
 

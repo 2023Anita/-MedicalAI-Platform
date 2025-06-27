@@ -95,7 +95,7 @@ The application uses PostgreSQL with two main tables:
 
 ## Recent Changes
 
-- **June 27, 2025**: Medical Report Display Consistency Improvements
+- **June 27, 2025**: Medical Report Display Consistency & Section Numbering Improvements
   - **Typography Optimization**: Enhanced font consistency across all medical report sections
     - Updated video analysis section with improved readability using `text-base` and `leading-relaxed`
     - Applied consistent medical vocabulary highlighting with color-coded terminology
@@ -107,6 +107,14 @@ The application uses PostgreSQL with two main tables:
   - **Bilingual Format Enhancement**: Added English translations to section titles
     - Updated "影像视频读取结果分析" to include "(Video & Imaging Analysis Results)"
     - Maintained consistent Chinese-English formatting across all medical sections
+  - **Dynamic Section Numbering**: Implemented intelligent numbering system for conditional content
+    - Fixed section numbering gaps when conditional sections (video analysis, clinical reasoning) are hidden
+    - Added dynamic counter system that automatically adjusts sequence based on displayed content
+    - Ensures continuous numbering regardless of which sections are present in the report
+  - **Empty Data State Handling**: Enhanced user experience for missing laboratory data
+    - Added "暂无实验室检查数据 (No Lab Test Data)" indicator with descriptive messaging
+    - Implemented consistent empty state design with document icon and guidance text
+    - Maintains section visibility while clearly indicating absence of specific data types
 
 - **June 26, 2025**: Complete UI Design System Transformation
   - **Unified Glassmorphism Design**: Transformed entire platform with cohesive sci-fi medical aesthetic

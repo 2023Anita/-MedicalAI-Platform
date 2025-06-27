@@ -261,35 +261,47 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
               2.{sectionCounter++} 实验室检查异常 (Lab Test Abnormalities)
             </h4>
             <div className="bg-gradient-to-br from-teal-50 to-cyan-50 border border-teal-200 rounded-2xl p-6 shadow-sm">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                {report.detailedAnalysis.labAbnormalities.map((lab, index) => (
-                  <div key={index} className={`p-5 bg-white/70 rounded-2xl border shadow-sm ${getLabStatusClass(lab.status)}`}>
-                    <div className="flex justify-between items-start mb-3">
-                      <span className="text-base font-semibold text-gray-800">{lab.indicator}</span>
-                      <span className={`text-lg font-bold px-3 py-1 rounded-full ${getLabStatusColor(lab.status)}`}>{lab.value}</span>
-                    </div>
-                    <p className="text-base text-gray-700 mb-3 leading-relaxed" dangerouslySetInnerHTML={{
-                      __html: lab.interpretation
-                        .replace(/(\d+\.?\d*%?|mg\/dL|mmol\/L|g\/L|IU\/L|U\/L)/g, '<span class="text-blue-800 font-bold">$1</span>')
-                        .replace(/(偏高|偏低|升高|降低|异常|超标)/g, '<span class="text-orange-700 font-bold">$1</span>')
-                        .replace(/(正常|稳定|良好)/g, '<span class="text-green-700 font-bold">$1</span>')
-                    }}></p>
-                    {lab.patientFriendly && (
-                      <div className="text-base bg-gradient-to-r from-green-50 to-emerald-50 p-4 rounded-xl border-l-4 border-green-400 shadow-sm">
-                        <span className="font-semibold text-green-800">通俗解释:</span> 
-                        <span className="text-green-700 ml-2" dangerouslySetInnerHTML={{
-                          __html: lab.patientFriendly
-                            .replace(/(建议|注意|需要|应该)/g, '<span class="text-yellow-700 font-bold">$1</span>')
-                            .replace(/(控制|管理|调节|改善)/g, '<span class="text-blue-700 font-bold">$1</span>')
-                        }}></span>
+              {report.detailedAnalysis.labAbnormalities && report.detailedAnalysis.labAbnormalities.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  {report.detailedAnalysis.labAbnormalities.map((lab, index) => (
+                    <div key={index} className={`p-5 bg-white/70 rounded-2xl border shadow-sm ${getLabStatusClass(lab.status)}`}>
+                      <div className="flex justify-between items-start mb-3">
+                        <span className="text-base font-semibold text-gray-800">{lab.indicator}</span>
+                        <span className={`text-lg font-bold px-3 py-1 rounded-full ${getLabStatusColor(lab.status)}`}>{lab.value}</span>
                       </div>
-                    )}
-                    <div className={`mt-3 inline-block px-3 py-1 rounded-full text-sm font-bold ${getLabStatusColor(lab.status)}`}>
-                      {getLabStatusText(lab.status)}
+                      <p className="text-base text-gray-700 mb-3 leading-relaxed" dangerouslySetInnerHTML={{
+                        __html: lab.interpretation
+                          .replace(/(\d+\.?\d*%?|mg\/dL|mmol\/L|g\/L|IU\/L|U\/L)/g, '<span class="text-blue-800 font-bold">$1</span>')
+                          .replace(/(偏高|偏低|升高|降低|异常|超标)/g, '<span class="text-orange-700 font-bold">$1</span>')
+                          .replace(/(正常|稳定|良好)/g, '<span class="text-green-700 font-bold">$1</span>')
+                      }}></p>
+                      {lab.patientFriendly && (
+                        <div className="text-base bg-gradient-to-r from-green-50 to-emerald-50 p-4 rounded-xl border-l-4 border-green-400 shadow-sm">
+                          <span className="font-semibold text-green-800">通俗解释:</span> 
+                          <span className="text-green-700 ml-2" dangerouslySetInnerHTML={{
+                            __html: lab.patientFriendly
+                              .replace(/(建议|注意|需要|应该)/g, '<span class="text-yellow-700 font-bold">$1</span>')
+                              .replace(/(控制|管理|调节|改善)/g, '<span class="text-blue-700 font-bold">$1</span>')
+                          }}></span>
+                        </div>
+                      )}
+                      <div className={`mt-3 inline-block px-3 py-1 rounded-full text-sm font-bold ${getLabStatusColor(lab.status)}`}>
+                        {getLabStatusText(lab.status)}
+                      </div>
                     </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-12">
+                  <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
                   </div>
-                ))}
-              </div>
+                  <p className="text-lg font-medium text-gray-600 mb-2">暂无实验室检查数据 (No Lab Test Data)</p>
+                  <p className="text-base text-gray-500">本次分析中未包含实验室检查结果，建议上传相关检验报告以获得更全面的健康评估。</p>
+                </div>
+              )}
             </div>
           </div>
           

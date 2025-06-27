@@ -157,13 +157,14 @@ export default function ReportInput({
     // 如果既没有文本也没有文件，显示错误
     if (!hasTextData && !hasFiles) {
       toast({
-        title: "数据不完整",
-        description: "请至少填写体检报告文本内容或上传医疗文件",
+        title: "数据不完整", 
+        description: `请至少填写体检报告文本内容或上传医疗文件。当前状态: 文本${hasTextData ? '有' : '无'}, 文件${hasFiles ? selectedFiles.length + '个' : '无'}`,
         variant: "destructive",
       });
       return;
     }
     
+    // 验证通过，继续处理
     onAnalysisStart(data.patientName);
     analysisMutation.mutate(data);
     
@@ -467,9 +468,9 @@ export default function ReportInput({
                     />
                   </FormControl>
                   <FormMessage className="text-sm" />
-                  <p className="text-sm text-gray-600 mt-3 bg-gradient-to-r from-blue-50 to-cyan-50 px-4 py-2 rounded-xl border border-blue-200 leading-relaxed">
+                  <div className="text-sm text-gray-600 mt-3 bg-gradient-to-r from-blue-50 to-cyan-50 px-4 py-2 rounded-xl border border-blue-200 leading-relaxed">
                     支持文本格式，系统将自动识别不同类型的医疗数据
-                  </p>
+                  </div>
                 </FormItem>
               )}
             />

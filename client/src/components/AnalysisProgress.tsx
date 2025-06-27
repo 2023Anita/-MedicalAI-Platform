@@ -94,7 +94,7 @@ export default function AnalysisProgress({ progress, isVisible }: AnalysisProgre
         <div className="mt-4 medical-clinical rounded-lg p-3">
           <div className="flex items-center text-xs text-muted-foreground">
             <Settings className="w-3 h-3 mr-2" />
-            正在使用 Gemini 2.5-Flash Lite 模型进行快速分析
+            Med Agentic-AI系统启动运行
           </div>
         </div>
       </CardContent>

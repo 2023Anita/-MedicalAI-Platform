@@ -95,6 +95,20 @@ The application uses PostgreSQL with two main tables:
 
 ## Recent Changes
 
+- **June 27, 2025**: File Upload Validation & Progress Text Updates
+  - **File Upload Fix**: Resolved persistent file upload validation issue preventing analysis with uploaded files
+    - Removed conflicting validation constraints that blocked submission when files were selected
+    - Simplified frontend validation to allow flexible OR logic (text content OR file uploads)
+    - Maintained server-side validation for data integrity while fixing client-side blocking issues
+    - File upload now works correctly with all supported formats (PDF, DOCX, PNG/JPEG, MP4, DICOM)
+  - **Progress Display Branding**: Updated analysis progress text for consistent branding
+    - Changed "正在使用 Gemini 2.5-Flash Lite 模型进行快速分析" to "Med Agentic-AI系统启动运行"
+    - Maintains brand consistency throughout the analysis workflow
+  - **Validation Logic Optimization**: Improved form validation to handle edge cases
+    - Fixed React state timing issues that caused validation to fail with selected files
+    - Implemented proper file state management to ensure accurate validation
+    - Users can now successfully submit analysis with either text content (10+ characters) or uploaded files
+
 - **June 27, 2025**: Medical Report Display Consistency & Section Numbering Improvements
   - **Typography Optimization**: Enhanced font consistency across all medical report sections
     - Updated video analysis section with improved readability using `text-base` and `leading-relaxed`

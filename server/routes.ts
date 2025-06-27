@@ -460,6 +460,50 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Chat API endpoint for AI conversations
+  // Report comparison endpoint
+  app.post('/api/reports/compare', async (req: Request, res: Response) => {
+    try {
+      const sessionData = (req as any).session;
+      if (!sessionData?.userId) {
+        return res.status(401).json({ success: false, error: "用户未登录" });
+      }
+
+      const { reportIds } = req.body;
+      
+      if (!reportIds || !Array.isArray(reportIds) || reportIds.length < 2) {
+        return res.status(400).json({ success: false, error: "至少需要选择2份报告进行对比" });
+      }
+
+      // Get selected reports for the user
+      const reports = await storage.getMedicalReportsByUser(sessionData.userId);
+      const selectedReports = reports.filter(report => reportIds.includes(report.id));
+
+      if (selectedReports.length < 2) {
+        return res.status(400).json({ success: false, error: "找不到足够的报告进行对比" });
+      }
+
+      // Generate AI comparison analysis
+      const { generateComparisonAnalysis } = await import('./services/comparisonAnalysis.js');
+      const comparisonAnalysis = await generateComparisonAnalysis(selectedReports);
+
+      const comparisonData = {
+        patientName: selectedReports[0].patientName,
+        reports: selectedReports.map(report => ({
+          id: report.id,
+          date: new Date(report.createdAt).toLocaleDateString('zh-CN'),
+          patientAge: report.patientAge,
+          analysis: report.analysisResult
+        })),
+        comparisonAnalysis
+      };
+
+      res.json({ success: true, comparison: comparisonData });
+    } catch (error) {
+      console.error('Comparison generation error:', error);
+      res.status(500).json({ success: false, error: "生成对比分析失败" });
+    }
+  });
+
   app.post("/api/chat", upload.array('files'), async (req: Request, res: Response) => {
     try {
       const sessionData = req.session as any;

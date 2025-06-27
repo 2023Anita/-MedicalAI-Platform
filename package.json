@@ -76,7 +76,7 @@
     "react-hook-form": "^7.55.0",
     "react-icons": "^5.4.0",
     "react-resizable-panels": "^2.1.7",
-    "recharts": "^2.15.2",
+    "recharts": "^2.15.4",
     "sharp": "^0.34.2",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",

@@ -9,6 +9,7 @@ import AnalysisProgress from "@/components/AnalysisProgress";
 import ReportDisplay from "@/components/ReportDisplay";
 import HistoricalComparison from "@/components/HistoricalComparison";
 import AIChat from "@/components/AIChat";
+import ReportComparison from "@/components/ReportComparison";
 import type { HealthAssessmentReport, AnalysisProgress as AnalysisProgressType } from "@shared/schema";
 import logoImage from "@assets/image_1751001197483.png";
 
@@ -20,6 +21,7 @@ export default function Dashboard() {
   const [activeTab, setActiveTab] = useState<'analysis' | 'history' | 'chat' | 'settings'>('analysis');
   const [selectedReports, setSelectedReports] = useState<number[]>([]);
   const [isCompareMode, setIsCompareMode] = useState(false);
+  const [showComparison, setShowComparison] = useState(false);
   const [, setLocation] = useLocation();
   const { toast } = useToast();
 
@@ -50,24 +52,18 @@ export default function Dashboard() {
       return;
     }
 
-    const selectedReportData = historicalReports?.reports?.filter((report: any) => 
-      selectedReports.includes(report.id)
-    );
-
-    if (selectedReportData && selectedReportData.length >= 2) {
-      // Switch to analysis tab and show comparison
-      setActiveTab('analysis');
-      // You can implement detailed comparison logic here
-      toast({
-        title: "开始对比",
-        description: `正在对比 ${selectedReportData.length} 份报告`,
-        variant: "default",
-      });
-    }
+    // Show AI comparison analysis modal
+    setShowComparison(true);
   };
 
   const toggleCompareMode = () => {
     setIsCompareMode(!isCompareMode);
+    setSelectedReports([]);
+  };
+
+  const handleCloseComparison = () => {
+    setShowComparison(false);
+    setIsCompareMode(false);
     setSelectedReports([]);
   };
 
@@ -817,6 +813,14 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
+        )}
+
+        {/* AI Report Comparison Modal */}
+        {showComparison && (
+          <ReportComparison
+            selectedReportIds={selectedReports}
+            onClose={handleCloseComparison}
+          />
         )}
       </main>
     </div>

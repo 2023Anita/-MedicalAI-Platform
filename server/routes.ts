@@ -499,7 +499,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         contents: chatPrompt,
         config: {
           temperature: 0.7,
-          maxOutputTokens: 1000000,
+          maxOutputTokens: 4096, // Reduced for faster response
           topP: 0.95,
           topK: 40,
         }

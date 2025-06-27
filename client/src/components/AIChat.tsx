@@ -24,7 +24,7 @@ export default function AIChat() {
     {
       id: '1',
       type: 'ai',
-      content: '您好！我是Med Agentic-AI智能助手。我已经接入您的历史医疗数据，可以：\n\n1. 基于您既往检查结果提供个性化健康建议\n2. 分析历史报告中的健康趋势变化\n3. 对比不同时期的检查数据\n4. 回答关于您医疗历史的任何问题\n\n请输入您的问题或上传新的医疗文件进行分析。',
+      content: '您好！我是Med Agentic-AI智能助手。我已经接入您的历史医疗数据，可以：\n\n【核心功能】\n1. 基于您既往检查结果提供个性化健康建议\n2. 分析历史报告中的健康趋势变化\n3. 对比不同时期的检查数据\n4. 回答关于您医疗历史的任何问题\n\n【使用提示】\n• 如果您是新用户，请先在"报告分析"页面上传体检报告\n• 有历史数据后，我就能提供更精准的个性化分析\n• 您可以直接询问历史趋势、指标对比等问题\n\n请输入您的问题或上传新的医疗文件进行分析。',
       timestamp: new Date(),
     }
   ]);
@@ -61,6 +61,7 @@ export default function AIChat() {
       const response = await fetch('/api/chat', {
         method: 'POST',
         body: formData,
+        credentials: 'include', // Include cookies for session management
       });
       
       if (!response.ok) {

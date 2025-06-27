@@ -241,18 +241,16 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
                       </div>
                       <div className="text-base leading-relaxed text-gray-800">
                         {reasoning.split(/[。；]/g).filter(sentence => sentence.trim().length > 0).map((sentence, sentenceIndex) => (
-                          <div key={sentenceIndex} className="mb-3 last:mb-0">
-                            <div 
-                              className="flex items-start"
-                              dangerouslySetInnerHTML={{
-                                __html: `<span class="inline-block w-2 h-2 bg-green-500 rounded-full mr-3 mt-2 flex-shrink-0"></span><span>${sentence.trim()}${sentence.includes('。') ? '' : '。'}</span>`
-                                  .replace(/(\d+%?)/g, '<span class="text-blue-800 font-bold">$1</span>')
-                                  .replace(/(高血压|糖尿病|肝硬化|肾功能|心脏病|肺部|脑部|血管|胆固醇|血糖|血脂|蛋白质|肌酐|尿素氮)/g, '<span class="text-red-700 font-bold">$1</span>')
-                                  .replace(/(正常|稳定|良好|改善|恢复|健康)/g, '<span class="text-green-700 font-bold">$1</span>')
-                                  .replace(/(异常|升高|降低|偏高|偏低|增大|缩小|病变|损伤|炎症|感染|远高于正常水平|远低于正常水平|明显升高|明显降低|显著升高|显著降低|轻度升高|轻度降低|中度升高|中度降低|重度升高|重度降低)/g, '<span class="text-orange-700 font-bold">$1</span>')
-                                  .replace(/(严重|危险|紧急|立即|马上|急需|重要|关键)/g, '<span class="text-red-800 font-bold">$1</span>')
-                              }}
-                            />
+                          <div key={sentenceIndex} className="mb-3 last:mb-0 flex items-start">
+                            <div className="inline-block w-2 h-2 bg-green-500 rounded-full mr-3 mt-2 flex-shrink-0"></div>
+                            <span dangerouslySetInnerHTML={{
+                              __html: `${sentence.trim()}${sentence.includes('。') ? '' : '。'}`
+                                .replace(/(\d+%?)/g, '<span class="text-blue-800 font-bold">$1</span>')
+                                .replace(/(高血压|糖尿病|肝硬化|肾功能|心脏病|肺部|脑部|血管|胆固醇|血糖|血脂|蛋白质|肌酐|尿素氮)/g, '<span class="text-red-700 font-bold">$1</span>')
+                                .replace(/(正常|稳定|良好|改善|恢复|健康)/g, '<span class="text-green-700 font-bold">$1</span>')
+                                .replace(/(异常|升高|降低|偏高|偏低|增大|缩小|病变|损伤|炎症|感染|远高于正常水平|远低于正常水平|明显升高|明显降低|显著升高|显著降低|轻度升高|轻度降低|中度升高|中度降低|重度升高|重度降低)/g, '<span class="text-orange-700 font-bold">$1</span>')
+                                .replace(/(严重|危险|紧急|立即|马上|急需|重要|关键)/g, '<span class="text-red-800 font-bold">$1</span>')
+                            }}></span>
                           </div>
                         ))}
                       </div>

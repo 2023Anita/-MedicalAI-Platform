@@ -261,35 +261,85 @@ export default function Dashboard() {
                     <div className="absolute bottom-0 right-0 w-40 h-40 bg-gradient-to-br from-teal-400 to-emerald-400 rounded-full blur-3xl"></div>
                   </div>
                   
-                  <div className="relative p-16 text-center">
+                  <div className="relative p-8 text-center">
                     {/* Icon Container with Animation */}
-                    <div className="relative mx-auto mb-8 w-24 h-24">
+                    <div className="relative mx-auto mb-6 w-20 h-20">
                       <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-teal-500 rounded-2xl opacity-20 animate-pulse"></div>
                       <div className="absolute inset-2 bg-gradient-to-br from-blue-400 to-teal-400 rounded-xl flex items-center justify-center shadow-lg">
-                        <Activity className="w-10 h-10 text-white animate-pulse" />
+                        <Activity className="w-8 h-8 text-white animate-pulse" />
                       </div>
                     </div>
                     
                     {/* Title with Gradient */}
-                    <h3 className="text-2xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent mb-4">
+                    <h3 className="text-xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent mb-3">
                       等待分析数据
                     </h3>
                     
                     {/* Description */}
-                    <p className="text-gray-600 text-lg mb-8 max-w-md mx-auto leading-relaxed">
+                    <p className="text-gray-600 text-base mb-6 max-w-sm mx-auto leading-relaxed">
                       请在左侧输入体检报告数据，开始智能分析
                     </p>
                     
-                    {/* Feature Pills */}
-                    <div className="flex flex-wrap justify-center gap-3 mb-8">
-                      <div className="bg-white/60 backdrop-blur-sm px-4 py-2 rounded-full border border-blue-200/50 shadow-sm">
-                        <span className="text-sm font-medium text-blue-700">🩺 智能分析</span>
+                    {/* Feature Cards Grid */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6 max-w-2xl mx-auto">
+                      <div className="bg-white/70 backdrop-blur-sm p-4 rounded-xl border border-blue-200/50 shadow-sm hover:shadow-md transition-all">
+                        <div className="flex items-center space-x-3">
+                          <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-blue-500 rounded-lg flex items-center justify-center">
+                            <span className="text-white text-lg">🩺</span>
+                          </div>
+                          <div className="text-left">
+                            <h4 className="font-semibold text-gray-800 text-sm">AI智能分析</h4>
+                            <p className="text-xs text-gray-600">多模态医疗数据处理</p>
+                          </div>
+                        </div>
                       </div>
-                      <div className="bg-white/60 backdrop-blur-sm px-4 py-2 rounded-full border border-teal-200/50 shadow-sm">
-                        <span className="text-sm font-medium text-teal-700">📊 数据洞察</span>
+                      
+                      <div className="bg-white/70 backdrop-blur-sm p-4 rounded-xl border border-teal-200/50 shadow-sm hover:shadow-md transition-all">
+                        <div className="flex items-center space-x-3">
+                          <div className="w-10 h-10 bg-gradient-to-br from-teal-400 to-teal-500 rounded-lg flex items-center justify-center">
+                            <span className="text-white text-lg">📊</span>
+                          </div>
+                          <div className="text-left">
+                            <h4 className="font-semibold text-gray-800 text-sm">数据洞察</h4>
+                            <p className="text-xs text-gray-600">深度健康趋势分析</p>
+                          </div>
+                        </div>
                       </div>
-                      <div className="bg-white/60 backdrop-blur-sm px-4 py-2 rounded-full border border-emerald-200/50 shadow-sm">
-                        <span className="text-sm font-medium text-emerald-700">⚡ 快速诊断</span>
+                      
+                      <div className="bg-white/70 backdrop-blur-sm p-4 rounded-xl border border-emerald-200/50 shadow-sm hover:shadow-md transition-all">
+                        <div className="flex items-center space-x-3">
+                          <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-emerald-500 rounded-lg flex items-center justify-center">
+                            <span className="text-white text-lg">⚡</span>
+                          </div>
+                          <div className="text-left">
+                            <h4 className="font-semibold text-gray-800 text-sm">快速诊断</h4>
+                            <p className="text-xs text-gray-600">秒级智能医疗建议</p>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className="bg-white/70 backdrop-blur-sm p-4 rounded-xl border border-purple-200/50 shadow-sm hover:shadow-md transition-all">
+                        <div className="flex items-center space-x-3">
+                          <div className="w-10 h-10 bg-gradient-to-br from-purple-400 to-purple-500 rounded-lg flex items-center justify-center">
+                            <span className="text-white text-lg">🔒</span>
+                          </div>
+                          <div className="text-left">
+                            <h4 className="font-semibold text-gray-800 text-sm">隐私保护</h4>
+                            <p className="text-xs text-gray-600">数据安全加密存储</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Supported File Types */}
+                    <div className="bg-white/50 backdrop-blur-sm rounded-xl p-4 mb-6 border border-gray-200/50">
+                      <h4 className="text-sm font-semibold text-gray-700 mb-3">支持的文件格式</h4>
+                      <div className="flex flex-wrap justify-center gap-2">
+                        <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium">PDF</span>
+                        <span className="px-3 py-1 bg-teal-100 text-teal-700 rounded-full text-xs font-medium">DOCX</span>
+                        <span className="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-xs font-medium">PNG/JPEG</span>
+                        <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-medium">MP4</span>
+                        <span className="px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-xs font-medium">DICOM</span>
                       </div>
                     </div>
                     
@@ -320,9 +370,23 @@ export default function Dashboard() {
             </div>
             
             {isLoadingHistory ? (
-              <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-blue-200/50 p-12 text-center">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mx-auto mb-4"></div>
-                <p className="text-gray-600">加载历史记录中...</p>
+              <div className="relative bg-gradient-to-br from-white/95 via-blue-50/80 to-teal-50/60 backdrop-blur-sm rounded-3xl shadow-xl border border-blue-200/30 overflow-hidden">
+                <div className="absolute inset-0 opacity-5">
+                  <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-blue-400 to-teal-400 rounded-full blur-3xl"></div>
+                  <div className="absolute bottom-0 right-0 w-40 h-40 bg-gradient-to-br from-teal-400 to-emerald-400 rounded-full blur-3xl"></div>
+                </div>
+                <div className="relative p-16 text-center">
+                  <div className="relative mx-auto mb-8 w-20 h-20">
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-teal-500 rounded-2xl opacity-20 animate-pulse"></div>
+                    <div className="absolute inset-2 bg-gradient-to-br from-blue-400 to-teal-400 rounded-xl flex items-center justify-center shadow-lg">
+                      <div className="animate-spin rounded-full h-8 w-8 border-2 border-white border-t-transparent"></div>
+                    </div>
+                  </div>
+                  <h3 className="text-xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent mb-4">
+                    加载历史记录中
+                  </h3>
+                  <p className="text-gray-600">正在获取您的分析报告数据...</p>
+                </div>
               </div>
             ) : historicalReports?.reports?.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

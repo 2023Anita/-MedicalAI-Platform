@@ -11,7 +11,7 @@ import HistoricalComparison from "@/components/HistoricalComparison";
 import AIChat from "@/components/AIChat";
 import ReportComparison from "@/components/ReportComparison";
 import type { HealthAssessmentReport, AnalysisProgress as AnalysisProgressType } from "@shared/schema";
-import logoImage from "@assets/image_1751001197483.png";
+import logoImage from "@assets/image_1751065393476.png";
 
 export default function Dashboard() {
   const [currentReport, setCurrentReport] = useState<HealthAssessmentReport | null>(null);
@@ -172,8 +172,8 @@ export default function Dashboard() {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center ring-2 ring-white/30">
-                  <img src={logoImage} alt="Med Agentic-AI Logo" className="w-full h-full object-cover" />
+                <div className="w-12 h-12 bg-white/10 backdrop-blur-sm rounded-xl flex items-center justify-center ring-1 ring-white/20 p-1">
+                  <img src={logoImage} alt="Med Agentic-AI Logo" className="w-full h-full object-contain rounded-lg" />
                 </div>
                 <div>
                   <h1 className="text-xl font-bold text-white">Med Agentic-AI</h1>

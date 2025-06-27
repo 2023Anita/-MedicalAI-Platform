@@ -152,6 +152,13 @@ The application uses PostgreSQL with two main tables:
     - 统一消息对话和输入状态指示器的AI头像样式
     - 增强聊天界面视觉一致性和专业医疗科技感
     - 图像完全填充10x10像素容器，无任何绿色背景显露
+  - **Dashboard主页Logo更新**: 替换导航栏Logo为专业AI健康分析标识
+    - 使用新的AI-POWERED HEALTH CHECKUP ANALYSIS图标(image_1751065393476.png)
+    - 新Logo包含医疗防护盾、医疗十字、心电图和AI处理器元素
+    - 优化容器样式为更透明的bg-white/10和ring-1 ring-white/20设计
+    - 使用object-contain和rounded-lg确保完整Logo显示无裁切
+    - 添加p-1内边距提供适当的视觉间距
+    - 完美融入导航栏设计，体现AI驱动医疗分析平台专业形象
 
 - **June 27, 2025**: AI聊天界面优化与历史记录显示修复
   - **AI对话界面尺寸优化**: 全面优化AI聊天界面的空间布局和用户体验

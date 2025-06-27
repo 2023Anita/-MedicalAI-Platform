@@ -633,7 +633,7 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
         <div className="flex items-center justify-between text-sm text-gray-600">
           <div className="flex items-center space-x-6">
             <span className="bg-blue-100 px-3 py-1 rounded-full font-medium">报告编号: {report.reportMetadata.reportId}</span>
-            <span className="bg-purple-100 px-3 py-1 rounded-full font-medium">智能运行平台：Med Agentic-AI</span>
+            <span className="bg-purple-100 px-3 py-1 rounded-full font-medium">Med Agentic-AI © 江阴市人民医院-殷利鑫</span>
           </div>
           <div className="flex items-center space-x-3">
             <div className="w-3 h-3 bg-green-500 rounded-full shadow-sm animate-pulse"></div>

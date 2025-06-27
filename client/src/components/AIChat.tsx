@@ -437,6 +437,13 @@ export default function AIChat() {
           </Button>
         </div>
       </div>
+      
+      {/* Footer with Copyright */}
+      <div className="border-t border-blue-200/50 bg-gradient-to-r from-white/80 to-blue-50/80 backdrop-blur-md py-3 px-4">
+        <div className="text-center text-xs text-gray-500">
+          <p>Med Agentic-AI © 江阴市人民医院-殷利鑫</p>
+        </div>
+      </div>
     </div>
   );
 }

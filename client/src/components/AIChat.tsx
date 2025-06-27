@@ -275,7 +275,7 @@ export default function AIChat() {
               <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg ${
                 message.type === 'user' 
                   ? 'bg-gradient-to-br from-blue-500 to-blue-600 text-white ml-3 ring-2 ring-blue-200' 
-                  : 'bg-gradient-to-br from-teal-500 to-green-500 text-white mr-3 ring-2 ring-teal-200'
+                  : 'bg-gradient-to-br from-emerald-500 to-teal-600 text-white mr-3 ring-2 ring-emerald-200'
               }`}>
                 {message.type === 'user' ? (
                   <UserIcon className="w-5 h-5" />
@@ -335,16 +335,16 @@ export default function AIChat() {
         {isTyping && (
           <div className="flex justify-start animate-in slide-in-from-bottom-2 duration-300">
             <div className="flex items-start space-x-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-teal-500 to-green-500 text-white mr-3 ring-2 ring-teal-200 flex items-center justify-center shadow-lg">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white mr-3 ring-2 ring-emerald-200 flex items-center justify-center shadow-lg">
                 <img src={aiAvatarImage} alt="Med Agentic-AI" className="w-6 h-6 object-contain" />
               </div>
               <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-4 shadow-lg border border-gray-200/50">
                 <div className="flex items-center space-x-1">
                   <span className="text-sm text-gray-600 mr-2">AI正在思考</span>
                   <div className="flex space-x-1">
-                    <div className="w-2 h-2 bg-teal-500 rounded-full animate-bounce"></div>
-                    <div className="w-2 h-2 bg-teal-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                    <div className="w-2 h-2 bg-teal-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                    <div className="w-2 h-2 bg-emerald-500 rounded-full animate-bounce"></div>
+                    <div className="w-2 h-2 bg-emerald-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                    <div className="w-2 h-2 bg-emerald-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                   </div>
                 </div>
               </div>
@@ -356,17 +356,17 @@ export default function AIChat() {
 
       {/* File Preview - 科技医疗风格 */}
       {selectedFiles.length > 0 && (
-        <div className="border-t border-blue-200/50 bg-gradient-to-r from-blue-50 to-teal-50 p-4">
+        <div className="border-t border-emerald-200/50 bg-gradient-to-r from-emerald-50 to-teal-50 p-4">
           <div className="mb-2">
             <h4 className="text-sm font-semibold text-gray-700 flex items-center space-x-2">
-              <Upload className="w-4 h-4 text-blue-600" />
+              <Upload className="w-4 h-4 text-emerald-600" />
               <span>待发送文件 ({selectedFiles.length})</span>
             </h4>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {selectedFiles.map((file, index) => (
               <div key={index} className="flex items-center space-x-3 bg-white/80 backdrop-blur-sm rounded-xl p-3 border border-blue-200/50 shadow-sm">
-                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-teal-500 rounded-lg flex items-center justify-center text-white shadow-md">
+                <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-lg flex items-center justify-center text-white shadow-md">
                   {getFileIcon(file.type)}
                 </div>
                 <div className="flex-1 min-w-0">
@@ -420,7 +420,7 @@ export default function AIChat() {
           <Button
             onClick={handleSendMessage}
             disabled={(!inputMessage.trim() && selectedFiles.length === 0) || chatMutation.isPending}
-            className="flex-shrink-0 bg-gradient-to-r from-blue-500 to-teal-500 hover:from-blue-600 hover:to-teal-600 text-white shadow-md rounded-lg h-10 px-4 text-sm font-medium transition-all duration-200"
+            className="flex-shrink-0 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white shadow-md rounded-lg h-10 px-4 text-sm font-medium transition-all duration-200"
             size="sm"
           >
             {chatMutation.isPending ? (

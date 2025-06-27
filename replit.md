@@ -120,6 +120,12 @@ The application uses PostgreSQL with two main tables:
     - 更新消息对话中AI头像显示为自定义医疗图标
     - 更新输入状态指示器中的AI头像保持一致性
     - 优化图标尺寸为w-6 h-6，使用object-contain确保图标完整显示
+  - **配色方案优化**: 调整AI对话界面配色以匹配医疗AI图标的青绿色调
+    - 更新AI头像背景渐变从teal-500/green-500改为emerald-500/teal-600
+    - 统一输入状态指示器配色，使用emerald-500动画点
+    - 调整文件预览区域边框和背景为emerald色调
+    - 优化发送按钮渐变色彩，从blue-500/teal-500改为emerald-500/teal-500
+    - 创建统一的emerald-teal医疗主题色彩体系，与图标完美协调
   - **历史记录显示修复**: 完全解决用户个人报告无法在历史记录页面显示的认证问题
     - 修复前端查询认证凭据传递问题，确保credentials: 'include'正确配置
     - 添加服务器端会话状态调试日志，准确追踪用户认证状态

@@ -189,7 +189,7 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
             <div className="mb-6">
               <h4 className="text-lg font-semibold text-gray-800 mb-4 flex items-center bg-gradient-to-r from-purple-50 to-pink-50 px-5 py-3 rounded-xl border border-purple-200">
                 <div className="w-4 h-4 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full mr-3 shadow-sm"></div>
-                2.2 影像视频读取结果分析
+                2.2 影像视频读取结果分析 (Video & Imaging Analysis Results)
               </h4>
               <div className="bg-gradient-to-br from-purple-50 to-pink-50 border border-purple-200 rounded-2xl p-5 space-y-4 shadow-sm">
                 {report.detailedAnalysis.videoFindings.map((finding, index) => (

@@ -95,7 +95,12 @@ The application uses PostgreSQL with two main tables:
 
 ## Recent Changes
 
-- **June 27, 2025**: Clinical Reasoning Display & File Upload Validation Updates
+- **June 27, 2025**: System Access & Clinical Reasoning Display Updates
+  - **System Access Permissions**: Modified dashboard to display all users' medical reports instead of user-specific filtering
+    - Updated "历史记录" tab to "全部记录" with clear indication it shows all system users' reports
+    - Enhanced report cards with system analysis indicators and improved visual organization
+    - Changed empty state messaging to reflect system-wide scope rather than individual user scope
+    - Maintains individual report analysis functionality while providing comprehensive overview access
   - **Clinical Reasoning Optimization**: Enhanced readability of long medical reasoning text
     - Converted dense paragraph format to structured bullet-point display
     - Split reasoning by Chinese sentence delimiters for better visual organization

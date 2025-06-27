@@ -404,6 +404,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Chat API endpoint for AI conversations
   app.post("/api/chat", upload.array('files'), async (req: Request, res: Response) => {
     try {
+      const sessionData = req.session as any;
+      if (!sessionData?.userId) {
+        return res.status(401).json({ success: false, error: "请先登录" });
+      }
+
       const { message } = req.body;
       const files = req.files as Express.Multer.File[];
 
@@ -413,6 +418,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
           error: "请提供消息或上传文件",
         });
       }
+
+      console.log("Chat request from user:", sessionData.userId, "Message:", message?.substring(0, 100));
+
+      // Get user's historical medical data for context
+      const userReports = await storage.getMedicalReportsByUser(sessionData.userId);
+      console.log(`Found ${userReports.length} historical reports for user context`);
 
       let combinedContent = message || '';
       let processedFiles: any[] = [];
@@ -432,12 +443,49 @@ export async function registerRoutes(app: Express): Promise<Server> {
           .join('\n');
         
         if (extractedTexts) {
-          combinedContent = message ? `${message}\n\n文件内容:${extractedTexts}` : `请分析以下文件内容:${extractedTexts}`;
+          combinedContent = message ? `${message}\n\n当前上传文件内容:${extractedTexts}` : `请分析以下文件内容:${extractedTexts}`;
         }
       }
 
-      // Create AI prompt for general conversation
-      const systemPrompt = "您是Med Agentic-AI智能医疗助手。请根据用户的问题或上传的文件内容，提供专业、准确的医疗相关回答。格式要求：绝对禁止使用星号、井号等Markdown符号。重点内容用【】标注。列表用数字编号。专业术语后用括号解释。用户输入：";
+      // Build historical medical context
+      let historicalContext = '';
+      if (userReports.length > 0) {
+        historicalContext = '\n\n=== 用户历史医疗记录参考 ===\n';
+        userReports.slice(-3).forEach((report, index) => { // Only use last 3 reports to avoid token limit
+          const analysis = report.analysisResult as any;
+          historicalContext += `\n历史报告 ${index + 1} (${report.createdAt.toLocaleDateString()}):
+患者: ${report.patientName}, ${report.patientAge}岁 ${report.patientGender || ''}
+检查日期: ${report.examDate.toLocaleDateString()}
+报告内容: ${report.reportData.substring(0, 200)}...
+主要发现: ${analysis?.executiveSummary?.mainFindings?.slice(0, 3).join(', ') || '无'}
+核心风险: ${analysis?.executiveSummary?.coreRisks?.slice(0, 3).join(', ') || '无'}
+主要建议: ${analysis?.executiveSummary?.primaryRecommendations?.slice(0, 3).join(', ') || '无'}
+`;
+        });
+      }
+
+      // Combine all context
+      combinedContent += historicalContext;
+
+      // Create AI prompt for context-aware medical conversation
+      const systemPrompt = `您是Med Agentic-AI智能医疗助手。您正在与一位已有医疗历史记录的用户对话。
+
+【重要能力】:
+1. 结合用户的历史医疗数据提供个性化建议
+2. 识别历史报告中的趋势和变化
+3. 基于既往检查结果进行对比分析
+4. 提供连续性医疗建议和健康管理指导
+
+【对话规则】:
+- 绝对禁止使用星号、井号等Markdown符号
+- 重点内容用【】标注
+- 列表用数字编号
+- 专业术语后用括号解释
+- 可以引用历史记录中的具体数据进行说明
+- 如果用户询问历史趋势，主动分析既往数据
+- 提供基于历史数据的个性化健康建议
+
+用户输入：`;
       const chatPrompt = systemPrompt + combinedContent;
 
       // Get AI response using the same service as medical analysis

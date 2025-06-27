@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
-import { Send, Upload, X, MessageCircle, Bot, User as UserIcon, Image, Video, FileText } from "lucide-react";
-import { useMutation } from "@tanstack/react-query";
+import { Send, Upload, X, MessageCircle, Bot, User as UserIcon, Image, Video, FileText, Database, Activity } from "lucide-react";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -24,7 +24,7 @@ export default function AIChat() {
     {
       id: '1',
       type: 'ai',
-      content: '您好！我是Med Agentic-AI智能助手。我可以帮您分析医疗图片、视频，回答医疗相关问题。请输入您的问题或上传文件。',
+      content: '您好！我是Med Agentic-AI智能助手。我已经接入您的历史医疗数据，可以：\n\n1. 基于您既往检查结果提供个性化健康建议\n2. 分析历史报告中的健康趋势变化\n3. 对比不同时期的检查数据\n4. 回答关于您医疗历史的任何问题\n\n请输入您的问题或上传新的医疗文件进行分析。',
       timestamp: new Date(),
     }
   ]);
@@ -34,6 +34,12 @@ export default function AIChat() {
   const { toast } = useToast();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Query user's historical reports count for context display
+  const { data: historicalReports } = useQuery({
+    queryKey: ['/api/reports'],
+    enabled: true,
+  });
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -235,6 +241,19 @@ export default function AIChat() {
           </div>
         </div>
         <div className="flex items-center space-x-3">
+          {/* Medical Data Context Indicator */}
+          <div className="flex items-center space-x-2 bg-white/10 backdrop-blur-sm rounded-lg px-3 py-2">
+            <Database className="w-4 h-4 text-blue-200" />
+            <div className="text-sm">
+              <div className="flex items-center space-x-1">
+                <Activity className="w-3 h-3 text-green-300" />
+                <span className="text-blue-100">历史数据已连接</span>
+              </div>
+              <div className="text-xs text-blue-200">
+                {(historicalReports as any)?.reports?.length || 0} 份医疗记录
+              </div>
+            </div>
+          </div>
           <div className="flex items-center space-x-2 bg-white/20 rounded-full px-3 py-1">
             <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
             <span className="text-sm font-medium">实时在线</span>

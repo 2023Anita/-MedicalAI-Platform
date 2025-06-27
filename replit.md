@@ -95,7 +95,14 @@ The application uses PostgreSQL with two main tables:
 
 ## Recent Changes
 
-- **June 27, 2025**: User Privacy & Authentication Implementation
+- **June 27, 2025**: AI上下文对话与用户数据链接实现
+  - **AI智能对话上下文链接**: 实现AI聊天与用户历史医疗数据的完整上下文整合
+    - 增强AI聊天API以访问用户的历史医疗报告作为对话上下文
+    - AI助手现在可以基于用户既往检查结果提供个性化医疗建议
+    - 支持历史报告趋势分析、指标对比和连续性健康管理指导
+    - 添加医疗数据上下文指示器显示已连接的历史记录数量
+    - 更新AI聊天欢迎消息说明可用的上下文对话功能
+    - 提供基于历史数据的智能对话示例引导用户使用
   - **Individual User Account System**: Implemented complete user isolation with private report access
     - Added PostgreSQL user_id foreign key to medical_reports table for proper data association
     - Implemented Express session management with user authentication middleware

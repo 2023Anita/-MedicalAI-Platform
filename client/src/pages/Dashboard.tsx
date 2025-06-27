@@ -127,7 +127,7 @@ export default function Dashboard() {
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-4">
                 <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center ring-2 ring-white/30">
-                  <img src={logoImage} alt="Med Agentic-AI Logo" className="w-8 h-8 object-contain" />
+                  <img src={logoImage} alt="Med Agentic-AI Logo" className="w-full h-full object-cover" />
                 </div>
                 <div>
                   <h1 className="text-xl font-bold text-white">Med Agentic-AI</h1>

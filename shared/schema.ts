@@ -36,7 +36,7 @@ export const insertMedicalReportSchema = createInsertSchema(medicalReports).pick
 export const analysisRequestSchema = z.object({
   patientName: z.string().min(1, "患者姓名不能为空"),
   patientAge: z.string().min(1, "患者年龄不能为空"),
-  patientGender: z.string().optional(),
+  patientGender: z.string().min(1, "请选择患者性别"),
   examDate: z.string().min(1, "体检日期不能为空"),
   reportData: z.string().min(10, "报告数据不能少于10个字符"),
   compareWithHistory: z.boolean().optional(),

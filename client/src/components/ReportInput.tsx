@@ -2,13 +2,14 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { Brain, Upload, Shield, File, X, Calendar, Trash2 } from "lucide-react";
+import { Brain, Upload, Shield, File, X, Calendar, Trash2, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { analysisRequestSchema } from "@shared/schema";
@@ -206,8 +207,11 @@ export default function ReportInput({
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <div>
-              <FormLabel className="text-sm font-medium text-gray-800 mb-3 block bg-blue-50 px-3 py-2 rounded-lg">
-                患者信息
+              <FormLabel className="text-base font-semibold text-gray-800 mb-4 block bg-gradient-to-r from-blue-50 to-cyan-50 px-4 py-3 rounded-xl border border-blue-200 flex items-center">
+                <div className="w-6 h-6 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center mr-3 shadow-sm">
+                  <User className="w-3 h-3 text-white" />
+                </div>
+                患者信息 (Patient Information)
               </FormLabel>
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <FormField
@@ -217,12 +221,12 @@ export default function ReportInput({
                     <FormItem>
                       <FormControl>
                         <Input 
-                          placeholder="姓名" 
+                          placeholder="患者姓名" 
                           {...field} 
-                          className="text-sm bg-white/70 border-blue-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                          className="text-base bg-white/80 backdrop-blur-sm border-blue-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all shadow-sm h-12 leading-relaxed"
                         />
                       </FormControl>
-                      <FormMessage />
+                      <FormMessage className="text-sm" />
                     </FormItem>
                   )}
                 />
@@ -235,10 +239,10 @@ export default function ReportInput({
                         <Input 
                           placeholder="年龄" 
                           {...field}
-                          className="text-sm bg-white/70 border-blue-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                          className="text-base bg-white/80 backdrop-blur-sm border-blue-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all shadow-sm h-12 leading-relaxed"
                         />
                       </FormControl>
-                      <FormMessage />
+                      <FormMessage className="text-sm" />
                     </FormItem>
                   )}
                 />
@@ -250,13 +254,17 @@ export default function ReportInput({
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Input 
-                          placeholder="性别（可选）" 
-                          {...field}
-                          className="text-sm bg-white/70 border-blue-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                        />
+                        <Select onValueChange={field.onChange} value={field.value}>
+                          <SelectTrigger className="text-base bg-white/80 backdrop-blur-sm border-blue-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all shadow-sm h-12 leading-relaxed">
+                            <SelectValue placeholder="选择性别 *" />
+                          </SelectTrigger>
+                          <SelectContent className="bg-white/95 backdrop-blur-sm border-blue-200 rounded-xl shadow-lg">
+                            <SelectItem value="男性" className="text-base hover:bg-blue-50 focus:bg-blue-50">男性</SelectItem>
+                            <SelectItem value="女性" className="text-base hover:bg-blue-50 focus:bg-blue-50">女性</SelectItem>
+                          </SelectContent>
+                        </Select>
                       </FormControl>
-                      <FormMessage />
+                      <FormMessage className="text-sm" />
                     </FormItem>
                   )}
                 />
@@ -270,12 +278,12 @@ export default function ReportInput({
                           <Input 
                             type="date"
                             {...field}
-                            className="text-sm bg-white/70 border-blue-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all pr-10"
+                            className="text-base bg-white/80 backdrop-blur-sm border-blue-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all shadow-sm h-12 leading-relaxed pr-12"
                           />
-                          <Calendar className="absolute right-3 top-1/2 transform -translate-y-1/2 text-blue-400 w-4 h-4 pointer-events-none" />
+                          <Calendar className="absolute right-3 top-1/2 transform -translate-y-1/2 text-blue-400 w-5 h-5 pointer-events-none" />
                         </div>
                       </FormControl>
-                      <FormMessage />
+                      <FormMessage className="text-sm" />
                     </FormItem>
                   )}
                 />
@@ -284,10 +292,13 @@ export default function ReportInput({
             
             {/* File Upload Section */}
             <div>
-              <FormLabel className="text-sm font-medium text-gray-800 mb-3 block bg-teal-50 px-3 py-2 rounded-lg">
-                文件上传
+              <FormLabel className="text-base font-semibold text-gray-800 mb-4 block bg-gradient-to-r from-teal-50 to-emerald-50 px-4 py-3 rounded-xl border border-teal-200 flex items-center">
+                <div className="w-6 h-6 bg-gradient-to-br from-teal-500 to-emerald-500 rounded-lg flex items-center justify-center mr-3 shadow-sm">
+                  <Upload className="w-3 h-3 text-white" />
+                </div>
+                文件上传 (File Upload)
               </FormLabel>
-              <div className="border-2 border-dashed border-blue-300 bg-blue-50/50 rounded-2xl p-6 text-center hover:border-blue-400 transition-colors">
+              <div className="border-2 border-dashed border-blue-300 bg-gradient-to-br from-blue-50/50 to-cyan-50/50 backdrop-blur-sm rounded-2xl p-8 text-center hover:border-blue-400 transition-all shadow-sm">
                 <input
                   type="file"
                   multiple
@@ -299,15 +310,15 @@ export default function ReportInput({
                 />
                 <label
                   htmlFor="file-upload"
-                  className="cursor-pointer flex flex-col items-center space-y-3"
+                  className="cursor-pointer flex flex-col items-center space-y-4"
                 >
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-teal-500 rounded-xl flex items-center justify-center">
-                    <Upload className="w-6 h-6 text-white" />
+                  <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-teal-500 rounded-xl flex items-center justify-center shadow-lg">
+                    <Upload className="w-7 h-7 text-white" />
                   </div>
-                  <span className="text-sm text-gray-700 font-medium">
+                  <span className="text-base text-gray-700 font-medium leading-relaxed">
                     点击上传或拖拽文件到此处
                   </span>
-                  <span className="text-xs text-gray-600 bg-white/80 px-3 py-1 rounded-full">
+                  <span className="text-sm text-gray-600 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full border border-gray-200 shadow-sm">
                     支持: PDF, DOCX, 图片(PNG/JPG), 视频(MP4), DICOM(.dcm)
                   </span>
                 </label>
@@ -315,17 +326,22 @@ export default function ReportInput({
               
               {/* Selected Files Display */}
               {selectedFiles.length > 0 && (
-                <div className="mt-4 space-y-3">
-                  <p className="text-sm font-medium text-gray-800 bg-purple-50 px-3 py-2 rounded-lg">已选择文件：</p>
+                <div className="mt-6 space-y-4">
+                  <p className="text-base font-semibold text-gray-800 bg-gradient-to-r from-purple-50 to-pink-50 px-4 py-3 rounded-xl border border-purple-200 flex items-center">
+                    <div className="w-5 h-5 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center mr-3">
+                      <File className="w-3 h-3 text-white" />
+                    </div>
+                    已选择文件 (Selected Files)：
+                  </p>
                   {selectedFiles.map((file, index) => (
-                    <div key={index} className="flex items-center justify-between bg-white/70 border border-blue-200 rounded-xl p-3 shadow-sm">
-                      <div className="flex items-center space-x-3">
-                        <span className="text-xl">{getFileIcon(file)}</span>
+                    <div key={index} className="flex items-center justify-between bg-white/80 backdrop-blur-sm border border-blue-200 rounded-xl p-4 shadow-sm hover:shadow-md transition-all">
+                      <div className="flex items-center space-x-4">
+                        <span className="text-2xl">{getFileIcon(file)}</span>
                         <div>
-                          <span className="text-sm text-gray-800 font-medium truncate max-w-[200px] block">
+                          <span className="text-base text-gray-800 font-medium truncate max-w-[220px] block leading-relaxed">
                             {file.name}
                           </span>
-                          <span className="text-xs text-gray-600 bg-gray-100 px-2 py-1 rounded-md">
+                          <span className="text-sm text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
                             {(file.size / 1024 / 1024).toFixed(2)} MB
                           </span>
                         </div>
@@ -336,9 +352,9 @@ export default function ReportInput({
                         size="sm"
                         onClick={() => removeFile(index)}
                         disabled={isAnalyzing}
-                        className="text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg"
+                        className="text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-xl p-3"
                       >
-                        <X className="w-4 h-4" />
+                        <X className="w-5 h-5" />
                       </Button>
                     </div>
                   ))}
@@ -351,9 +367,12 @@ export default function ReportInput({
               name="reportData"
               render={({ field }) => (
                 <FormItem>
-                  <div className="flex items-center justify-between mb-3">
-                    <FormLabel className="text-sm font-medium text-gray-800 bg-green-50 px-3 py-2 rounded-lg">
-                      体检报告数据
+                  <div className="flex items-center justify-between mb-4">
+                    <FormLabel className="text-base font-semibold text-gray-800 bg-gradient-to-r from-green-50 to-emerald-50 px-4 py-3 rounded-xl border border-green-200 flex items-center">
+                      <div className="w-6 h-6 bg-gradient-to-br from-green-500 to-emerald-500 rounded-lg flex items-center justify-center mr-3 shadow-sm">
+                        <File className="w-3 h-3 text-white" />
+                      </div>
+                      体检报告数据 (Medical Report Data)
                     </FormLabel>
                     <Button
                       type="button"
@@ -367,61 +386,61 @@ export default function ReportInput({
                         });
                       }}
                       disabled={isAnalyzing || !field.value}
-                      className="text-gray-500 hover:text-red-600 hover:bg-red-50 h-auto p-2 rounded-lg"
+                      className="text-gray-500 hover:text-red-600 hover:bg-red-50 h-auto p-3 rounded-xl transition-all"
                     >
-                      <Trash2 className="w-4 h-4 mr-1" />
-                      清空
+                      <Trash2 className="w-5 h-5 mr-2" />
+                      <span className="text-sm font-medium">清空</span>
                     </Button>
                   </div>
                   <FormControl>
                     <Textarea 
-                      className="h-48 text-sm resize-none bg-white/70 border-blue-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                      className="h-52 text-base resize-none bg-white/80 backdrop-blur-sm border-blue-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all shadow-sm leading-relaxed p-4"
                       placeholder="请粘贴体检报告内容，包括影像学检查、实验室检验、个人病史等信息..."
                       {...field}
                     />
                   </FormControl>
-                  <FormMessage />
-                  <p className="text-xs text-gray-600 mt-2 bg-blue-50 px-2 py-1 rounded-md">
+                  <FormMessage className="text-sm" />
+                  <p className="text-sm text-gray-600 mt-3 bg-gradient-to-r from-blue-50 to-cyan-50 px-4 py-2 rounded-xl border border-blue-200 leading-relaxed">
                     支持文本格式，系统将自动识别不同类型的医疗数据
                   </p>
                 </FormItem>
               )}
             />
             
-            <div className="flex items-center justify-between bg-gray-50 rounded-xl p-4">
+            <div className="flex items-center justify-between bg-gradient-to-r from-gray-50 to-blue-50 border border-gray-200 rounded-xl p-5 shadow-sm">
               <FormField
                 control={form.control}
                 name="compareWithHistory"
                 render={({ field }) => (
-                  <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                  <FormItem className="flex flex-row items-center space-x-4 space-y-0">
                     <FormControl>
                       <Checkbox 
                         checked={field.value}
                         onCheckedChange={field.onChange}
-                        className="border-blue-300 data-[state=checked]:bg-blue-500"
+                        className="border-blue-300 data-[state=checked]:bg-blue-500 w-5 h-5"
                       />
                     </FormControl>
-                    <FormLabel className="text-sm text-gray-700 font-medium">
-                      与历史报告对比
+                    <FormLabel className="text-base text-gray-700 font-medium leading-relaxed cursor-pointer">
+                      与历史报告对比 (Compare with History)
                     </FormLabel>
                   </FormItem>
                 )}
               />
-              <div className="flex items-center text-xs text-gray-600 bg-green-100 px-3 py-1 rounded-full">
-                <Shield className="w-3 h-3 mr-1 text-green-600" />
-                数据加密保护
+              <div className="flex items-center text-sm text-gray-600 bg-gradient-to-r from-green-100 to-emerald-100 px-4 py-2 rounded-full border border-green-200 shadow-sm">
+                <Shield className="w-4 h-4 mr-2 text-green-600" />
+                <span className="font-medium">数据加密保护</span>
               </div>
             </div>
             
             <Button 
               type="submit" 
-              className="w-full bg-gradient-to-r from-blue-500 to-teal-500 hover:from-blue-600 hover:to-teal-600 text-white py-4 font-medium rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50"
+              className="w-full bg-gradient-to-r from-blue-500 to-teal-500 hover:from-blue-600 hover:to-teal-600 text-white py-5 font-semibold text-base rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50 leading-relaxed"
               disabled={isAnalyzing}
             >
-              <div className="w-5 h-5 bg-white/20 rounded-lg flex items-center justify-center mr-3">
-                <Brain className="w-3 h-3" />
+              <div className="w-6 h-6 bg-white/20 backdrop-blur-sm rounded-lg flex items-center justify-center mr-3 shadow-sm">
+                <Brain className="w-4 h-4" />
               </div>
-              {isAnalyzing ? "正在分析..." : "开始智能分析"}
+              {isAnalyzing ? "正在分析中..." : "开始智能分析 (Start AI Analysis)"}
             </Button>
           </form>
         </Form>

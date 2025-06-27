@@ -285,9 +285,7 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
                           }}></span>
                         </div>
                       )}
-                      <div className={`mt-3 inline-block px-3 py-1 rounded-full text-sm font-bold ${getLabStatusColor(lab.status)}`}>
-                        {getLabStatusText(lab.status)}
-                      </div>
+
                     </div>
                   ))}
                 </div>

@@ -120,6 +120,10 @@ The application uses PostgreSQL with two main tables:
     - Unified terms like "偏高" and "远高于正常水平" with consistent orange highlighting
     - Added support for degree descriptors: 明显/显著/轻度/中度/重度 + 升高/降低
     - Ensures consistent medical language presentation across lab results, risk factors, and clinical reasoning
+  - **Laboratory Results Display Simplification**: Removed status indicator bubbles from lab abnormalities section
+    - Eliminated color-coded status badges (↑ 偏高, ↓ 偏低, ✓ 正常) for cleaner presentation
+    - Maintains focus on numerical values and medical interpretations without visual clutter
+    - Preserves all medical terminology highlighting while removing status indicator styling
 
 - **June 26, 2025**: Complete UI Design System Transformation
   - **Unified Glassmorphism Design**: Transformed entire platform with cohesive sci-fi medical aesthetic

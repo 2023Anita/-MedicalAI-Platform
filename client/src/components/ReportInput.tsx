@@ -96,6 +96,7 @@ export default function ReportInput({
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files || []);
+    console.log('文件选择事件触发，文件数量:', files.length);
     
     const allowedTypes = [
       'application/pdf',
@@ -132,8 +133,13 @@ export default function ReportInput({
       return true;
     });
 
-    setSelectedFiles(prev => [...prev, ...validFiles]);
-    event.target.value = ''; // Reset input
+    setSelectedFiles(prev => {
+      const newFiles = [...prev, ...validFiles];
+      console.log('文件状态更新，新的总数:', newFiles.length);
+      return newFiles;
+    });
+    // 不要重置input值，保持文件选择状态
+    // event.target.value = ''; // Reset input
   };
 
   const removeFile = (index: number) => {
@@ -150,8 +156,11 @@ export default function ReportInput({
   };
 
   const onSubmit = (data: AnalysisRequest) => {
-    // 临时：简化验证 - 只要填写了患者信息就允许提交
-    // 服务器会处理文本和文件的实际验证
+    console.log('提交时的状态检查:');
+    console.log('- 选中文件数量:', selectedFiles.length);
+    console.log('- 文件列表:', selectedFiles.map(f => f.name));
+    console.log('- 文本数据长度:', data.reportData?.length || 0);
+    
     onAnalysisStart(data.patientName);
     analysisMutation.mutate(data);
     

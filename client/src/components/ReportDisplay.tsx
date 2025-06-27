@@ -177,7 +177,13 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
                 {report.detailedAnalysis.imagingFindings.map((finding, index) => (
                   <li key={index} className="flex items-start">
                     <span className="w-2 h-2 bg-warning rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                    <span className="leading-relaxed text-gray-800">{finding}</span>
+                    <span className="leading-relaxed text-gray-800" dangerouslySetInnerHTML={{
+                      __html: finding
+                        .replace(/(\d+%?|mm|cm|密度|增强|对比剂)/g, '<span class="text-blue-800 font-bold">$1</span>')
+                        .replace(/(结节|占位|肿块|病变|异常|阴影|钙化|积液|肿胀|增厚)/g, '<span class="text-red-700 font-bold">$1</span>')
+                        .replace(/(正常|稳定|良好|清晰|对称)/g, '<span class="text-green-700 font-bold">$1</span>')
+                        .replace(/(轻微|中度|重度|严重)/g, '<span class="text-orange-700 font-bold">$1</span>')
+                    }}></span>
                   </li>
                 ))}
               </ul>

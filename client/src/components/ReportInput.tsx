@@ -150,21 +150,8 @@ export default function ReportInput({
   };
 
   const onSubmit = (data: AnalysisRequest) => {
-    // 验证至少有文本内容或文件上传其中一个
-    const hasTextData = data.reportData && data.reportData.trim().length >= 10;
-    const hasFiles = selectedFiles.length > 0;
-    
-    // 如果既没有文本也没有文件，显示错误
-    if (!hasTextData && !hasFiles) {
-      toast({
-        title: "数据不完整", 
-        description: `请至少填写体检报告文本内容或上传医疗文件。当前状态: 文本${hasTextData ? '有' : '无'}, 文件${hasFiles ? selectedFiles.length + '个' : '无'}`,
-        variant: "destructive",
-      });
-      return;
-    }
-    
-    // 验证通过，继续处理
+    // 临时：简化验证 - 只要填写了患者信息就允许提交
+    // 服务器会处理文本和文件的实际验证
     onAnalysisStart(data.patientName);
     analysisMutation.mutate(data);
     

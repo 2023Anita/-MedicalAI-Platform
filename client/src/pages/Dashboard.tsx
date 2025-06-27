@@ -254,14 +254,52 @@ export default function Dashboard() {
                   )}
                 </>
               ) : (
-                <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-blue-200/50 p-12 text-center">
-                  <Activity className="w-16 h-16 text-blue-400 mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold text-gray-800 mb-2">
-                    等待分析数据
-                  </h3>
-                  <p className="text-gray-600">
-                    请在左侧输入体检报告数据，开始智能分析
-                  </p>
+                <div className="relative bg-gradient-to-br from-white/95 via-blue-50/80 to-teal-50/60 backdrop-blur-sm rounded-3xl shadow-xl border border-blue-200/30 overflow-hidden">
+                  {/* Background Pattern */}
+                  <div className="absolute inset-0 opacity-5">
+                    <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-blue-400 to-teal-400 rounded-full blur-3xl"></div>
+                    <div className="absolute bottom-0 right-0 w-40 h-40 bg-gradient-to-br from-teal-400 to-emerald-400 rounded-full blur-3xl"></div>
+                  </div>
+                  
+                  <div className="relative p-16 text-center">
+                    {/* Icon Container with Animation */}
+                    <div className="relative mx-auto mb-8 w-24 h-24">
+                      <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-teal-500 rounded-2xl opacity-20 animate-pulse"></div>
+                      <div className="absolute inset-2 bg-gradient-to-br from-blue-400 to-teal-400 rounded-xl flex items-center justify-center shadow-lg">
+                        <Activity className="w-10 h-10 text-white animate-pulse" />
+                      </div>
+                    </div>
+                    
+                    {/* Title with Gradient */}
+                    <h3 className="text-2xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent mb-4">
+                      等待分析数据
+                    </h3>
+                    
+                    {/* Description */}
+                    <p className="text-gray-600 text-lg mb-8 max-w-md mx-auto leading-relaxed">
+                      请在左侧输入体检报告数据，开始智能分析
+                    </p>
+                    
+                    {/* Feature Pills */}
+                    <div className="flex flex-wrap justify-center gap-3 mb-8">
+                      <div className="bg-white/60 backdrop-blur-sm px-4 py-2 rounded-full border border-blue-200/50 shadow-sm">
+                        <span className="text-sm font-medium text-blue-700">🩺 智能分析</span>
+                      </div>
+                      <div className="bg-white/60 backdrop-blur-sm px-4 py-2 rounded-full border border-teal-200/50 shadow-sm">
+                        <span className="text-sm font-medium text-teal-700">📊 数据洞察</span>
+                      </div>
+                      <div className="bg-white/60 backdrop-blur-sm px-4 py-2 rounded-full border border-emerald-200/50 shadow-sm">
+                        <span className="text-sm font-medium text-emerald-700">⚡ 快速诊断</span>
+                      </div>
+                    </div>
+                    
+                    {/* Animated Progress Dots */}
+                    <div className="flex justify-center space-x-2">
+                      <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce"></div>
+                      <div className="w-2 h-2 bg-teal-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                      <div className="w-2 h-2 bg-emerald-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                    </div>
+                  </div>
                 </div>
               )}
             </div>
@@ -349,20 +387,53 @@ export default function Dashboard() {
                 ))}
               </div>
             ) : (
-              <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-blue-200/50 p-12 text-center">
-                <FileText className="w-16 h-16 text-blue-400 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold text-gray-800 mb-2">
-                  暂无分析记录
-                </h3>
-                <p className="text-gray-600 mb-6">
-                  您还没有分析过任何体检报告
-                </p>
-                <button 
-                  onClick={() => setActiveTab('analysis')}
-                  className="bg-gradient-to-r from-blue-500 to-teal-500 hover:from-blue-600 hover:to-teal-600 text-white px-8 py-3 rounded-xl font-medium transition-all duration-200 shadow-md"
-                >
-                  开始分析
-                </button>
+              <div className="relative bg-gradient-to-br from-white/95 via-blue-50/80 to-teal-50/60 backdrop-blur-sm rounded-3xl shadow-xl border border-blue-200/30 overflow-hidden">
+                {/* Background Pattern */}
+                <div className="absolute inset-0 opacity-5">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-400 to-teal-400 rounded-full blur-3xl"></div>
+                  <div className="absolute bottom-0 left-0 w-40 h-40 bg-gradient-to-br from-teal-400 to-emerald-400 rounded-full blur-3xl"></div>
+                </div>
+                
+                <div className="relative p-16 text-center">
+                  {/* Icon Container with Animation */}
+                  <div className="relative mx-auto mb-8 w-24 h-24">
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-teal-500 rounded-2xl opacity-20 animate-pulse"></div>
+                    <div className="absolute inset-2 bg-gradient-to-br from-blue-400 to-teal-400 rounded-xl flex items-center justify-center shadow-lg">
+                      <FileText className="w-10 h-10 text-white" />
+                    </div>
+                  </div>
+                  
+                  {/* Title with Gradient */}
+                  <h3 className="text-2xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent mb-4">
+                    暂无分析记录
+                  </h3>
+                  
+                  {/* Description */}
+                  <p className="text-gray-600 text-lg mb-8 max-w-md mx-auto leading-relaxed">
+                    您还没有分析过任何体检报告，立即开始您的健康数据分析之旅
+                  </p>
+                  
+                  {/* Feature Pills */}
+                  <div className="flex flex-wrap justify-center gap-3 mb-8">
+                    <div className="bg-white/60 backdrop-blur-sm px-4 py-2 rounded-full border border-blue-200/50 shadow-sm">
+                      <span className="text-sm font-medium text-blue-700">📋 报告分析</span>
+                    </div>
+                    <div className="bg-white/60 backdrop-blur-sm px-4 py-2 rounded-full border border-teal-200/50 shadow-sm">
+                      <span className="text-sm font-medium text-teal-700">📈 趋势追踪</span>
+                    </div>
+                    <div className="bg-white/60 backdrop-blur-sm px-4 py-2 rounded-full border border-emerald-200/50 shadow-sm">
+                      <span className="text-sm font-medium text-emerald-700">🔍 深度洞察</span>
+                    </div>
+                  </div>
+                  
+                  {/* Action Button */}
+                  <button 
+                    onClick={() => setActiveTab('analysis')}
+                    className="bg-gradient-to-r from-blue-500 to-teal-500 hover:from-blue-600 hover:to-teal-600 text-white px-10 py-4 rounded-2xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+                  >
+                    开始分析
+                  </button>
+                </div>
               </div>
             )}
           </div>

@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { apiRequest } from "@/lib/queryClient";
 import aiAvatarImage from "@assets/image_1751000871336.png";
+import chatHeaderIconImage from "@assets/image_1751064453952.png";
 
 interface ChatMessage {
   id: string;
@@ -235,7 +236,7 @@ export default function AIChat() {
       <div className="flex items-center justify-between p-6 bg-gradient-to-r from-blue-600 to-teal-600 rounded-t-xl text-white shadow-md">
         <div className="flex items-center space-x-4">
           <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center ring-2 ring-white/30">
-            <MessageCircle className="w-6 h-6 text-white" />
+            <img src={chatHeaderIconImage} alt="Med Agentic-AI" className="w-8 h-8 object-contain" />
           </div>
           <div>
             <h3 className="font-bold text-lg">Med Agentic-AI</h3>

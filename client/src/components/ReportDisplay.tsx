@@ -1,10 +1,9 @@
-import { FileText, Download, Printer, ClipboardList, Microscope, TrendingUp, Calendar, UserCheck, Heart, Video, Brain, Target } from "lucide-react";
+import { FileText, Printer, ClipboardList, Microscope, TrendingUp, Calendar, UserCheck, Heart, Video, Brain, Target } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import type { HealthAssessmentReport } from "@shared/schema";
-import jsPDF from 'jspdf';
 
 interface ReportDisplayProps {
   report: HealthAssessmentReport;
@@ -16,199 +15,7 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
   // Dynamic section numbering system
   let sectionCounter = 1;
   
-  // PDF generation function
-  const generatePDF = () => {
-    try {
-      const doc = new jsPDF();
-      const pageWidth = doc.internal.pageSize.getWidth();
-      const margin = 20;
-      let yPosition = 30;
 
-      // Helper function to add text with automatic line wrapping
-      const addText = (text: string, x: number, y: number, maxWidth: number, fontSize = 10) => {
-        doc.setFontSize(fontSize);
-        const lines = doc.splitTextToSize(text, maxWidth);
-        doc.text(lines, x, y);
-        return y + (lines.length * fontSize * 0.4);
-      };
-
-      // Header
-      doc.setFontSize(18);
-      doc.setFont('helvetica', 'bold');
-      doc.text('Med Agentic-AI 医疗分析报告', pageWidth/2, yPosition, { align: 'center' });
-      yPosition += 20;
-
-      doc.setFontSize(12);
-      doc.setFont('helvetica', 'normal');
-      doc.text('江阴市人民医院-殷利鑫', pageWidth/2, yPosition, { align: 'center' });
-      yPosition += 25;
-
-      // Patient Information
-      doc.setFontSize(14);
-      doc.setFont('helvetica', 'bold');
-      doc.text('患者信息 (Patient Information)', margin, yPosition);
-      yPosition += 15;
-
-      doc.setFontSize(10);
-      doc.setFont('helvetica', 'normal');
-      yPosition = addText(`患者姓名: ${report.patientInfo.name}`, margin, yPosition, pageWidth - 2*margin);
-      yPosition = addText(`年龄: ${report.patientInfo.age}`, margin, yPosition, pageWidth - 2*margin);
-      if (report.patientInfo.gender) {
-        yPosition = addText(`性别: ${report.patientInfo.gender}`, margin, yPosition, pageWidth - 2*margin);
-      }
-      yPosition = addText(`分析日期: ${new Date().toLocaleDateString('zh-CN')}`, margin, yPosition, pageWidth - 2*margin);
-      yPosition += 15;
-
-      // Executive Summary
-      if (report.executiveSummary) {
-        doc.setFontSize(14);
-        doc.setFont('helvetica', 'bold');
-        doc.text('执行摘要 (Executive Summary)', margin, yPosition);
-        yPosition += 15;
-
-        doc.setFontSize(10);
-        doc.setFont('helvetica', 'normal');
-        
-        if (report.executiveSummary.mainFindings) {
-          yPosition = addText('主要发现:', margin, yPosition, pageWidth - 2*margin, 11);
-          report.executiveSummary.mainFindings.forEach((finding: string) => {
-            yPosition = addText(`• ${finding}`, margin + 10, yPosition, pageWidth - 2*margin - 10);
-          });
-          yPosition += 10;
-        }
-
-        if (report.executiveSummary.coreRisks) {
-          yPosition = addText('核心风险:', margin, yPosition, pageWidth - 2*margin, 11);
-          report.executiveSummary.coreRisks.forEach((risk: string) => {
-            yPosition = addText(`• ${risk}`, margin + 10, yPosition, pageWidth - 2*margin - 10);
-          });
-          yPosition += 10;
-        }
-
-        if (report.executiveSummary.primaryRecommendations) {
-          yPosition = addText('主要建议:', margin, yPosition, pageWidth - 2*margin, 11);
-          report.executiveSummary.primaryRecommendations.forEach((rec: string) => {
-            yPosition = addText(`• ${rec}`, margin + 10, yPosition, pageWidth - 2*margin - 10);
-          });
-          yPosition += 15;
-        }
-      }
-
-      // Check if we need a new page
-      if (yPosition > 250) {
-        doc.addPage();
-        yPosition = 30;
-      }
-
-      // Laboratory Results
-      if (report.detailedAnalysis?.labAbnormalities && report.detailedAnalysis.labAbnormalities.length > 0) {
-        doc.setFontSize(14);
-        doc.setFont('helvetica', 'bold');
-        doc.text('实验室检查结果 (Laboratory Results)', margin, yPosition);
-        yPosition += 15;
-
-        doc.setFontSize(10);
-        doc.setFont('helvetica', 'normal');
-        
-        report.detailedAnalysis.labAbnormalities.forEach((lab: any) => {
-          yPosition = addText(`${lab.indicator}: ${lab.value} (${lab.status})`, margin, yPosition, pageWidth - 2*margin);
-          yPosition = addText(`解读: ${lab.interpretation}`, margin + 10, yPosition, pageWidth - 2*margin - 10);
-          yPosition += 5;
-        });
-        yPosition += 10;
-      }
-
-      // Risk Assessment
-      if (report.riskAssessment) {
-        if (yPosition > 220) {
-          doc.addPage();
-          yPosition = 30;
-        }
-
-        doc.setFontSize(14);
-        doc.setFont('helvetica', 'bold');
-        doc.text('风险评估 (Risk Assessment)', margin, yPosition);
-        yPosition += 15;
-
-        doc.setFontSize(10);
-        doc.setFont('helvetica', 'normal');
-        
-        if (report.riskAssessment.overallAssessment) {
-          yPosition = addText(`整体评估: ${report.riskAssessment.overallAssessment}`, margin, yPosition, pageWidth - 2*margin);
-          yPosition += 10;
-        }
-
-        if (report.riskAssessment.diagnosticConclusion) {
-          yPosition = addText(`诊断结论: ${report.riskAssessment.diagnosticConclusion}`, margin, yPosition, pageWidth - 2*margin);
-          yPosition += 15;
-        }
-
-        if (report.riskAssessment.actionableRecommendations) {
-          const recommendations = report.riskAssessment.actionableRecommendations;
-          
-          if (recommendations.followUp) {
-            yPosition = addText('随访建议:', margin, yPosition, pageWidth - 2*margin, 11);
-            recommendations.followUp.forEach((item: string) => {
-              yPosition = addText(`• ${item}`, margin + 10, yPosition, pageWidth - 2*margin - 10);
-            });
-            yPosition += 10;
-          }
-
-          if (recommendations.specialistConsultation) {
-            yPosition = addText('专科咨询:', margin, yPosition, pageWidth - 2*margin, 11);
-            recommendations.specialistConsultation.forEach((item: string) => {
-              yPosition = addText(`• ${item}`, margin + 10, yPosition, pageWidth - 2*margin - 10);
-            });
-            yPosition += 10;
-          }
-
-          if (recommendations.lifestyleAdjustments) {
-            yPosition = addText('生活方式调整:', margin, yPosition, pageWidth - 2*margin, 11);
-            recommendations.lifestyleAdjustments.forEach((item: string) => {
-              yPosition = addText(`• ${item}`, margin + 10, yPosition, pageWidth - 2*margin - 10);
-            });
-          }
-        }
-      }
-
-      // Footer
-      const totalPages = doc.internal.pages.length - 1;
-      for (let i = 1; i <= totalPages; i++) {
-        doc.setPage(i);
-        doc.setFontSize(8);
-        doc.setFont('helvetica', 'normal');
-        doc.text('Med Agentic-AI © 江阴市人民医院-殷利鑫', pageWidth/2, doc.internal.pageSize.getHeight() - 10, { align: 'center' });
-        doc.text(`第 ${i} 页 / 共 ${totalPages} 页`, pageWidth - margin, doc.internal.pageSize.getHeight() - 10, { align: 'right' });
-      }
-
-      // Save the PDF
-      const fileName = `医疗报告-${report.patientInfo.name}-${new Date().toISOString().split('T')[0]}.pdf`;
-      doc.save(fileName);
-
-      return true;
-    } catch (error) {
-      console.error('PDF generation error:', error);
-      return false;
-    }
-  };
-
-  // Download report function
-  const handleDownload = () => {
-    const success = generatePDF();
-    if (success) {
-      toast({
-        title: "PDF下载成功",
-        description: "医疗报告PDF已保存到您的设备",
-        variant: "default",
-      });
-    } else {
-      toast({
-        title: "PDF生成失败",
-        description: "请稍后重试",
-        variant: "destructive",
-      });
-    }
-  };
   
   // Print report function
   const handlePrint = () => {
@@ -281,15 +88,7 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
             <span className="text-sm text-gray-600 bg-blue-50 px-3 py-1 rounded-full">
               生成时间: {formatDate(report.reportMetadata.generatedAt)}
             </span>
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className="border-blue-200 hover:bg-blue-50 rounded-lg"
-              onClick={handleDownload}
-              title="下载报告"
-            >
-              <Download className="w-4 h-4" />
-            </Button>
+
             <Button 
               variant="outline" 
               size="sm" 

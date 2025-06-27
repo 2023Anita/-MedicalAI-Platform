@@ -172,7 +172,7 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
               <div className="w-4 h-4 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full mr-3 shadow-sm"></div>
               2.1 影像学发现 (Imaging Findings)
             </h4>
-            <div className="bg-white/70 border border-blue-200 rounded-xl p-5 shadow-sm">
+            <div className="bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-200 rounded-2xl p-6 shadow-sm">
               <ul className="space-y-3 text-base">
                 {report.detailedAnalysis.imagingFindings.map((finding, index) => (
                   <li key={index} className="flex items-start">

@@ -95,6 +95,19 @@ The application uses PostgreSQL with two main tables:
 
 ## Recent Changes
 
+- **June 27, 2025**: Medical Report Display Consistency Improvements
+  - **Typography Optimization**: Enhanced font consistency across all medical report sections
+    - Updated video analysis section with improved readability using `text-base` and `leading-relaxed`
+    - Applied consistent medical vocabulary highlighting with color-coded terminology
+    - Unified font sizes and line spacing throughout health assessment reports
+  - **Visual Theme Consistency**: Aligned imaging findings section with overall design system
+    - Updated background gradients to match blue medical theme (`from-blue-50 to-cyan-50`)
+    - Consistent border styling and rounded corners across all report sections
+    - Enhanced shadow effects and spacing for better visual hierarchy
+  - **Bilingual Format Enhancement**: Added English translations to section titles
+    - Updated "影像视频读取结果分析" to include "(Video & Imaging Analysis Results)"
+    - Maintained consistent Chinese-English formatting across all medical sections
+
 - **June 26, 2025**: Complete UI Design System Transformation
   - **Unified Glassmorphism Design**: Transformed entire platform with cohesive sci-fi medical aesthetic
     - Applied semi-transparent cards with backdrop blur effects across all components

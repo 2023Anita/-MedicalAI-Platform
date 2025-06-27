@@ -177,7 +177,7 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
                 {report.detailedAnalysis.imagingFindings.map((finding, index) => (
                   <li key={index} className="flex items-start">
                     <span className="w-2 h-2 bg-warning rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                    <span>{finding}</span>
+                    <span className="leading-relaxed text-gray-800">{finding}</span>
                   </li>
                 ))}
               </ul>

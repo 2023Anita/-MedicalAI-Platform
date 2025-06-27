@@ -370,7 +370,7 @@ export default function Dashboard() {
         
         {activeTab === 'chat' && (
           /* Chat View */
-          <div className="max-w-6xl mx-auto">
+          <div className="w-full">
             <AIChat />
           </div>
         )}

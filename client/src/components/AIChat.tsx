@@ -263,13 +263,13 @@ export default function AIChat() {
       </div>
 
       {/* Messages Area - 增强医疗科技感 */}
-      <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-gradient-to-b from-transparent to-white/30">
+      <div className="flex-1 overflow-y-auto p-8 space-y-8 bg-gradient-to-b from-transparent to-white/30">
         {messages.map((message) => (
           <div
             key={message.id}
             className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'} animate-in slide-in-from-bottom-2 duration-300`}
           >
-            <div className={`flex max-w-[90%] ${message.type === 'user' ? 'flex-row-reverse' : 'flex-row'} items-start space-x-3`}>
+            <div className={`flex max-w-[95%] ${message.type === 'user' ? 'flex-row-reverse' : 'flex-row'} items-start space-x-4`}>
               {/* Avatar - 增强科技感 */}
               <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg ${
                 message.type === 'user' 
@@ -284,14 +284,14 @@ export default function AIChat() {
               </div>
 
               {/* Message Content - 放大字体和改进样式 */}
-              <div className={`rounded-2xl p-6 shadow-lg backdrop-blur-sm ${
+              <div className={`rounded-2xl p-8 shadow-lg backdrop-blur-sm ${
                 message.type === 'user' 
                   ? 'bg-gradient-to-br from-blue-500 to-blue-600 text-white' 
                   : 'bg-white/90 text-gray-800 border border-gray-200/50'
               }`}>
                 <div 
                   className={`leading-relaxed whitespace-pre-wrap ${
-                    message.type === 'user' ? 'text-base' : 'text-lg'
+                    message.type === 'user' ? 'text-lg' : 'text-xl'
                   }`}
                   dangerouslySetInnerHTML={{
                     __html: message.type === 'ai' ? highlightMedicalTerms(message.content) : message.content
@@ -385,8 +385,8 @@ export default function AIChat() {
       )}
 
       {/* Input Area - 增强科技医疗风格 */}
-      <div className="border-t border-blue-200/50 bg-gradient-to-r from-slate-50 to-blue-50 p-6 rounded-b-xl">
-        <div className="flex items-end space-x-4">
+      <div className="border-t border-blue-200/50 bg-gradient-to-r from-white/80 to-blue-50/80 backdrop-blur-md p-4 rounded-b-xl">
+        <div className="flex items-end space-x-3">
           <input
             ref={fileInputRef}
             type="file"
@@ -398,11 +398,11 @@ export default function AIChat() {
           
           <Button
             variant="outline"
-            size="lg"
+            size="sm"
             onClick={() => fileInputRef.current?.click()}
-            className="flex-shrink-0 bg-white/80 backdrop-blur-sm border-blue-200 hover:bg-blue-50 hover:border-blue-300 text-blue-700 shadow-sm"
+            className="flex-shrink-0 bg-white/90 backdrop-blur-sm border-blue-300/60 hover:bg-blue-50 hover:border-blue-400 text-blue-600 shadow-sm rounded-lg h-10 w-10 p-0"
           >
-            <Upload className="w-5 h-5" />
+            <Upload className="w-4 h-4" />
           </Button>
 
           <div className="flex-1">
@@ -411,7 +411,7 @@ export default function AIChat() {
               onChange={(e) => setInputMessage(e.target.value)}
               onKeyPress={handleKeyPress}
               placeholder="🩺 输入您的医疗问题，或上传检查报告、影像资料进行AI分析..."
-              className="min-h-[80px] max-h-[180px] resize-none text-base leading-relaxed bg-white/80 backdrop-blur-sm border-blue-200 focus:border-blue-400 focus:ring-blue-200 shadow-sm p-4"
+              className="min-h-[50px] max-h-[120px] resize-none text-sm leading-relaxed bg-white/90 backdrop-blur-sm border-blue-300/60 focus:border-blue-400 focus:ring-2 focus:ring-blue-200/50 shadow-sm p-3 rounded-lg"
               disabled={chatMutation.isPending}
             />
           </div>
@@ -419,17 +419,17 @@ export default function AIChat() {
           <Button
             onClick={handleSendMessage}
             disabled={(!inputMessage.trim() && selectedFiles.length === 0) || chatMutation.isPending}
-            className="flex-shrink-0 bg-gradient-to-r from-blue-600 to-teal-600 hover:from-blue-700 hover:to-teal-700 text-white shadow-lg px-6 py-3 text-base font-medium"
-            size="lg"
+            className="flex-shrink-0 bg-gradient-to-r from-blue-500 to-teal-500 hover:from-blue-600 hover:to-teal-600 text-white shadow-md rounded-lg h-10 px-4 text-sm font-medium transition-all duration-200"
+            size="sm"
           >
             {chatMutation.isPending ? (
-              <div className="flex items-center space-x-2">
-                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+              <div className="flex items-center space-x-1">
+                <div className="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
                 <span>发送中</span>
               </div>
             ) : (
               <>
-                <Send className="w-5 h-5 mr-1" />
+                <Send className="w-4 h-4 mr-1" />
                 <span>发送</span>
               </>
             )}

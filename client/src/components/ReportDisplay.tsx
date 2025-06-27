@@ -2,6 +2,7 @@ import { FileText, Download, Printer, ClipboardList, Microscope, TrendingUp, Cal
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { useToast } from "@/hooks/use-toast";
 import type { HealthAssessmentReport } from "@shared/schema";
 
 interface ReportDisplayProps {
@@ -9,8 +10,57 @@ interface ReportDisplayProps {
 }
 
 export default function ReportDisplay({ report }: ReportDisplayProps) {
+  const { toast } = useToast();
+  
   // Dynamic section numbering system
   let sectionCounter = 1;
+  
+  // Download report function
+  const handleDownload = () => {
+    try {
+      const reportData = {
+        patientInfo: report.patientInfo,
+        executiveSummary: report.executiveSummary,
+        detailedAnalysis: report.detailedAnalysis,
+        riskAssessment: report.riskAssessment,
+        reportMetadata: report.reportMetadata,
+        generatedAt: new Date().toISOString()
+      };
+      
+      const blob = new Blob([JSON.stringify(reportData, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `医疗报告-${report.patientInfo.name}-${new Date().toISOString().split('T')[0]}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      
+      toast({
+        title: "下载成功",
+        description: "报告已保存到您的设备",
+        variant: "default",
+      });
+    } catch (error) {
+      console.error('Download error:', error);
+      toast({
+        title: "下载失败",
+        description: "请稍后重试",
+        variant: "destructive",
+      });
+    }
+  };
+  
+  // Print report function
+  const handlePrint = () => {
+    window.print();
+    toast({
+      title: "准备打印",
+      description: "报告已准备好打印",
+      variant: "default",
+    });
+  };
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleString('zh-CN', {
       year: 'numeric',
@@ -73,10 +123,22 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
             <span className="text-sm text-gray-600 bg-blue-50 px-3 py-1 rounded-full">
               生成时间: {formatDate(report.reportMetadata.generatedAt)}
             </span>
-            <Button variant="outline" size="sm" className="border-blue-200 hover:bg-blue-50 rounded-lg">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="border-blue-200 hover:bg-blue-50 rounded-lg"
+              onClick={handleDownload}
+              title="下载报告"
+            >
               <Download className="w-4 h-4" />
             </Button>
-            <Button variant="outline" size="sm" className="border-blue-200 hover:bg-blue-50 rounded-lg">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="border-blue-200 hover:bg-blue-50 rounded-lg"
+              onClick={handlePrint}
+              title="打印报告"
+            >
               <Printer className="w-4 h-4" />
             </Button>
           </div>

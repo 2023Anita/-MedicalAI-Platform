@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Activity, User, LogOut, FileText, Calendar, Clock, Trash2, Settings } from "lucide-react";
+import { Activity, User, LogOut, FileText, Calendar, Clock, Trash2, Settings, Download, Printer } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient } from "@/lib/queryClient";
@@ -525,7 +525,7 @@ export default function Dashboard() {
                         </div>
                       </div>
                       
-                      <div className="flex space-x-3">
+                      <div className="flex space-x-2">
                         <button 
                           onClick={(e) => {
                             e.stopPropagation();
@@ -539,19 +539,83 @@ export default function Dashboard() {
                           查看报告
                         </button>
                         {!isCompareMode && (
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              if (confirm('确定要删除这个报告吗？此操作无法撤销。')) {
-                                deleteReportMutation.mutate(report.id);
-                              }
-                            }}
-                            disabled={deleteReportMutation.isPending}
-                            className="p-3 text-red-500 hover:text-red-700 hover:bg-red-100 rounded-xl transition-all duration-200 disabled:opacity-50 shadow-sm"
-                            title="删除报告"
-                          >
-                            <Trash2 className="w-5 h-5" />
-                          </button>
+                          <>
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                try {
+                                  const reportData = {
+                                    patientName: report.patientName,
+                                    patientAge: report.patientAge,
+                                    patientGender: report.patientGender,
+                                    analysisDate: report.createdAt,
+                                    analysisResult: report.analysisResult,
+                                    reportId: report.id
+                                  };
+                                  const blob = new Blob([JSON.stringify(reportData, null, 2)], { type: 'application/json' });
+                                  const url = URL.createObjectURL(blob);
+                                  const a = document.createElement('a');
+                                  a.href = url;
+                                  a.download = `医疗报告-${report.patientName}-${new Date(report.createdAt).toISOString().split('T')[0]}.json`;
+                                  document.body.appendChild(a);
+                                  a.click();
+                                  document.body.removeChild(a);
+                                  URL.revokeObjectURL(url);
+                                  toast({
+                                    title: "下载成功",
+                                    description: "报告已保存到您的设备",
+                                    variant: "default",
+                                  });
+                                } catch (error) {
+                                  console.error('Download error:', error);
+                                  toast({
+                                    title: "下载失败",
+                                    description: "请稍后重试",
+                                    variant: "destructive",
+                                  });
+                                }
+                              }}
+                              className="p-3 text-blue-500 hover:text-blue-700 hover:bg-blue-100 rounded-xl transition-all duration-200 shadow-sm"
+                              title="下载报告"
+                            >
+                              <Download className="w-5 h-5" />
+                            </button>
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                // Set the current report and switch to analysis tab for printing
+                                setCurrentReport(report.analysisResult);
+                                setSelectedPatient(report.patientName);
+                                setActiveTab('analysis');
+                                // Trigger print after a short delay to allow the report to render
+                                setTimeout(() => {
+                                  window.print();
+                                }, 500);
+                                toast({
+                                  title: "准备打印",
+                                  description: "报告已准备好打印",
+                                  variant: "default",
+                                });
+                              }}
+                              className="p-3 text-purple-500 hover:text-purple-700 hover:bg-purple-100 rounded-xl transition-all duration-200 shadow-sm"
+                              title="打印报告"
+                            >
+                              <Printer className="w-5 h-5" />
+                            </button>
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                if (confirm('确定要删除这个报告吗？此操作无法撤销。')) {
+                                  deleteReportMutation.mutate(report.id);
+                                }
+                              }}
+                              disabled={deleteReportMutation.isPending}
+                              className="p-3 text-red-500 hover:text-red-700 hover:bg-red-100 rounded-xl transition-all duration-200 disabled:opacity-50 shadow-sm"
+                              title="删除报告"
+                            >
+                              <Trash2 className="w-5 h-5" />
+                            </button>
+                          </>
                         )}
                       </div>
                     </div>

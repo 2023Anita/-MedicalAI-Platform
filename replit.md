@@ -126,6 +126,11 @@ The application uses PostgreSQL with two main tables:
     - 调整文件预览区域边框和背景为emerald色调
     - 优化发送按钮渐变色彩，从blue-500/teal-500改为emerald-500/teal-500
     - 创建统一的emerald-teal医疗主题色彩体系，与图标完美协调
+  - **平台Logo更新**: 替换Dashboard头部Logo为用户提供的全新医疗防护盾Logo
+    - 导入用户提供的医疗Logo图标(image_1751001197483.png)
+    - 新Logo设计包含医疗十字、心电图心形和电路板元素
+    - 完美契合Med Agentic-AI智能医疗平台的专业定位
+    - 统一品牌视觉识别，提升平台专业形象
   - **历史记录显示修复**: 完全解决用户个人报告无法在历史记录页面显示的认证问题
     - 修复前端查询认证凭据传递问题，确保credentials: 'include'正确配置
     - 添加服务器端会话状态调试日志，准确追踪用户认证状态

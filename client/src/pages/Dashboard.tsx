@@ -10,7 +10,7 @@ import ReportDisplay from "@/components/ReportDisplay";
 import HistoricalComparison from "@/components/HistoricalComparison";
 import AIChat from "@/components/AIChat";
 import type { HealthAssessmentReport, AnalysisProgress as AnalysisProgressType } from "@shared/schema";
-import logoImage from "@assets/image_1750951783733.png";
+import logoImage from "@assets/image_1751001197483.png";
 
 export default function Dashboard() {
   const [currentReport, setCurrentReport] = useState<HealthAssessmentReport | null>(null);

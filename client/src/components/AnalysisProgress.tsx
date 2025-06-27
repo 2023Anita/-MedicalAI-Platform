@@ -11,7 +11,7 @@ const progressSteps = [
   { key: 'orchestrator' as keyof AnalysisProgress, label: '编排器 (Orchestrator)' },
   { key: 'imagingAgent' as keyof AnalysisProgress, label: '影像分析 Agent' },
   { key: 'labAgent' as keyof AnalysisProgress, label: '化验单解读 Agent' },
-  { key: 'medicalHistoryAgent' as keyof AnalysisProgress, label: '病例数据 Agent' },
+  { key: 'medicalHistoryAgent' as keyof AnalysisProgress, label: '病史数据 Agent' },
   { key: 'comprehensiveAnalysis' as keyof AnalysisProgress, label: '综合推理分析' },
 ];
 

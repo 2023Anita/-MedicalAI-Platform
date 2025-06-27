@@ -144,6 +144,7 @@ The application uses PostgreSQL with two main tables:
     - 新图标包含人脑轮廓、医疗十字、心电图心形、AI盾牌和神经网络连接元素
     - 完美体现Med Agentic-AI智能医疗分析平台的专业定位
     - 提升聊天界面的医疗科技感和品牌一致性
+    - 优化图标显示为object-cover，确保图像完全填充容器无留白
 
 - **June 27, 2025**: AI聊天界面优化与历史记录显示修复
   - **AI对话界面尺寸优化**: 全面优化AI聊天界面的空间布局和用户体验

@@ -302,7 +302,7 @@ export default function Login() {
         </Card>
 
         <div className="text-center mt-6 text-sm text-gray-500">
-          <p>使用Med Agentic-AI即表示您同意我们的服务条款和隐私政策</p>
+          <p>Med Agentic-AI © 江阴市人民医院-殷利鑫</p>
         </div>
       </div>
     </div>

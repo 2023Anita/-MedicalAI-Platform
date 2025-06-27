@@ -164,10 +164,18 @@ ${JSON.stringify(reportAnalyses, null, 2)}
 `;
 
   try {
-    const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
-      config: {
-        responseMimeType: "application/json",
+    console.log('Starting comparison analysis with Gemini API...');
+    const startTime = Date.now();
+    
+    const response: any = await Promise.race([
+      ai.models.generateContent({
+        model: "gemini-2.5-flash",
+        config: {
+          maxOutputTokens: 8192,
+          temperature: 0.1,
+          topP: 0.8,
+          topK: 40,
+          responseMimeType: "application/json",
         responseSchema: {
           type: "object",
           properties: {
@@ -259,15 +267,56 @@ ${JSON.stringify(reportAnalyses, null, 2)}
         }
       },
       contents: comparisonPrompt,
-    });
+      }),
+      new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Gemini API timeout after 60 seconds')), 60000)
+      )
+    ]);
 
-    const analysisText = response.text;
+    const duration = Date.now() - startTime;
+    console.log(`Gemini API response received in ${duration}ms`);
+
+    let analysisText = response.text;
     if (!analysisText) {
       console.log('AI response empty, using fallback analysis based on actual report data');
       return generateFallbackComparison();
     }
 
-    return JSON.parse(analysisText);
+    // Clean and fix JSON format
+    try {
+      // Remove any markdown code blocks
+      analysisText = analysisText.replace(/```json\s*/g, '').replace(/```\s*/g, '');
+      
+      // Find the JSON object boundaries
+      const jsonStart = analysisText.indexOf('{');
+      const jsonEnd = analysisText.lastIndexOf('}');
+      
+      if (jsonStart === -1 || jsonEnd === -1) {
+        throw new Error('No valid JSON object found in response');
+      }
+      
+      let jsonText = analysisText.substring(jsonStart, jsonEnd + 1);
+      
+      // Fix common JSON issues
+      jsonText = jsonText
+        .replace(/,\s*}/g, '}')  // Remove trailing commas
+        .replace(/,\s*]/g, ']')  // Remove trailing commas in arrays
+        .replace(/\n/g, ' ')     // Replace newlines with spaces
+        .replace(/\r/g, '')      // Remove carriage returns
+        .replace(/\t/g, ' ')     // Replace tabs with spaces
+        .replace(/\s+/g, ' ')    // Normalize whitespace
+        .trim();
+      
+      console.log('Cleaned JSON length:', jsonText.length);
+      console.log('JSON preview:', jsonText.substring(0, 200) + '...');
+      
+      return JSON.parse(jsonText);
+    } catch (parseError) {
+      console.error('JSON parsing failed after cleanup:', parseError);
+      console.log('Raw response length:', analysisText.length);
+      console.log('Raw response preview:', analysisText.substring(0, 500) + '...');
+      throw parseError;
+    }
   } catch (error) {
     console.error('Comparison analysis error:', error);
     console.log('Using fallback analysis based on actual report data');

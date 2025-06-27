@@ -95,7 +95,13 @@ The application uses PostgreSQL with two main tables:
 
 ## Recent Changes
 
-- **June 27, 2025**: File Upload Validation & Progress Text Updates
+- **June 27, 2025**: Clinical Reasoning Display & File Upload Validation Updates
+  - **Clinical Reasoning Optimization**: Enhanced readability of long medical reasoning text
+    - Converted dense paragraph format to structured bullet-point display
+    - Split reasoning by Chinese sentence delimiters for better visual organization
+    - Added green bullet points for each reasoning step while preserving all content
+    - Maintained complete medical vocabulary highlighting and color coding
+    - Improved user experience for following AI diagnostic logic flow
   - **File Upload Fix**: Resolved persistent file upload validation issue preventing analysis with uploaded files
     - Removed conflicting validation constraints that blocked submission when files were selected
     - Simplified frontend validation to allow flexible OR logic (text content OR file uploads)

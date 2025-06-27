@@ -66,6 +66,16 @@ export default function Dashboard() {
   const { data: historicalReports, isLoading: isLoadingHistory } = useQuery({
     queryKey: ['/api/reports'],
     enabled: activeTab === 'history',
+    queryFn: async () => {
+      const response = await fetch('/api/reports', {
+        credentials: 'include',
+        cache: 'no-cache'
+      });
+      if (!response.ok) {
+        throw new Error('Failed to fetch reports');
+      }
+      return response.json();
+    },
   }) as { data: any, isLoading: boolean };
 
   // Delete report mutation
@@ -73,6 +83,8 @@ export default function Dashboard() {
     mutationFn: async (reportId: number) => {
       const response = await fetch(`/api/reports/${reportId}`, {
         method: 'DELETE',
+        credentials: 'include',
+        cache: 'no-cache'
       });
       if (!response.ok) {
         throw new Error('删除失败');

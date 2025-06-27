@@ -342,15 +342,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Get user-specific reports
   app.get("/api/reports", async (req, res) => {
     try {
+      const sessionData = req.session as any;
+      console.log('Reports request session check:', {
+        sessionID: req.sessionID,
+        userId: sessionData?.userId,
+        userEmail: sessionData?.userEmail
+      });
+      
       // Check if user is authenticated
-      if (!req.session.userId) {
+      if (!sessionData?.userId) {
+        console.log('Reports rejected: No valid session found');
         return res.status(401).json({
           success: false,
           error: "用户未登录"
         });
       }
 
-      const reports = await storage.getMedicalReportsByUser(req.session.userId);
+      const reports = await storage.getMedicalReportsByUser(sessionData.userId);
+      console.log(`Found ${reports.length} reports for user ${sessionData.userId}`);
       
       res.json({
         success: true,

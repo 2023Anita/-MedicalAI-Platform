@@ -9,6 +9,8 @@ interface ReportDisplayProps {
 }
 
 export default function ReportDisplay({ report }: ReportDisplayProps) {
+  // Dynamic section numbering system
+  let sectionCounter = 1;
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleString('zh-CN', {
       year: 'numeric',
@@ -170,7 +172,7 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
           <div className="mb-6">
             <h4 className="text-lg font-semibold text-gray-800 mb-4 flex items-center bg-gradient-to-r from-blue-50 to-cyan-50 px-5 py-3 rounded-xl border border-blue-200">
               <div className="w-4 h-4 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full mr-3 shadow-sm"></div>
-              2.1 影像学发现 (Imaging Findings)
+              2.{sectionCounter++} 影像学发现 (Imaging Findings)
             </h4>
             <div className="bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-200 rounded-2xl p-6 shadow-sm">
               <ul className="space-y-3 text-base">
@@ -195,7 +197,7 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
             <div className="mb-6">
               <h4 className="text-lg font-semibold text-gray-800 mb-4 flex items-center bg-gradient-to-r from-purple-50 to-pink-50 px-5 py-3 rounded-xl border border-purple-200">
                 <div className="w-4 h-4 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full mr-3 shadow-sm"></div>
-                2.2 影像视频读取结果分析 (Video & Imaging Analysis Results)
+                2.{sectionCounter++} 影像视频读取结果分析 (Video & Imaging Analysis Results)
               </h4>
               <div className="bg-gradient-to-br from-purple-50 to-pink-50 border border-purple-200 rounded-2xl p-5 space-y-4 shadow-sm">
                 {report.detailedAnalysis.videoFindings.map((finding, index) => (
@@ -228,7 +230,7 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
             <div className="mb-6">
               <h4 className="text-lg font-semibold text-gray-800 mb-4 flex items-center bg-gradient-to-r from-green-50 to-teal-50 px-5 py-3 rounded-xl border border-green-200">
                 <div className="w-4 h-4 bg-gradient-to-br from-green-500 to-teal-500 rounded-full mr-3 shadow-sm"></div>
-                2.3 临床推理过程 (Clinical Reasoning Process)
+                2.{sectionCounter++} 临床推理过程 (Clinical Reasoning Process)
               </h4>
               <div className="bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-2xl p-6 shadow-sm">
                 <ul className="space-y-4">
@@ -256,7 +258,7 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
           <div className="mb-6">
             <h4 className="text-lg font-semibold text-gray-800 mb-4 flex items-center bg-gradient-to-r from-teal-50 to-cyan-50 px-5 py-3 rounded-xl border border-teal-200">
               <div className="w-4 h-4 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-full mr-3 shadow-sm"></div>
-              2.4 实验室检查异常 (Lab Test Abnormalities)
+              2.{sectionCounter++} 实验室检查异常 (Lab Test Abnormalities)
             </h4>
             <div className="bg-gradient-to-br from-teal-50 to-cyan-50 border border-teal-200 rounded-2xl p-6 shadow-sm">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -295,7 +297,7 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
           <div className="mb-6">
             <h4 className="text-lg font-semibold text-gray-800 mb-4 flex items-center bg-gradient-to-r from-orange-50 to-red-50 px-5 py-3 rounded-xl border border-orange-200">
               <div className="w-4 h-4 bg-gradient-to-br from-orange-500 to-red-500 rounded-full mr-3 shadow-sm"></div>
-              2.5 个人健康风险因素 (Personal Health Risk Factors)
+              2.{sectionCounter++} 个人健康风险因素 (Personal Health Risk Factors)
             </h4>
             <div className="bg-gradient-to-br from-orange-50 to-red-50 border border-orange-200 rounded-2xl p-6 shadow-sm">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -340,7 +342,7 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
             <div className="mb-6">
               <h4 className="text-lg font-semibold text-gray-800 mb-4 flex items-center bg-gradient-to-r from-rose-50 to-pink-50 px-5 py-3 rounded-xl border border-rose-200">
                 <div className="w-4 h-4 bg-gradient-to-br from-rose-500 to-pink-500 rounded-full mr-3 shadow-sm"></div>
-                2.6 可能的诊断 (Possible Diagnoses)
+                2.{sectionCounter++} 可能的诊断 (Possible Diagnoses)
               </h4>
               <div className="space-y-5">
                 {report.detailedAnalysis.possibleDiagnoses.map((diagnosis, index) => (
@@ -386,7 +388,7 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
             <div className="mb-6">
               <h4 className="text-lg font-semibold text-gray-800 mb-4 flex items-center bg-gradient-to-r from-amber-50 to-yellow-50 px-5 py-3 rounded-xl border border-amber-200">
                 <div className="w-4 h-4 bg-gradient-to-br from-amber-500 to-yellow-500 rounded-full mr-3 shadow-sm"></div>
-                2.7 鉴别诊断 (Differential Diagnosis)
+                2.{sectionCounter++} 鉴别诊断 (Differential Diagnosis)
               </h4>
               <div className="bg-gradient-to-br from-amber-50 to-yellow-50 border border-amber-200 rounded-2xl p-6 shadow-sm">
                 <div className="space-y-5">
@@ -426,7 +428,7 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
             <div className="mb-6">
               <h4 className="text-lg font-semibold text-gray-800 mb-4 flex items-center bg-gradient-to-r from-indigo-50 to-blue-50 px-5 py-3 rounded-xl border border-indigo-200">
                 <div className="w-4 h-4 bg-gradient-to-br from-indigo-500 to-blue-500 rounded-full mr-3 shadow-sm"></div>
-                2.8 影像学报告总结 (Imaging Report Summary)
+                2.{sectionCounter++} 影像学报告总结 (Imaging Report Summary)
               </h4>
               <div className="bg-gradient-to-br from-indigo-50 to-blue-50 border border-indigo-200 rounded-2xl p-6 shadow-sm space-y-6">
                 <div>

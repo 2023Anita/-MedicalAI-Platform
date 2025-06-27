@@ -86,7 +86,7 @@ export default function Dashboard() {
                 </div>
                 <div>
                   <h1 className="text-xl font-bold text-white">Med Agentic-AI</h1>
-                  <p className="text-sm text-blue-100">进行智能分析</p>
+                  <p className="text-sm text-blue-100">智能医疗分析平台</p>
                 </div>
               </div>
             </div>

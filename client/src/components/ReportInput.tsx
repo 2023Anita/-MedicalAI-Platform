@@ -73,7 +73,7 @@ export default function ReportInput({
       onAnalysisStart(data.patientName);
     },
     onSuccess: (data) => {
-      if (data.success) {
+      if (data.success && data.analysis) {
         onAnalysisComplete(data.analysis);
         toast({
           title: "分析完成",
@@ -81,7 +81,7 @@ export default function ReportInput({
         });
         setSelectedFiles([]);
       } else {
-        throw new Error(data.error || "分析失败");
+        throw new Error(data.error || "分析失败 - 未收到分析结果");
       }
     },
     onError: (error) => {

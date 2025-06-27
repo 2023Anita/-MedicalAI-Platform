@@ -18,8 +18,58 @@ export default function Dashboard() {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'analysis' | 'history' | 'chat' | 'settings'>('analysis');
+  const [selectedReports, setSelectedReports] = useState<number[]>([]);
+  const [isCompareMode, setIsCompareMode] = useState(false);
   const [, setLocation] = useLocation();
   const { toast } = useToast();
+
+  // Helper functions for report comparison
+  const handleReportSelection = (reportId: number) => {
+    if (selectedReports.includes(reportId)) {
+      setSelectedReports(selectedReports.filter(id => id !== reportId));
+    } else {
+      if (selectedReports.length < 3) { // Limit to 3 reports for comparison
+        setSelectedReports([...selectedReports, reportId]);
+      } else {
+        toast({
+          title: "选择限制",
+          description: "最多只能选择3份报告进行对比",
+          variant: "default",
+        });
+      }
+    }
+  };
+
+  const handleCompareReports = () => {
+    if (selectedReports.length < 2) {
+      toast({
+        title: "选择不足",
+        description: "请至少选择2份报告进行对比",
+        variant: "default",
+      });
+      return;
+    }
+
+    const selectedReportData = historicalReports?.reports?.filter((report: any) => 
+      selectedReports.includes(report.id)
+    );
+
+    if (selectedReportData && selectedReportData.length >= 2) {
+      // Switch to analysis tab and show comparison
+      setActiveTab('analysis');
+      // You can implement detailed comparison logic here
+      toast({
+        title: "开始对比",
+        description: `正在对比 ${selectedReportData.length} 份报告`,
+        variant: "default",
+      });
+    }
+  };
+
+  const toggleCompareMode = () => {
+    setIsCompareMode(!isCompareMode);
+    setSelectedReports([]);
+  };
 
   // Check authentication on component mount
   useEffect(() => {
@@ -362,10 +412,39 @@ export default function Dashboard() {
             <div className="flex items-center justify-between bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-blue-200/50">
               <div>
                 <h2 className="text-2xl font-bold text-gray-800">我的分析记录</h2>
-                <p className="text-sm text-gray-600 mt-1">查看您的体检报告分析历史</p>
+                <p className="text-sm text-gray-600 mt-1">
+                  {isCompareMode ? "选择报告进行对比分析" : "查看您的体检报告分析历史"}
+                </p>
               </div>
-              <div className="text-sm text-gray-600 bg-blue-50 px-3 py-1 rounded-full">
-                共 {historicalReports?.reports?.length || 0} 条记录
+              <div className="flex items-center space-x-4">
+                {isCompareMode && selectedReports.length > 0 && (
+                  <div className="flex items-center space-x-2">
+                    <span className="text-sm text-gray-600 bg-blue-50 px-3 py-1 rounded-full">
+                      已选择 {selectedReports.length} 份
+                    </span>
+                    {selectedReports.length >= 2 && (
+                      <button
+                        onClick={handleCompareReports}
+                        className="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white px-4 py-2 rounded-xl font-medium transition-all duration-200 shadow-md text-sm"
+                      >
+                        开始对比
+                      </button>
+                    )}
+                  </div>
+                )}
+                <button
+                  onClick={toggleCompareMode}
+                  className={`px-4 py-2 rounded-xl font-medium transition-all duration-200 shadow-md text-sm ${
+                    isCompareMode 
+                      ? 'bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white' 
+                      : 'bg-gradient-to-r from-blue-500 to-teal-500 hover:from-blue-600 hover:to-teal-600 text-white'
+                  }`}
+                >
+                  {isCompareMode ? "取消对比" : "对比模式"}
+                </button>
+                <div className="text-sm text-gray-600 bg-blue-50 px-3 py-1 rounded-full">
+                  共 {historicalReports?.reports?.length || 0} 条记录
+                </div>
               </div>
             </div>
             
@@ -390,65 +469,98 @@ export default function Dashboard() {
               </div>
             ) : historicalReports?.reports?.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {historicalReports.reports.map((report: any) => (
-                  <div key={report.id} className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-blue-200/50 p-6 hover:shadow-xl transition-all duration-300 hover:scale-105">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="flex items-center space-x-3">
-                        <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-teal-500 rounded-xl flex items-center justify-center shadow-md">
-                          <FileText className="w-6 h-6 text-white" />
+                {historicalReports.reports.map((report: any) => {
+                  const isSelected = selectedReports.includes(report.id);
+                  return (
+                    <div 
+                      key={report.id} 
+                      className={`bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border transition-all duration-300 hover:scale-105 p-6 ${
+                        isCompareMode 
+                          ? isSelected 
+                            ? 'border-green-400 ring-2 ring-green-200 hover:shadow-xl' 
+                            : 'border-blue-200/50 hover:border-blue-300 hover:shadow-xl cursor-pointer'
+                          : 'border-blue-200/50 hover:shadow-xl'
+                      }`}
+                      onClick={isCompareMode ? () => handleReportSelection(report.id) : undefined}
+                    >
+                      <div className="flex items-start justify-between mb-4">
+                        <div className="flex items-center space-x-3">
+                          <div className={`w-12 h-12 rounded-xl flex items-center justify-center shadow-md ${
+                            isCompareMode && isSelected 
+                              ? 'bg-gradient-to-br from-green-500 to-emerald-500' 
+                              : 'bg-gradient-to-br from-blue-500 to-teal-500'
+                          }`}>
+                            {isCompareMode && isSelected ? (
+                              <div className="w-6 h-6 text-white">✓</div>
+                            ) : (
+                              <FileText className="w-6 h-6 text-white" />
+                            )}
+                          </div>
+                          <div>
+                            <h3 className="font-semibold text-gray-800 text-lg">{report.patientName}</h3>
+                            <p className="text-sm text-gray-600">{report.patientAge}岁 {report.patientGender}</p>
+                          </div>
                         </div>
-                        <div>
-                          <h3 className="font-semibold text-gray-800 text-lg">{report.patientName}</h3>
-                          <p className="text-sm text-gray-600">{report.patientAge}岁 {report.patientGender}</p>
+                        <div className="flex items-center space-x-2">
+                          {isCompareMode && (
+                            <input
+                              type="checkbox"
+                              checked={isSelected}
+                              onChange={() => handleReportSelection(report.id)}
+                              className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500"
+                              onClick={(e) => e.stopPropagation()}
+                            />
+                          )}
+                          <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                          <span className="text-xs text-gray-500 bg-blue-50 px-2 py-1 rounded-full">
+                            个人记录
+                          </span>
                         </div>
                       </div>
-                      <div className="flex items-center space-x-2">
-                        <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
-                        <span className="text-xs text-gray-500 bg-blue-50 px-2 py-1 rounded-full">
-                          个人记录
-                        </span>
+                      
+                      <div className="flex items-center space-x-4 text-sm text-gray-600 mb-4 bg-gray-50 rounded-lg p-3">
+                        <div className="flex items-center space-x-2">
+                          <Calendar className="w-4 h-4 text-blue-500" />
+                          <span>{new Date(report.createdAt).toLocaleDateString('zh-CN')}</span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <Clock className="w-4 h-4 text-teal-500" />
+                          <span>{new Date(report.createdAt).toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })}</span>
+                        </div>
+                      </div>
+                      
+                      <div className="flex space-x-3">
+                        <button 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            console.log('Historical report data:', report);
+                            setCurrentReport(report.analysisResult);
+                            setSelectedPatient(report.patientName);
+                            setActiveTab('analysis');
+                          }}
+                          className="flex-1 bg-gradient-to-r from-blue-500 to-teal-500 hover:from-blue-600 hover:to-teal-600 text-white font-medium py-3 px-4 rounded-xl transition-all duration-200 shadow-md"
+                        >
+                          查看报告
+                        </button>
+                        {!isCompareMode && (
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              if (confirm('确定要删除这个报告吗？此操作无法撤销。')) {
+                                deleteReportMutation.mutate(report.id);
+                              }
+                            }}
+                            disabled={deleteReportMutation.isPending}
+                            className="p-3 text-red-500 hover:text-red-700 hover:bg-red-100 rounded-xl transition-all duration-200 disabled:opacity-50 shadow-sm"
+                            title="删除报告"
+                          >
+                            <Trash2 className="w-5 h-5" />
+                          </button>
+                        )}
                       </div>
                     </div>
-                    
-                    <div className="flex items-center space-x-4 text-sm text-gray-600 mb-4 bg-gray-50 rounded-lg p-3">
-                      <div className="flex items-center space-x-2">
-                        <Calendar className="w-4 h-4 text-blue-500" />
-                        <span>{new Date(report.createdAt).toLocaleDateString('zh-CN')}</span>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <Clock className="w-4 h-4 text-teal-500" />
-                        <span>{new Date(report.createdAt).toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })}</span>
-                      </div>
-                    </div>
-                    
-                    <div className="flex space-x-3">
-                      <button 
-                        onClick={() => {
-                          console.log('Historical report data:', report);
-                          setCurrentReport(report.analysisResult);
-                          setSelectedPatient(report.patientName);
-                          setActiveTab('analysis');
-                        }}
-                        className="flex-1 bg-gradient-to-r from-blue-500 to-teal-500 hover:from-blue-600 hover:to-teal-600 text-white font-medium py-3 px-4 rounded-xl transition-all duration-200 shadow-md"
-                      >
-                        查看报告
-                      </button>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          if (confirm('确定要删除这个报告吗？此操作无法撤销。')) {
-                            deleteReportMutation.mutate(report.id);
-                          }
-                        }}
-                        disabled={deleteReportMutation.isPending}
-                        className="p-3 text-red-500 hover:text-red-700 hover:bg-red-100 rounded-xl transition-all duration-200 disabled:opacity-50 shadow-sm"
-                        title="删除报告"
-                      >
-                        <Trash2 className="w-5 h-5" />
-                      </button>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             ) : (
               <div className="relative bg-gradient-to-br from-white/95 via-blue-50/80 to-teal-50/60 backdrop-blur-sm rounded-3xl shadow-xl border border-blue-200/30 overflow-hidden">

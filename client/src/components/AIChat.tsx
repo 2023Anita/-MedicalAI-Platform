@@ -194,28 +194,28 @@ export default function AIChat() {
     
     // 【】标记 - 蓝色医疗主题
     highlightedText = highlightedText.replace(/【([^】]+)】/g, 
-      '<span class="px-2 py-1 bg-blue-100 text-blue-800 rounded-md font-medium text-base">$1</span>'
+      '<span class="text-blue-800 font-bold">$1</span>'
     );
     
     // 数值单位 - 绿色科技感
     highlightedText = highlightedText.replace(/(\d+\.?\d*\s*(?:mg|ml|g|kg|cm|mm|μg|μl|IU|U|%|倍|次|天|小时|分钟)(?:\/[a-zA-Z]+)?)/g, 
-      '<span class="px-1.5 py-0.5 bg-green-100 text-green-700 rounded font-mono text-sm font-semibold">$1</span>'
+      '<span class="text-green-700 font-bold font-mono">$1</span>'
     );
     
     // 医学指标 - 紫色专业感
     highlightedText = highlightedText.replace(/(血压|血糖|心率|体温|血氧|白细胞|红细胞|血小板|肌酐|尿素氮|谷丙转氨酶|谷草转氨酶)/g, 
-      '<span class="px-1.5 py-0.5 bg-purple-100 text-purple-700 rounded font-medium">$1</span>'
+      '<span class="text-purple-700 font-bold">$1</span>'
     );
     
     // 状态词 - 根据状态显示不同颜色
     highlightedText = highlightedText.replace(/(正常)/g, 
-      '<span class="px-1.5 py-0.5 bg-green-100 text-green-800 rounded font-medium">$1</span>'
+      '<span class="text-green-800 font-bold">$1</span>'
     );
     highlightedText = highlightedText.replace(/(异常|偏高|超标|增高|升高)/g, 
-      '<span class="px-1.5 py-0.5 bg-red-100 text-red-800 rounded font-medium">$1</span>'
+      '<span class="text-red-800 font-bold">$1</span>'
     );
     highlightedText = highlightedText.replace(/(偏低|不足|降低|下降)/g, 
-      '<span class="px-1.5 py-0.5 bg-orange-100 text-orange-800 rounded font-medium">$1</span>'
+      '<span class="text-orange-800 font-bold">$1</span>'
     );
     
     return highlightedText;

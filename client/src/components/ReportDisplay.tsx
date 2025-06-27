@@ -342,8 +342,8 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
                     <div className="flex justify-between items-start mb-4">
                       <h5 className="text-lg font-semibold text-gray-800" dangerouslySetInnerHTML={{
                         __html: diagnosis.diagnosis
-                          .replace(/(糖尿病|高血压|肝硬化|肾病|心脏病|肺病|脑病|癌症|肿瘤|感染)/g, '<span class="bg-red-100 text-red-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
-                          .replace(/(综合征|病变|炎症|功能障碍)/g, '<span class="bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
+                          .replace(/(糖尿病|高血压|肝硬化|肾病|心脏病|肺病|脑病|癌症|肿瘤|感染)/g, '<span class="text-red-700 font-bold">$1</span>')
+                          .replace(/(综合征|病变|炎症|功能障碍)/g, '<span class="text-orange-700 font-bold">$1</span>')
                       }}></h5>
                       <span className={`px-4 py-2 rounded-full text-sm font-bold ${
                         diagnosis.probability === 'high' ? 'bg-red-200 text-red-800' :
@@ -356,17 +356,17 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
                     </div>
                     <p className="text-base text-gray-700 mb-4 leading-relaxed" dangerouslySetInnerHTML={{
                       __html: diagnosis.reasoning
-                        .replace(/(症状|体征|检查|结果|发现|表现)/g, '<span class="bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
-                        .replace(/(异常|升高|降低|偏高|偏低|病变)/g, '<span class="bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
-                        .replace(/(支持|证实|提示|表明|符合)/g, '<span class="bg-green-100 text-green-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
+                        .replace(/(症状|体征|检查|结果|发现|表现)/g, '<span class="text-blue-700 font-bold">$1</span>')
+                        .replace(/(异常|升高|降低|偏高|偏低|病变)/g, '<span class="text-orange-700 font-bold">$1</span>')
+                        .replace(/(支持|证实|提示|表明|符合)/g, '<span class="text-green-700 font-bold">$1</span>')
                     }}></p>
                     <div className="bg-gradient-to-r from-blue-50 to-cyan-50 p-4 rounded-xl border-l-4 border-blue-400 shadow-sm">
                       <span className="text-base font-semibold text-blue-800">患者解释:</span> 
                       <span className="text-base text-blue-700 ml-2 leading-relaxed" dangerouslySetInnerHTML={{
                         __html: diagnosis.patientExplanation
-                          .replace(/(治疗|管理|控制|预防|改善|康复)/g, '<span class="bg-green-100 text-green-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
-                          .replace(/(注意|重要|关键|必须|需要)/g, '<span class="bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
-                          .replace(/(风险|危险|严重|紧急)/g, '<span class="bg-red-100 text-red-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
+                          .replace(/(治疗|管理|控制|预防|改善|康复)/g, '<span class="text-green-700 font-bold">$1</span>')
+                          .replace(/(注意|重要|关键|必须|需要)/g, '<span class="text-yellow-700 font-bold">$1</span>')
+                          .replace(/(风险|危险|严重|紧急)/g, '<span class="text-red-700 font-bold">$1</span>')
                       }}></span>
                     </div>
                   </div>
@@ -389,23 +389,23 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
                       <div className="flex justify-between items-start mb-3">
                         <span className="text-lg font-semibold text-gray-800" dangerouslySetInnerHTML={{
                           __html: diff.condition
-                            .replace(/(糖尿病|高血压|肝硬化|肾病|心脏病|肺病|脑病|癌症|肿瘤|感染)/g, '<span class="bg-red-100 text-red-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
-                            .replace(/(综合征|病变|炎症|功能障碍)/g, '<span class="bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
+                            .replace(/(糖尿病|高血压|肝硬化|肾病|心脏病|肺病|脑病|癌症|肿瘤|感染)/g, '<span class="text-red-700 font-bold">$1</span>')
+                            .replace(/(综合征|病变|炎症|功能障碍)/g, '<span class="text-orange-700 font-bold">$1</span>')
                         }}></span>
                         <span className="text-sm font-semibold text-amber-700 bg-amber-100 px-3 py-1 rounded-full">{diff.likelihood}</span>
                       </div>
                       <p className="text-base text-gray-700 mb-3 leading-relaxed" dangerouslySetInnerHTML={{
                         __html: diff.distinguishingFeatures
-                          .replace(/(特征|症状|体征|检查|结果|发现)/g, '<span class="bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
-                          .replace(/(典型|特有|独特|明显|显著)/g, '<span class="bg-green-100 text-green-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
-                          .replace(/(区别|不同|差异|鉴别)/g, '<span class="bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
+                          .replace(/(特征|症状|体征|检查|结果|发现)/g, '<span class="text-blue-700 font-bold">$1</span>')
+                          .replace(/(典型|特有|独特|明显|显著)/g, '<span class="text-green-700 font-bold">$1</span>')
+                          .replace(/(区别|不同|差异|鉴别)/g, '<span class="text-purple-700 font-bold">$1</span>')
                       }}></p>
                       <div className="bg-gradient-to-r from-yellow-50 to-amber-50 p-4 rounded-xl border border-yellow-200">
                         <p className="text-base text-amber-800 leading-relaxed" dangerouslySetInnerHTML={{
                           __html: diff.explanation
-                            .replace(/(重要|关键|注意|需要|建议)/g, '<span class="bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
-                            .replace(/(排除|确认|诊断|检查|治疗)/g, '<span class="bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
-                            .replace(/(可能|或许|也许|怀疑)/g, '<span class="bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
+                            .replace(/(重要|关键|注意|需要|建议)/g, '<span class="text-yellow-700 font-bold">$1</span>')
+                            .replace(/(排除|确认|诊断|检查|治疗)/g, '<span class="text-blue-700 font-bold">$1</span>')
+                            .replace(/(可能|或许|也许|怀疑)/g, '<span class="text-orange-700 font-bold">$1</span>')
                         }}></p>
                       </div>
                     </div>
@@ -438,9 +438,9 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
                         </div>
                         <span className="text-base text-gray-800 leading-relaxed" dangerouslySetInnerHTML={{
                           __html: finding
-                            .replace(/(\d+%?|mm|cm|密度|增强|对比剂)/g, '<span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-sm font-semibold">$1</span>')
-                            .replace(/(结节|占位|肿块|病变|异常|阴影|钙化|积液|肿胀|增厚)/g, '<span class="bg-red-100 text-red-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
-                            .replace(/(正常|稳定|良好|清晰|对称)/g, '<span class="bg-green-100 text-green-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
+                            .replace(/(\d+%?|mm|cm|密度|增强|对比剂)/g, '<span class="text-blue-800 font-bold">$1</span>')
+                            .replace(/(结节|占位|肿块|病变|异常|阴影|钙化|积液|肿胀|增厚)/g, '<span class="text-red-700 font-bold">$1</span>')
+                            .replace(/(正常|稳定|良好|清晰|对称)/g, '<span class="text-green-700 font-bold">$1</span>')
                         }}></span>
                       </li>
                     ))}
@@ -457,8 +457,8 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
                   <div className="bg-white/70 rounded-xl p-4 border border-indigo-100">
                     <p className="text-base text-gray-800 leading-relaxed" dangerouslySetInnerHTML={{
                       __html: report.detailedAnalysis.imagingReportSummary.clinicalCorrelation
-                        .replace(/(症状|体征|病史|诊断|治疗|监测)/g, '<span class="bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
-                        .replace(/(建议|推荐|需要|应该|可能)/g, '<span class="bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded-full text-sm font-medium">$1</span>')
+                        .replace(/(症状|体征|病史|诊断|治疗|监测)/g, '<span class="text-purple-700 font-bold">$1</span>')
+                        .replace(/(建议|推荐|需要|应该|可能)/g, '<span class="text-yellow-700 font-bold">$1</span>')
                     }}></p>
                   </div>
                 </div>
@@ -472,8 +472,8 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
                   </h5>
                   <p className="text-base text-blue-800 leading-relaxed font-medium" dangerouslySetInnerHTML={{
                     __html: report.detailedAnalysis.imagingReportSummary.patientSummary
-                      .replace(/(正常|良好|稳定|恢复|健康)/g, '<span class="bg-green-200 text-green-800 px-2 py-0.5 rounded-full text-sm font-bold">$1</span>')
-                      .replace(/(异常|病变|问题|风险|注意)/g, '<span class="bg-orange-200 text-orange-800 px-2 py-0.5 rounded-full text-sm font-bold">$1</span>')
+                      .replace(/(正常|良好|稳定|恢复|健康)/g, '<span class="text-green-800 font-bold">$1</span>')
+                      .replace(/(异常|病变|问题|风险|注意)/g, '<span class="text-orange-800 font-bold">$1</span>')
                   }}></p>
                 </div>
                 

@@ -310,17 +310,76 @@ export default function ReportInput({
                 />
                 <label
                   htmlFor="file-upload"
-                  className="cursor-pointer flex flex-col items-center space-y-4"
+                  className="cursor-pointer flex flex-col items-center space-y-5"
                 >
-                  <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-teal-500 rounded-xl flex items-center justify-center shadow-lg">
-                    <Upload className="w-7 h-7 text-white" />
+                  <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-teal-500 rounded-xl flex items-center justify-center shadow-lg">
+                    <Upload className="w-8 h-8 text-white" />
                   </div>
-                  <span className="text-base text-gray-700 font-medium leading-relaxed">
-                    点击上传或拖拽文件到此处
-                  </span>
-                  <span className="text-sm text-gray-600 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full border border-gray-200 shadow-sm">
-                    支持: PDF, DOCX, 图片(PNG/JPG), 视频(MP4), DICOM(.dcm)
-                  </span>
+                  <div className="text-center space-y-3">
+                    <span className="text-lg text-gray-800 font-semibold leading-relaxed block">
+                      点击上传或拖拽医疗文件到此处
+                    </span>
+                    <p className="text-base text-gray-600 leading-relaxed max-w-md mx-auto">
+                      支持上传病历图片、化验报告图片、影像学图片、影像学视频等多种医疗文件格式
+                    </p>
+                  </div>
+                  
+                  {/* File Type Categories */}
+                  <div className="grid grid-cols-2 gap-4 max-w-lg mx-auto mt-6">
+                    <div className="bg-white/90 backdrop-blur-sm border border-blue-200 rounded-xl p-4 text-left shadow-sm">
+                      <h4 className="text-sm font-semibold text-blue-700 mb-2 flex items-center">
+                        <div className="w-4 h-4 bg-blue-500 rounded-full mr-2"></div>
+                        病历文档
+                      </h4>
+                      <ul className="text-xs text-gray-600 space-y-1">
+                        <li>• 电子病历 (PDF/DOCX)</li>
+                        <li>• 诊断报告文档</li>
+                        <li>• 检查报告单</li>
+                      </ul>
+                    </div>
+                    
+                    <div className="bg-white/90 backdrop-blur-sm border border-green-200 rounded-xl p-4 text-left shadow-sm">
+                      <h4 className="text-sm font-semibold text-green-700 mb-2 flex items-center">
+                        <div className="w-4 h-4 bg-green-500 rounded-full mr-2"></div>
+                        化验检查
+                      </h4>
+                      <ul className="text-xs text-gray-600 space-y-1">
+                        <li>• 血液检查报告图片</li>
+                        <li>• 尿液分析报告</li>
+                        <li>• 生化指标图片</li>
+                      </ul>
+                    </div>
+                    
+                    <div className="bg-white/90 backdrop-blur-sm border border-purple-200 rounded-xl p-4 text-left shadow-sm">
+                      <h4 className="text-sm font-semibold text-purple-700 mb-2 flex items-center">
+                        <div className="w-4 h-4 bg-purple-500 rounded-full mr-2"></div>
+                        医学影像
+                      </h4>
+                      <ul className="text-xs text-gray-600 space-y-1">
+                        <li>• CT/MRI 影像图片</li>
+                        <li>• X光片照片</li>
+                        <li>• DICOM 医学格式</li>
+                      </ul>
+                    </div>
+                    
+                    <div className="bg-white/90 backdrop-blur-sm border border-orange-200 rounded-xl p-4 text-left shadow-sm">
+                      <h4 className="text-sm font-semibold text-orange-700 mb-2 flex items-center">
+                        <div className="w-4 h-4 bg-orange-500 rounded-full mr-2"></div>
+                        动态检查
+                      </h4>
+                      <ul className="text-xs text-gray-600 space-y-1">
+                        <li>• 超声检查视频</li>
+                        <li>• 内镜检查录像</li>
+                        <li>• 心电图动态记录</li>
+                      </ul>
+                    </div>
+                  </div>
+                  
+                  <div className="text-center mt-4">
+                    <span className="text-sm text-gray-500 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full border border-gray-200 shadow-sm">
+                      支持格式: PDF • DOCX • PNG/JPG • MP4 • DICOM • 最大100MB
+                    </span>
+                  </div>
                 </label>
               </div>
               

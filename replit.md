@@ -131,6 +131,10 @@ The application uses PostgreSQL with two main tables:
     - **Enhanced Visual Design**: Added gradient section headers with icons and bilingual labels for better organization
     - **Improved Form Controls**: Increased input heights (h-12), enhanced shadows and border styling for better accessibility
     - **Consistent Styling**: Applied bg-white/80 backdrop-blur-sm styling across all input fields for unified appearance
+    - **Enhanced File Upload Guide**: Added comprehensive medical file type categories with visual explanations
+      - Color-coded sections for 病历文档, 化验检查, 医学影像, and 动态检查
+      - Detailed descriptions for medical record images, lab report images, imaging photos, and imaging videos
+      - Professional grid layout with glassmorphism design and file format specifications
 
 - **June 26, 2025**: Complete UI Design System Transformation
   - **Unified Glassmorphism Design**: Transformed entire platform with cohesive sci-fi medical aesthetic

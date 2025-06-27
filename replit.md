@@ -115,6 +115,11 @@ The application uses PostgreSQL with two main tables:
     - Added "暂无实验室检查数据 (No Lab Test Data)" indicator with descriptive messaging
     - Implemented consistent empty state design with document icon and guidance text
     - Maintains section visibility while clearly indicating absence of specific data types
+  - **Medical Terminology Consistency**: Standardized severity descriptions across all report sections
+    - Extended medical vocabulary highlighting to include comprehensive severity levels
+    - Unified terms like "偏高" and "远高于正常水平" with consistent orange highlighting
+    - Added support for degree descriptors: 明显/显著/轻度/中度/重度 + 升高/降低
+    - Ensures consistent medical language presentation across lab results, risk factors, and clinical reasoning
 
 - **June 26, 2025**: Complete UI Design System Transformation
   - **Unified Glassmorphism Design**: Transformed entire platform with cohesive sci-fi medical aesthetic

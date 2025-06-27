@@ -244,7 +244,7 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
                           .replace(/(\d+%?)/g, '<span class="text-blue-800 font-bold">$1</span>')
                           .replace(/(高血压|糖尿病|肝硬化|肾功能|心脏病|肺部|脑部|血管|胆固醇|血糖|血脂|蛋白质|肌酐|尿素氮)/g, '<span class="text-red-700 font-bold">$1</span>')
                           .replace(/(正常|稳定|良好|改善|恢复|健康)/g, '<span class="text-green-700 font-bold">$1</span>')
-                          .replace(/(异常|升高|降低|偏高|偏低|增大|缩小|病变|损伤|炎症|感染)/g, '<span class="text-orange-700 font-bold">$1</span>')
+                          .replace(/(异常|升高|降低|偏高|偏低|增大|缩小|病变|损伤|炎症|感染|远高于正常水平|远低于正常水平|明显升高|明显降低|显著升高|显著降低|轻度升高|轻度降低|中度升高|中度降低|重度升高|重度降低)/g, '<span class="text-orange-700 font-bold">$1</span>')
                           .replace(/(严重|危险|紧急|立即|马上|急需|重要|关键)/g, '<span class="text-red-800 font-bold">$1</span>')
                       }}></span>
                     </li>
@@ -272,7 +272,7 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
                       <p className="text-base text-gray-700 mb-3 leading-relaxed" dangerouslySetInnerHTML={{
                         __html: lab.interpretation
                           .replace(/(\d+\.?\d*%?|mg\/dL|mmol\/L|g\/L|IU\/L|U\/L)/g, '<span class="text-blue-800 font-bold">$1</span>')
-                          .replace(/(偏高|偏低|升高|降低|异常|超标)/g, '<span class="text-orange-700 font-bold">$1</span>')
+                          .replace(/(偏高|偏低|升高|降低|异常|超标|远高于正常水平|远低于正常水平|明显升高|明显降低|显著升高|显著降低|轻度升高|轻度降低|中度升高|中度降低|重度升高|重度降低)/g, '<span class="text-orange-700 font-bold">$1</span>')
                           .replace(/(正常|稳定|良好)/g, '<span class="text-green-700 font-bold">$1</span>')
                       }}></p>
                       {lab.patientFriendly && (
@@ -324,7 +324,7 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
                           .replace(/(\d+%?|BMI|kg\/m²|cm|mmHg|年龄)/g, '<span class="text-blue-800 font-bold">$1</span>')
                           .replace(/(高血压|糖尿病|肝硬化|肾功能|心脏病|肺部|脑部|血管|胆固醇|血糖|血脂|蛋白质|肌酐|尿素氮|肥胖|腹型肥胖|饮酒|吸烟)/g, '<span class="text-red-700 font-bold">$1</span>')
                           .replace(/(家族史|遗传|基因)/g, '<span class="text-purple-700 font-bold">$1</span>')
-                          .replace(/(控制不佳|未控制|超标|异常|升高|偏高|危险)/g, '<span class="text-orange-700 font-bold">$1</span>')
+                          .replace(/(控制不佳|未控制|超标|异常|升高|偏高|危险|远高于正常水平|远低于正常水平|明显升高|明显降低|显著升高|显著降低|轻度升高|轻度降低|中度升高|中度降低|重度升高|重度降低)/g, '<span class="text-orange-700 font-bold">$1</span>')
                       }}></span>
                     </li>
                   ))}
@@ -340,7 +340,7 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
                           .replace(/(\d+%?|BMI|kg\/m²|cm|mmHg|年龄)/g, '<span class="text-blue-800 font-bold">$1</span>')
                           .replace(/(高血压|糖尿病|肝硬化|肾功能|心脏病|肺部|脑部|血管|胆固醇|血糖|血脂|蛋白质|肌酐|尿素氮|肥胖|腹型肥胖|饮酒|吸烟)/g, '<span class="text-red-700 font-bold">$1</span>')
                           .replace(/(家族史|遗传|基因)/g, '<span class="text-purple-700 font-bold">$1</span>')
-                          .replace(/(控制不佳|未控制|超标|异常|升高|偏高|危险)/g, '<span class="text-orange-700 font-bold">$1</span>')
+                          .replace(/(控制不佳|未控制|超标|异常|升高|偏高|危险|远高于正常水平|远低于正常水平|明显升高|明显降低|显著升高|显著降低|轻度升高|轻度降低|中度升高|中度降低|重度升高|重度降低)/g, '<span class="text-orange-700 font-bold">$1</span>')
                       }}></span>
                     </li>
                   ))}
@@ -377,7 +377,7 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
                     <p className="text-base text-gray-700 mb-4 leading-relaxed" dangerouslySetInnerHTML={{
                       __html: diagnosis.reasoning
                         .replace(/(症状|体征|检查|结果|发现|表现)/g, '<span class="text-blue-700 font-bold">$1</span>')
-                        .replace(/(异常|升高|降低|偏高|偏低|病变)/g, '<span class="text-orange-700 font-bold">$1</span>')
+                        .replace(/(异常|升高|降低|偏高|偏低|病变|远高于正常水平|远低于正常水平|明显升高|明显降低|显著升高|显著降低|轻度升高|轻度降低|中度升高|中度降低|重度升高|重度降低)/g, '<span class="text-orange-700 font-bold">$1</span>')
                         .replace(/(支持|证实|提示|表明|符合)/g, '<span class="text-green-700 font-bold">$1</span>')
                     }}></p>
                     <div className="bg-gradient-to-r from-blue-50 to-cyan-50 p-4 rounded-xl border-l-4 border-blue-400 shadow-sm">
@@ -459,7 +459,7 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
                         <span className="text-base text-gray-800 leading-relaxed" dangerouslySetInnerHTML={{
                           __html: finding
                             .replace(/(\d+%?|mm|cm|密度|增强|对比剂)/g, '<span class="text-blue-800 font-bold">$1</span>')
-                            .replace(/(结节|占位|肿块|病变|异常|阴影|钙化|积液|肿胀|增厚)/g, '<span class="text-red-700 font-bold">$1</span>')
+                            .replace(/(结节|占位|肿块|病变|异常|阴影|钙化|积液|肿胀|增厚|远高于正常水平|远低于正常水平|明显升高|明显降低|显著升高|显著降低)/g, '<span class="text-red-700 font-bold">$1</span>')
                             .replace(/(正常|稳定|良好|清晰|对称)/g, '<span class="text-green-700 font-bold">$1</span>')
                         }}></span>
                       </li>

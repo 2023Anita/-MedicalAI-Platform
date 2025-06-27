@@ -40,7 +40,6 @@ export const analysisRequestSchema = z.object({
   patientGender: z.string().min(1, "请选择患者性别"),
   examDate: z.string().min(1, "体检日期不能为空"),
   reportData: z.string().optional(),
-  compareWithHistory: z.boolean().optional(),
 });
 
 export type InsertUser = z.infer<typeof insertUserSchema>;

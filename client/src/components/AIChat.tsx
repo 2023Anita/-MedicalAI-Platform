@@ -284,15 +284,15 @@ export default function AIChat() {
                 )}
               </div>
 
-              {/* Message Content - 放大字体和改进样式 */}
-              <div className={`rounded-2xl p-8 shadow-lg backdrop-blur-sm ${
+              {/* Message Content - 优化字体大小和样式 */}
+              <div className={`rounded-2xl p-6 shadow-lg backdrop-blur-sm ${
                 message.type === 'user' 
                   ? 'bg-gradient-to-br from-blue-500 to-blue-600 text-white' 
                   : 'bg-white/90 text-gray-800 border border-gray-200/50'
               }`}>
                 <div 
                   className={`leading-relaxed whitespace-pre-wrap ${
-                    message.type === 'user' ? 'text-lg' : 'text-xl'
+                    message.type === 'user' ? 'text-base' : 'text-base'
                   }`}
                   dangerouslySetInnerHTML={{
                     __html: message.type === 'ai' ? highlightMedicalTerms(message.content) : message.content

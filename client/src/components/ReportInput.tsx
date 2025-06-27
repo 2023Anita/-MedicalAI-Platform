@@ -2,13 +2,12 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { Brain, Upload, Shield, File, X, Calendar, Trash2, User } from "lucide-react";
+import { Brain, Upload, File, X, Calendar, Trash2, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
@@ -39,7 +38,6 @@ export default function ReportInput({
       patientGender: "",
       examDate: new Date().toISOString().split('T')[0],
       reportData: "",
-      compareWithHistory: false,
     },
   });
 
@@ -51,7 +49,6 @@ export default function ReportInput({
       formData.append('patientGender', data.patientGender);
       formData.append('examDate', data.examDate);
       formData.append('reportData', data.reportData || '');
-      formData.append('compareWithHistory', data.compareWithHistory?.toString() || 'false');
       
       // Add selected files
       selectedFiles.forEach((file, index) => {
@@ -473,30 +470,7 @@ export default function ReportInput({
               )}
             />
             
-            <div className="flex items-center justify-between bg-gradient-to-r from-gray-50 to-blue-50 border border-gray-200 rounded-xl p-5 shadow-sm">
-              <FormField
-                control={form.control}
-                name="compareWithHistory"
-                render={({ field }) => (
-                  <FormItem className="flex flex-row items-center space-x-4 space-y-0">
-                    <FormControl>
-                      <Checkbox 
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                        className="border-blue-300 data-[state=checked]:bg-blue-500 w-5 h-5"
-                      />
-                    </FormControl>
-                    <FormLabel className="text-base text-gray-700 font-medium leading-relaxed cursor-pointer">
-                      与历史报告对比 (Compare with History)
-                    </FormLabel>
-                  </FormItem>
-                )}
-              />
-              <div className="flex items-center text-sm text-gray-600 bg-gradient-to-r from-green-100 to-emerald-100 px-4 py-2 rounded-full border border-green-200 shadow-sm">
-                <Shield className="w-4 h-4 mr-2 text-green-600" />
-                <span className="font-medium">数据加密保护</span>
-              </div>
-            </div>
+
             
             <Button 
               type="submit" 

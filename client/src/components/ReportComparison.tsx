@@ -162,6 +162,57 @@ export default function ReportComparison({ selectedReportIds, onClose }: ReportC
         </div>
 
         <div className="p-6 space-y-8">
+          {/* User Guide Section */}
+          <Card className="border-l-4 border-l-blue-500">
+            <CardHeader>
+              <CardTitle className="flex items-center space-x-2">
+                <div className="w-6 h-6 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">
+                  <span className="text-white text-xs">📚</span>
+                </div>
+                <span>如何阅读这份对比报告</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-lg p-4">
+                  <h4 className="font-semibold text-blue-800 mb-3 flex items-center">
+                    <span className="mr-2">📊</span>看懂图表
+                  </h4>
+                  <ul className="text-sm text-blue-700 space-y-2">
+                    <li>• 每个图表都有详细的说明指南</li>
+                    <li>• 颜色和形状代表不同含义</li>
+                    <li>• 数值变化反映健康趋势</li>
+                    <li>• 重点关注趋势而非单次数值</li>
+                  </ul>
+                </div>
+                
+                <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg p-4">
+                  <h4 className="font-semibold text-green-800 mb-3 flex items-center">
+                    <span className="mr-2">📈</span>理解趋势
+                  </h4>
+                  <ul className="text-sm text-green-700 space-y-2">
+                    <li>• 上升不一定是坏事</li>
+                    <li>• 下降也不一定是好事</li>
+                    <li>• 需要结合正常范围判断</li>
+                    <li>• 重要的是整体改善方向</li>
+                  </ul>
+                </div>
+                
+                <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg p-4">
+                  <h4 className="font-semibold text-purple-800 mb-3 flex items-center">
+                    <span className="mr-2">💡</span>行动指南
+                  </h4>
+                  <ul className="text-sm text-purple-700 space-y-2">
+                    <li>• 查看AI专业建议部分</li>
+                    <li>• 与医生讨论具体结果</li>
+                    <li>• 制定个性化改善计划</li>
+                    <li>• 保持定期检查习惯</li>
+                  </ul>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
           {/* Key Findings Summary */}
           <Card>
             <CardHeader>
@@ -208,30 +259,82 @@ export default function ReportComparison({ selectedReportIds, onClose }: ReportC
           {/* Lab Trends Chart */}
           <Card>
             <CardHeader>
-              <CardTitle>实验室指标趋势图</CardTitle>
+              <CardTitle className="flex items-center space-x-2">
+                <div className="w-6 h-6 bg-gradient-to-br from-blue-500 to-teal-500 rounded-lg flex items-center justify-center">
+                  <span className="text-white text-xs">📈</span>
+                </div>
+                <span>健康指标变化趋势</span>
+              </CardTitle>
+              <p className="text-sm text-gray-600 mt-2">
+                📊 这个图表显示您的各项健康指标随时间的变化情况
+              </p>
             </CardHeader>
             <CardContent>
-              <div className="h-96">
+              <div className="bg-blue-50 rounded-lg p-4 mb-4">
+                <h4 className="font-semibold text-blue-800 mb-2">📖 如何看懂这个图表：</h4>
+                <ul className="text-sm text-blue-700 space-y-1">
+                  <li>• 横轴 (X轴)：检查日期时间线</li>
+                  <li>• 纵轴 (Y轴)：各项指标的数值</li>
+                  <li>• 不同颜色的线条：代表不同的健康指标</li>
+                  <li>• 线条向上：指标数值增加 | 线条向下：指标数值减少</li>
+                  <li>• 线条平稳：指标保持稳定状态</li>
+                </ul>
+              </div>
+              
+              <div className="h-96 relative">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={comparisonData.comparisonAnalysis.chartData.labTrends}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="date" />
-                    <YAxis />
-                    <Tooltip />
-                    <Legend />
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e0e7ff" />
+                    <XAxis 
+                      dataKey="date" 
+                      tick={{ fontSize: 12 }}
+                      stroke="#374151"
+                    />
+                    <YAxis 
+                      tick={{ fontSize: 12 }}
+                      stroke="#374151"
+                    />
+                    <Tooltip 
+                      contentStyle={{
+                        backgroundColor: '#f8fafc',
+                        border: '1px solid #e2e8f0',
+                        borderRadius: '8px',
+                        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                      }}
+                      labelStyle={{ color: '#1f2937', fontWeight: 'bold' }}
+                    />
+                    <Legend 
+                      wrapperStyle={{
+                        paddingTop: '20px',
+                        fontSize: '14px'
+                      }}
+                    />
                     {Object.keys(comparisonData.comparisonAnalysis.chartData.labTrends[0] || {})
                       .filter(key => key !== 'date')
-                      .map((key, index) => (
-                        <Line
-                          key={key}
-                          type="monotone"
-                          dataKey={key}
-                          stroke={['#8884d8', '#82ca9d', '#ffc658', '#ff7300', '#00ff00'][index % 5]}
-                          strokeWidth={2}
-                        />
-                      ))}
+                      .map((key, index) => {
+                        const colors = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'];
+                        return (
+                          <Line
+                            key={key}
+                            type="monotone"
+                            dataKey={key}
+                            stroke={colors[index % colors.length]}
+                            strokeWidth={3}
+                            dot={{ fill: colors[index % colors.length], strokeWidth: 2, r: 4 }}
+                            activeDot={{ r: 6, stroke: colors[index % colors.length], strokeWidth: 2 }}
+                          />
+                        );
+                      })}
                   </LineChart>
                 </ResponsiveContainer>
+              </div>
+              
+              <div className="mt-4 bg-green-50 rounded-lg p-4">
+                <h4 className="font-semibold text-green-800 mb-2">💡 重要提示：</h4>
+                <p className="text-sm text-green-700">
+                  数值变化需要结合正常参考范围来判断。上升不一定代表变差，下降也不一定代表变好。
+                  请结合下方的专业分析和医生建议来理解您的健康状况。
+                </p>
               </div>
             </CardContent>
           </Card>
@@ -239,32 +342,90 @@ export default function ReportComparison({ selectedReportIds, onClose }: ReportC
           {/* Risk Factor Radar Chart */}
           <Card>
             <CardHeader>
-              <CardTitle>风险因子雷达图对比</CardTitle>
+              <CardTitle className="flex items-center space-x-2">
+                <div className="w-6 h-6 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                  <span className="text-white text-xs">🎯</span>
+                </div>
+                <span>健康风险雷达图对比</span>
+              </CardTitle>
+              <p className="text-sm text-gray-600 mt-2">
+                🔍 直观显示您各项健康风险因子的前后对比情况
+              </p>
             </CardHeader>
             <CardContent>
-              <div className="h-96">
+              <div className="bg-purple-50 rounded-lg p-4 mb-4">
+                <h4 className="font-semibold text-purple-800 mb-2">📖 雷达图阅读指南：</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-purple-700">
+                  <div>
+                    <p className="font-medium mb-1">图表结构：</p>
+                    <ul className="space-y-1">
+                      <li>• 每个角代表一种健康风险</li>
+                      <li>• 距离中心越远风险越高</li>
+                      <li>• 蓝色区域：最新检查结果</li>
+                      <li>• 绿色区域：历史检查结果</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <p className="font-medium mb-1">风险评估：</p>
+                    <ul className="space-y-1">
+                      <li>• 0-3分：低风险 (靠近中心)</li>
+                      <li>• 4-6分：中等风险</li>
+                      <li>• 7-10分：高风险 (远离中心)</li>
+                      <li>• 蓝色比绿色小：风险降低 ✅</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="h-96 relative">
                 <ResponsiveContainer width="100%" height="100%">
                   <RadarChart data={comparisonData.comparisonAnalysis.chartData.riskRadar}>
-                    <PolarGrid />
-                    <PolarAngleAxis dataKey="factor" />
-                    <PolarRadiusAxis angle={30} domain={[0, 10]} />
+                    <PolarGrid stroke="#e5e7eb" />
+                    <PolarAngleAxis 
+                      dataKey="factor" 
+                      tick={{ fontSize: 12, fill: '#374151' }}
+                    />
+                    <PolarRadiusAxis 
+                      angle={30} 
+                      domain={[0, 10]} 
+                      tick={{ fontSize: 10, fill: '#6b7280' }}
+                      tickCount={6}
+                    />
                     <Radar
-                      name="当前"
+                      name="最新检查"
                       dataKey="current"
-                      stroke="#8884d8"
-                      fill="#8884d8"
-                      fillOpacity={0.3}
+                      stroke="#3b82f6"
+                      fill="#3b82f6"
+                      fillOpacity={0.25}
+                      strokeWidth={2}
                     />
                     <Radar
-                      name="历史"
+                      name="历史对比"
                       dataKey="previous"
-                      stroke="#82ca9d"
-                      fill="#82ca9d"
-                      fillOpacity={0.3}
+                      stroke="#10b981"
+                      fill="#10b981"
+                      fillOpacity={0.25}
+                      strokeWidth={2}
                     />
-                    <Legend />
+                    <Legend 
+                      wrapperStyle={{
+                        paddingTop: '20px',
+                        fontSize: '14px'
+                      }}
+                    />
                   </RadarChart>
                 </ResponsiveContainer>
+              </div>
+              
+              <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="bg-blue-50 rounded-lg p-3">
+                  <h5 className="font-semibold text-blue-800 mb-1">🔵 最新检查 (蓝色区域)</h5>
+                  <p className="text-sm text-blue-700">代表您最近一次体检的风险评估结果</p>
+                </div>
+                <div className="bg-green-50 rounded-lg p-3">
+                  <h5 className="font-semibold text-green-800 mb-1">🟢 历史对比 (绿色区域)</h5>
+                  <p className="text-sm text-green-700">代表您之前体检的风险评估结果</p>
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -272,19 +433,101 @@ export default function ReportComparison({ selectedReportIds, onClose }: ReportC
           {/* Overall Health Score */}
           <Card>
             <CardHeader>
-              <CardTitle>整体健康评分趋势</CardTitle>
+              <CardTitle className="flex items-center space-x-2">
+                <div className="w-6 h-6 bg-gradient-to-br from-orange-500 to-red-500 rounded-lg flex items-center justify-center">
+                  <span className="text-white text-xs">📊</span>
+                </div>
+                <span>综合健康评分变化</span>
+              </CardTitle>
+              <p className="text-sm text-gray-600 mt-2">
+                📈 量化显示您的整体健康状况改善程度
+              </p>
             </CardHeader>
             <CardContent>
-              <div className="h-64">
+              <div className="bg-orange-50 rounded-lg p-4 mb-4">
+                <h4 className="font-semibold text-orange-800 mb-2">📖 评分系统说明：</h4>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                  <div className="bg-red-100 rounded-lg p-3 text-center">
+                    <div className="font-bold text-red-800">0-40分</div>
+                    <div className="text-red-600">需要关注</div>
+                  </div>
+                  <div className="bg-yellow-100 rounded-lg p-3 text-center">
+                    <div className="font-bold text-yellow-800">41-60分</div>
+                    <div className="text-yellow-600">有待改善</div>
+                  </div>
+                  <div className="bg-blue-100 rounded-lg p-3 text-center">
+                    <div className="font-bold text-blue-800">61-80分</div>
+                    <div className="text-blue-600">良好状态</div>
+                  </div>
+                  <div className="bg-green-100 rounded-lg p-3 text-center">
+                    <div className="font-bold text-green-800">81-100分</div>
+                    <div className="text-green-600">优秀健康</div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="h-80 relative">
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={comparisonData.comparisonAnalysis.chartData.overallScore}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="date" />
-                    <YAxis domain={[0, 100]} />
-                    <Tooltip />
-                    <Bar dataKey="score" fill="#8884d8" />
+                  <BarChart 
+                    data={comparisonData.comparisonAnalysis.chartData.overallScore}
+                    margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                    <XAxis 
+                      dataKey="date" 
+                      tick={{ fontSize: 12, fill: '#374151' }}
+                      stroke="#374151"
+                    />
+                    <YAxis 
+                      domain={[0, 100]} 
+                      tick={{ fontSize: 12, fill: '#374151' }}
+                      stroke="#374151"
+                      label={{ value: '健康评分', angle: -90, position: 'insideLeft', style: { textAnchor: 'middle' } }}
+                    />
+                    <Tooltip 
+                      contentStyle={{
+                        backgroundColor: '#f8fafc',
+                        border: '1px solid #e2e8f0',
+                        borderRadius: '8px',
+                        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                      }}
+                      formatter={(value: any, name: string) => [
+                        `${value}分`,
+                        '健康评分'
+                      ]}
+                      labelFormatter={(label) => `检查日期: ${label}`}
+                    />
+                    <Bar 
+                      dataKey="score" 
+                      fill="#3b82f6"
+                      radius={[4, 4, 0, 0]}
+                      stroke="#2563eb"
+                      strokeWidth={1}
+                    />
                   </BarChart>
                 </ResponsiveContainer>
+              </div>
+              
+              <div className="mt-4 bg-gradient-to-r from-blue-50 to-green-50 rounded-lg p-4">
+                <h4 className="font-semibold text-gray-800 mb-2">💡 评分解读：</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-700">
+                  <div>
+                    <p className="font-medium mb-1">柱状图高度表示：</p>
+                    <ul className="space-y-1">
+                      <li>• 柱子越高，健康评分越好</li>
+                      <li>• 从左到右显示时间发展</li>
+                      <li>• 颜色深浅反映评分等级</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <p className="font-medium mb-1">如何改善评分：</p>
+                    <ul className="space-y-1">
+                      <li>• 遵循医生的治疗建议</li>
+                      <li>• 保持健康的生活方式</li>
+                      <li>• 定期进行健康检查</li>
+                    </ul>
+                  </div>
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -293,17 +536,76 @@ export default function ReportComparison({ selectedReportIds, onClose }: ReportC
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
-                <CheckCircle className="w-5 h-5 text-green-500" />
-                <span>AI智能建议</span>
+                <div className="w-6 h-6 bg-gradient-to-br from-green-500 to-emerald-500 rounded-lg flex items-center justify-center">
+                  <CheckCircle className="w-4 h-4 text-white" />
+                </div>
+                <span>AI专业健康建议</span>
               </CardTitle>
+              <p className="text-sm text-gray-600 mt-2">
+                基于您的对比分析结果，AI为您量身定制的健康改善建议
+              </p>
             </CardHeader>
             <CardContent>
-              <div className="space-y-3">
-                {comparisonData.comparisonAnalysis.recommendations.map((recommendation, index) => (
-                  <div key={index} className="bg-green-50 rounded-lg p-4 border-l-4 border-green-500">
-                    <p className="text-gray-800">{recommendation}</p>
+              <div className="bg-green-50 rounded-lg p-4 mb-4">
+                <h4 className="font-semibold text-green-800 mb-2">🎯 实施建议的优先级：</h4>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                  <div className="text-center">
+                    <div className="w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center mx-auto mb-1 font-bold">1</div>
+                    <div className="text-red-700 font-medium">立即执行</div>
+                    <div className="text-red-600">健康风险相关</div>
                   </div>
-                ))}
+                  <div className="text-center">
+                    <div className="w-8 h-8 bg-yellow-500 text-white rounded-full flex items-center justify-center mx-auto mb-1 font-bold">2</div>
+                    <div className="text-yellow-700 font-medium">尽快安排</div>
+                    <div className="text-yellow-600">预防措施</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center mx-auto mb-1 font-bold">3</div>
+                    <div className="text-blue-700 font-medium">持续改善</div>
+                    <div className="text-blue-600">生活方式优化</div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                {comparisonData.comparisonAnalysis.recommendations.map((recommendation, index) => {
+                  const priorityColors = [
+                    'border-red-500 bg-red-50',
+                    'border-yellow-500 bg-yellow-50', 
+                    'border-blue-500 bg-blue-50',
+                    'border-green-500 bg-green-50'
+                  ];
+                  const priorityIcons = ['🚨', '⚠️', '📋', '💪'];
+                  
+                  return (
+                    <div key={index} className={`rounded-lg p-4 border-l-4 ${priorityColors[index % 4]}`}>
+                      <div className="flex items-start space-x-3">
+                        <div className="text-2xl">{priorityIcons[index % 4]}</div>
+                        <div className="flex-1">
+                          <div className="flex items-center space-x-2 mb-2">
+                            <span className="text-xs bg-gray-200 text-gray-700 px-2 py-1 rounded-full font-medium">
+                              建议 {index + 1}
+                            </span>
+                            <span className="text-xs text-gray-500">
+                              {index === 0 ? '高优先级' : index === 1 ? '中优先级' : '持续执行'}
+                            </span>
+                          </div>
+                          <p className="text-gray-800 leading-relaxed">{recommendation}</p>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="mt-6 bg-gradient-to-r from-blue-50 to-green-50 rounded-lg p-4">
+                <h4 className="font-semibold text-gray-800 mb-2 flex items-center">
+                  <span className="mr-2">📞</span>重要提醒
+                </h4>
+                <p className="text-sm text-gray-700">
+                  以上建议基于AI分析生成，仅供参考。请务必与您的医生讨论这些建议，
+                  并根据您的具体情况制定个性化的健康管理方案。
+                </p>
               </div>
             </CardContent>
           </Card>

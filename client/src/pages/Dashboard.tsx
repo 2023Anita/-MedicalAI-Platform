@@ -419,7 +419,7 @@ export default function Dashboard() {
                   <div className="flex justify-between items-center py-4 border-b border-blue-200/30">
                     <div>
                       <p className="font-medium text-gray-800">AI 模型</p>
-                      <p className="text-sm text-gray-600 bg-green-50 px-2 py-1 rounded-md mt-1">Agentic-AI</p>
+                      <p className="text-sm text-gray-600 bg-green-50 px-2 py-1 rounded-md mt-1">智能运行平台：Med Agentic-AI</p>
                     </div>
                     <div className="w-3 h-3 bg-green-400 rounded-full shadow-sm"></div>
                   </div>

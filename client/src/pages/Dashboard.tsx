@@ -110,7 +110,7 @@ export default function Dashboard() {
                     : 'text-white hover:bg-white/20'
                 }`}
               >
-                全部记录
+                历史记录
               </button>
               <button 
                 onClick={() => setActiveTab('chat')}
@@ -228,8 +228,8 @@ export default function Dashboard() {
           <div className="space-y-6">
             <div className="flex items-center justify-between bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-blue-200/50">
               <div>
-                <h2 className="text-2xl font-bold text-gray-800">所有用户分析记录</h2>
-                <p className="text-sm text-gray-600 mt-1">查看系统中所有用户的体检报告分析</p>
+                <h2 className="text-2xl font-bold text-gray-800">我的分析记录</h2>
+                <p className="text-sm text-gray-600 mt-1">查看您的体检报告分析历史</p>
               </div>
               <div className="text-sm text-gray-600 bg-blue-50 px-3 py-1 rounded-full">
                 共 {historicalReports?.reports?.length || 0} 条记录
@@ -256,9 +256,9 @@ export default function Dashboard() {
                         </div>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                        <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
-                          系统分析
+                        <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                        <span className="text-xs text-gray-500 bg-blue-50 px-2 py-1 rounded-full">
+                          个人记录
                         </span>
                       </div>
                     </div>
@@ -310,7 +310,7 @@ export default function Dashboard() {
                   暂无分析记录
                 </h3>
                 <p className="text-gray-600 mb-6">
-                  系统中还没有任何用户的体检报告分析记录
+                  您还没有分析过任何体检报告
                 </p>
                 <button 
                   onClick={() => setActiveTab('analysis')}

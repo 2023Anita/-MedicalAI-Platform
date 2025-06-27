@@ -7,11 +7,12 @@ export interface IStorage {
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
   
-  createMedicalReport(report: InsertMedicalReport & { analysisResult: HealthAssessmentReport; uploadedFiles?: any[] }): Promise<MedicalReport>;
+  createMedicalReport(report: InsertMedicalReport & { analysisResult: HealthAssessmentReport; uploadedFiles?: any[]; userId: number }): Promise<MedicalReport>;
   getMedicalReportsByPatient(patientName: string): Promise<MedicalReport[]>;
+  getMedicalReportsByUser(userId: number): Promise<MedicalReport[]>;
   getMedicalReport(id: number): Promise<MedicalReport | undefined>;
   getAllMedicalReports(): Promise<MedicalReport[]>;
-  deleteMedicalReport(id: number): Promise<boolean>;
+  deleteMedicalReport(id: number, userId: number): Promise<boolean>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -33,10 +34,11 @@ export class DatabaseStorage implements IStorage {
     return user;
   }
 
-  async createMedicalReport(report: InsertMedicalReport & { analysisResult: HealthAssessmentReport; uploadedFiles?: any[] }): Promise<MedicalReport> {
+  async createMedicalReport(report: InsertMedicalReport & { analysisResult: HealthAssessmentReport; uploadedFiles?: any[]; userId: number }): Promise<MedicalReport> {
     const [medicalReport] = await db
       .insert(medicalReports)
       .values({
+        userId: report.userId,
         patientName: report.patientName,
         patientAge: report.patientAge,
         patientGender: report.patientGender,
@@ -57,6 +59,14 @@ export class DatabaseStorage implements IStorage {
       .orderBy(medicalReports.createdAt);
   }
 
+  async getMedicalReportsByUser(userId: number): Promise<MedicalReport[]> {
+    return await db
+      .select()
+      .from(medicalReports)
+      .where(eq(medicalReports.userId, userId))
+      .orderBy(medicalReports.createdAt);
+  }
+
   async getMedicalReport(id: number): Promise<MedicalReport | undefined> {
     const [report] = await db.select().from(medicalReports).where(eq(medicalReports.id, id));
     return report || undefined;
@@ -69,8 +79,10 @@ export class DatabaseStorage implements IStorage {
       .orderBy(medicalReports.createdAt);
   }
 
-  async deleteMedicalReport(id: number): Promise<boolean> {
-    const result = await db.delete(medicalReports).where(eq(medicalReports.id, id));
+  async deleteMedicalReport(id: number, userId: number): Promise<boolean> {
+    const result = await db.delete(medicalReports).where(
+      eq(medicalReports.id, id)
+    );
     return (result.rowCount || 0) > 0;
   }
 }
@@ -105,10 +117,11 @@ export class MemStorage implements IStorage {
     return user;
   }
 
-  async createMedicalReport(report: InsertMedicalReport & { analysisResult: HealthAssessmentReport; uploadedFiles?: any[] }): Promise<MedicalReport> {
+  async createMedicalReport(report: InsertMedicalReport & { analysisResult: HealthAssessmentReport; uploadedFiles?: any[]; userId: number }): Promise<MedicalReport> {
     const id = this.currentReportId++;
     const medicalReport: MedicalReport = {
       id,
+      userId: report.userId,
       patientName: report.patientName,
       patientAge: report.patientAge,
       patientGender: report.patientGender || null,
@@ -128,6 +141,12 @@ export class MemStorage implements IStorage {
     ).sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
   }
 
+  async getMedicalReportsByUser(userId: number): Promise<MedicalReport[]> {
+    return Array.from(this.medicalReports.values()).filter(
+      (report) => report.userId === userId
+    ).sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+  }
+
   async getMedicalReport(id: number): Promise<MedicalReport | undefined> {
     return this.medicalReports.get(id);
   }
@@ -138,7 +157,7 @@ export class MemStorage implements IStorage {
     );
   }
 
-  async deleteMedicalReport(id: number): Promise<boolean> {
+  async deleteMedicalReport(id: number, userId: number): Promise<boolean> {
     return this.medicalReports.delete(id);
   }
 }

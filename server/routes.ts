@@ -1,10 +1,18 @@
-import type { Express } from "express";
+import type { Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { medicalAnalysisService } from "./services/medicalAnalysis";
 import { upload, fileProcessorService } from "./services/fileProcessor";
 import { analysisRequestSchema } from "@shared/schema";
 import type { AnalysisProgress } from "@shared/schema";
+
+// Extend Request interface for session
+declare module 'express-session' {
+  interface SessionData {
+    userId: number;
+    userEmail: string;
+  }
+}
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // User registration route
@@ -25,13 +33,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
           message: '密码长度至少需要6个字符' 
         });
       }
+
+      // Check if user already exists
+      const existingUser = await storage.getUserByUsername(email);
+      if (existingUser) {
+        return res.status(400).json({
+          success: false,
+          message: '该邮箱已被注册'
+        });
+      }
+
+      // Create new user
+      const newUser = await storage.createUser({
+        username: email,
+        password: password // In production, hash the password
+      });
+
+      // Set session
+      req.session.userId = newUser.id;
+      req.session.userEmail = email;
       
-      // Log the registration request
       console.log(`New user registered: ${email}`);
       
       res.json({ 
         success: true, 
-        message: '注册成功，您现在可以直接使用系统' 
+        message: '注册成功，您现在可以直接使用系统',
+        user: { id: newUser.id, email: email }
       });
     } catch (error) {
       console.error('Registration error:', error);
@@ -54,12 +81,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
       
-      // In a real app, you would verify credentials against database
+      // Check if user exists and password matches
+      const user = await storage.getUserByUsername(email);
+      if (!user || user.password !== password) { // In production, use proper password hashing
+        return res.status(401).json({
+          success: false,
+          message: '邮箱或密码错误'
+        });
+      }
+
+      // Set session
+      req.session.userId = user.id;
+      req.session.userEmail = email;
+      
       console.log(`User login: ${email}`);
       
       res.json({ 
         success: true, 
-        message: '登录成功' 
+        message: '登录成功',
+        user: { id: user.id, email: email }
       });
     } catch (error) {
       console.error('Login error:', error);
@@ -149,13 +189,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
         { hasVideoFiles, hasImageFiles, uploadedFileTypes }
       );
 
-      // Save the report to storage
+      // Check if user is authenticated
+      if (!req.session.userId) {
+        return res.status(401).json({
+          success: false,
+          error: "用户未登录，请先登录"
+        });
+      }
+
+      // Save the report to storage with user association
       const savedReport = await storage.createMedicalReport({
+        userId: req.session.userId,
         patientName: validatedData.patientName,
         patientAge: validatedData.patientAge,
         patientGender: validatedData.patientGender,
         examDate: new Date(validatedData.examDate),
-        reportData: combinedReportData,
+        reportData: combinedReportData || "",
         analysisResult: analysisResult,
         uploadedFiles: processedFiles,
       });
@@ -241,10 +290,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Get all reports (for admin/overview)
+  // Get user-specific reports
   app.get("/api/reports", async (req, res) => {
     try {
-      const reports = await storage.getAllMedicalReports();
+      // Check if user is authenticated
+      if (!req.session.userId) {
+        return res.status(401).json({
+          success: false,
+          error: "用户未登录"
+        });
+      }
+
+      const reports = await storage.getMedicalReportsByUser(req.session.userId);
       
       res.json({
         success: true,
@@ -270,6 +327,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Delete a specific report
   app.delete("/api/reports/:id", async (req, res) => {
     try {
+      // Check if user is authenticated
+      if (!req.session.userId) {
+        return res.status(401).json({
+          success: false,
+          error: "用户未登录"
+        });
+      }
+
       const reportId = parseInt(req.params.id);
       if (isNaN(reportId)) {
         return res.status(400).json({
@@ -278,12 +343,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      const deleted = await storage.deleteMedicalReport(reportId);
-      
-      if (!deleted) {
+      // Verify the report belongs to the user before deleting
+      const report = await storage.getMedicalReport(reportId);
+      if (!report || report.userId !== req.session.userId) {
         return res.status(404).json({
           success: false,
-          error: "报告不存在或删除失败",
+          error: "报告不存在或无权限删除",
+        });
+      }
+
+      const deleted = await storage.deleteMedicalReport(reportId, req.session.userId);
+      
+      if (!deleted) {
+        return res.status(500).json({
+          success: false,
+          error: "删除报告失败",
         });
       }
 
@@ -389,7 +463,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (response.text) {
         aiResponse = response.text;
       } else if (response.candidates && response.candidates[0] && response.candidates[0].content) {
-        aiResponse = response.candidates[0].content.parts.map(part => part.text).join('');
+        aiResponse = response.candidates[0].content.parts?.map(part => part.text).join('') || null;
       } else {
         console.error("Unable to extract response text from response object");
         aiResponse = null;

@@ -95,12 +95,14 @@ The application uses PostgreSQL with two main tables:
 
 ## Recent Changes
 
-- **June 27, 2025**: System Access & Clinical Reasoning Display Updates
-  - **System Access Permissions**: Modified dashboard to display all users' medical reports instead of user-specific filtering
-    - Updated "历史记录" tab to "全部记录" with clear indication it shows all system users' reports
-    - Enhanced report cards with system analysis indicators and improved visual organization
-    - Changed empty state messaging to reflect system-wide scope rather than individual user scope
-    - Maintains individual report analysis functionality while providing comprehensive overview access
+- **June 27, 2025**: User Privacy & Authentication Implementation
+  - **Individual User Account System**: Implemented complete user isolation with private report access
+    - Added PostgreSQL user_id foreign key to medical_reports table for proper data association
+    - Implemented Express session management with user authentication middleware
+    - Updated all API endpoints to enforce user-specific data access (reports, analysis, deletion)
+    - Modified dashboard to show "我的分析记录" instead of system-wide reports
+    - Each user account now only sees their own medical analysis results, ensuring complete privacy
+    - Registration and login system properly associates reports with authenticated users
   - **Clinical Reasoning Optimization**: Enhanced readability of long medical reasoning text
     - Converted dense paragraph format to structured bullet-point display
     - Split reasoning by Chinese sentence delimiters for better visual organization

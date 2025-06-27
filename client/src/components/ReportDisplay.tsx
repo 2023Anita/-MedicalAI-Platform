@@ -438,7 +438,7 @@ export default function ReportDisplay({ report }: ReportDisplayProps) {
             <div className="mb-6">
               <h4 className="text-lg font-semibold text-gray-800 mb-4 flex items-center bg-gradient-to-r from-indigo-50 to-blue-50 px-5 py-3 rounded-xl border border-indigo-200">
                 <div className="w-4 h-4 bg-gradient-to-br from-indigo-500 to-blue-500 rounded-full mr-3 shadow-sm"></div>
-                2.{sectionCounter++} 影像学报告总结 (Imaging Report Summary)
+                2.{sectionCounter++} 体检报告总结 (Medical Examination Report Summary)
               </h4>
               <div className="bg-gradient-to-br from-indigo-50 to-blue-50 border border-indigo-200 rounded-2xl p-6 shadow-sm space-y-6">
                 <div>

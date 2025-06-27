@@ -148,9 +148,10 @@ The application uses PostgreSQL with two main tables:
   - **AI消息头像更新**: 将对话中AI头像替换为用户定制医疗AI图标
     - 使用新的医疗AI图标(image_1751065085972.png)作为所有AI消息头像
     - 图标包含人脑轮廓、医疗十字、心电图心形和AI神经网络元素
-    - 应用object-cover和rounded-lg样式确保图像完美填充无留白
+    - 应用w-full h-full object-cover rounded-xl样式确保图像完全覆盖绿色容器
     - 统一消息对话和输入状态指示器的AI头像样式
     - 增强聊天界面视觉一致性和专业医疗科技感
+    - 图像完全填充10x10像素容器，无任何绿色背景显露
 
 - **June 27, 2025**: AI聊天界面优化与历史记录显示修复
   - **AI对话界面尺寸优化**: 全面优化AI聊天界面的空间布局和用户体验

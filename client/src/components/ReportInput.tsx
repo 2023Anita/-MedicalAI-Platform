@@ -48,9 +48,9 @@ export default function ReportInput({
       const formData = new FormData();
       formData.append('patientName', data.patientName);
       formData.append('patientAge', data.patientAge);
-      formData.append('patientGender', data.patientGender || '');
+      formData.append('patientGender', data.patientGender);
       formData.append('examDate', data.examDate);
-      formData.append('reportData', data.reportData);
+      formData.append('reportData', data.reportData || '');
       formData.append('compareWithHistory', data.compareWithHistory?.toString() || 'false');
       
       // Add selected files
@@ -149,48 +149,54 @@ export default function ReportInput({
   };
 
   const onSubmit = (data: AnalysisRequest) => {
-    if (data.reportData.trim() || selectedFiles.length > 0) {
-      analysisMutation.mutate(data);
-      
-      // Simulate progress updates
-      setTimeout(() => onProgressUpdate({
-        orchestrator: 'completed',
-        imagingAgent: 'processing',
-        labAgent: 'pending',
-        medicalHistoryAgent: 'pending',
-        comprehensiveAnalysis: 'pending'
-      }), 1000);
-      
-      setTimeout(() => onProgressUpdate({
-        orchestrator: 'completed',
-        imagingAgent: 'completed',
-        labAgent: 'processing',
-        medicalHistoryAgent: 'pending',
-        comprehensiveAnalysis: 'pending'
-      }), 2500);
-      
-      setTimeout(() => onProgressUpdate({
-        orchestrator: 'completed',
-        imagingAgent: 'completed',
-        labAgent: 'completed',
-        medicalHistoryAgent: 'processing',
-        comprehensiveAnalysis: 'pending'
-      }), 4000);
-      
-      setTimeout(() => onProgressUpdate({
-        orchestrator: 'completed',
-        imagingAgent: 'completed',
-        labAgent: 'completed',
-        medicalHistoryAgent: 'completed',
-        comprehensiveAnalysis: 'processing'
-      }), 5000);
-    } else {
+    // 验证至少有文本内容或文件上传其中一个
+    const hasTextData = data.reportData && data.reportData.trim().length >= 10;
+    const hasFiles = selectedFiles.length > 0;
+    
+    if (!hasTextData && !hasFiles) {
       toast({
-        title: "数据缺失",
-        description: "请输入体检报告数据或上传相关文件",
+        title: "数据不完整",
+        description: "请至少填写体检报告文本内容或上传医疗文件",
         variant: "destructive",
       });
+      return;
     }
+    
+    onAnalysisStart(data.patientName);
+    analysisMutation.mutate(data);
+    
+    // Simulate progress updates
+    setTimeout(() => onProgressUpdate({
+      orchestrator: 'completed',
+      imagingAgent: 'processing',
+      labAgent: 'pending',
+      medicalHistoryAgent: 'pending',
+      comprehensiveAnalysis: 'pending'
+    }), 1000);
+    
+    setTimeout(() => onProgressUpdate({
+      orchestrator: 'completed',
+      imagingAgent: 'completed',
+      labAgent: 'processing',
+      medicalHistoryAgent: 'pending',
+      comprehensiveAnalysis: 'pending'
+    }), 2500);
+    
+    setTimeout(() => onProgressUpdate({
+      orchestrator: 'completed',
+      imagingAgent: 'completed',
+      labAgent: 'completed',
+      medicalHistoryAgent: 'processing',
+      comprehensiveAnalysis: 'pending'
+    }), 4000);
+    
+    setTimeout(() => onProgressUpdate({
+      orchestrator: 'completed',
+      imagingAgent: 'completed',
+      labAgent: 'completed',
+      medicalHistoryAgent: 'completed',
+      comprehensiveAnalysis: 'processing'
+    }), 5000);
   };
 
   return (

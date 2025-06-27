@@ -38,8 +38,15 @@ export const analysisRequestSchema = z.object({
   patientAge: z.string().min(1, "患者年龄不能为空"),
   patientGender: z.string().min(1, "请选择患者性别"),
   examDate: z.string().min(1, "体检日期不能为空"),
-  reportData: z.string().min(10, "报告数据不能少于10个字符"),
+  reportData: z.string().optional(),
   compareWithHistory: z.boolean().optional(),
+}).refine((data) => {
+  // 至少需要有文本内容或文件上传其中一个
+  const hasTextData = data.reportData && data.reportData.trim().length >= 10;
+  return hasTextData; // 这里我们假设文件会在后端验证
+}, {
+  message: "请至少填写体检报告文本内容或上传医疗文件",
+  path: ["reportData"]
 });
 
 export type InsertUser = z.infer<typeof insertUserSchema>;

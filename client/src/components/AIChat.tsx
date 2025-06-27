@@ -229,7 +229,7 @@ export default function AIChat() {
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-200px)] bg-gradient-to-br from-slate-50 to-blue-50 rounded-xl shadow-lg border border-blue-200/50 backdrop-blur-sm">
+    <div className="flex flex-col h-[calc(100vh-120px)] bg-gradient-to-br from-slate-50 to-blue-50 rounded-xl shadow-lg border border-blue-200/50 backdrop-blur-sm">
       {/* Chat Header - 科技医疗风格 */}
       <div className="flex items-center justify-between p-6 bg-gradient-to-r from-blue-600 to-teal-600 rounded-t-xl text-white shadow-md">
         <div className="flex items-center space-x-4">
@@ -269,7 +269,7 @@ export default function AIChat() {
             key={message.id}
             className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'} animate-in slide-in-from-bottom-2 duration-300`}
           >
-            <div className={`flex max-w-[85%] ${message.type === 'user' ? 'flex-row-reverse' : 'flex-row'} items-start space-x-3`}>
+            <div className={`flex max-w-[90%] ${message.type === 'user' ? 'flex-row-reverse' : 'flex-row'} items-start space-x-3`}>
               {/* Avatar - 增强科技感 */}
               <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg ${
                 message.type === 'user' 
@@ -284,7 +284,7 @@ export default function AIChat() {
               </div>
 
               {/* Message Content - 放大字体和改进样式 */}
-              <div className={`rounded-2xl p-4 shadow-lg backdrop-blur-sm ${
+              <div className={`rounded-2xl p-6 shadow-lg backdrop-blur-sm ${
                 message.type === 'user' 
                   ? 'bg-gradient-to-br from-blue-500 to-blue-600 text-white' 
                   : 'bg-white/90 text-gray-800 border border-gray-200/50'
@@ -385,8 +385,8 @@ export default function AIChat() {
       )}
 
       {/* Input Area - 增强科技医疗风格 */}
-      <div className="border-t border-blue-200/50 bg-gradient-to-r from-slate-50 to-blue-50 p-4 rounded-b-xl">
-        <div className="flex items-end space-x-3">
+      <div className="border-t border-blue-200/50 bg-gradient-to-r from-slate-50 to-blue-50 p-6 rounded-b-xl">
+        <div className="flex items-end space-x-4">
           <input
             ref={fileInputRef}
             type="file"
@@ -411,7 +411,7 @@ export default function AIChat() {
               onChange={(e) => setInputMessage(e.target.value)}
               onKeyPress={handleKeyPress}
               placeholder="🩺 输入您的医疗问题，或上传检查报告、影像资料进行AI分析..."
-              className="min-h-[60px] max-h-[140px] resize-none text-base bg-white/80 backdrop-blur-sm border-blue-200 focus:border-blue-400 focus:ring-blue-200 shadow-sm"
+              className="min-h-[80px] max-h-[180px] resize-none text-base leading-relaxed bg-white/80 backdrop-blur-sm border-blue-200 focus:border-blue-400 focus:ring-blue-200 shadow-sm p-4"
               disabled={chatMutation.isPending}
             />
           </div>

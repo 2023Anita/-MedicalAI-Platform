@@ -5,6 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { apiRequest } from "@/lib/queryClient";
+import aiAvatarImage from "@assets/image_1751000871336.png";
 
 interface ChatMessage {
   id: string;
@@ -279,7 +280,7 @@ export default function AIChat() {
                 {message.type === 'user' ? (
                   <UserIcon className="w-5 h-5" />
                 ) : (
-                  <Bot className="w-5 h-5" />
+                  <img src={aiAvatarImage} alt="Med Agentic-AI" className="w-6 h-6 object-contain" />
                 )}
               </div>
 
@@ -335,7 +336,7 @@ export default function AIChat() {
           <div className="flex justify-start animate-in slide-in-from-bottom-2 duration-300">
             <div className="flex items-start space-x-3">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-teal-500 to-green-500 text-white mr-3 ring-2 ring-teal-200 flex items-center justify-center shadow-lg">
-                <Bot className="w-5 h-5" />
+                <img src={aiAvatarImage} alt="Med Agentic-AI" className="w-6 h-6 object-contain" />
               </div>
               <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-4 shadow-lg border border-gray-200/50">
                 <div className="flex items-center space-x-1">

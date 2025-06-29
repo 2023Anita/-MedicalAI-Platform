@@ -178,8 +178,8 @@ export default function Dashboard() {
                   <img src={logoImage} alt="Med Agentic-AI Logo" className="w-full h-full object-contain rounded-lg" />
                 </div>
                 <div>
-                  <h1 className="text-xl font-bold text-white">Med Agentic-AI</h1>
-                  <p className="text-sm text-blue-100/90 font-medium tracking-wide">智能医疗分析平台</p>
+                  <h1 className="text-xl font-semibold text-white tracking-tight leading-tight bg-gradient-to-r from-white via-blue-50 to-teal-50 bg-clip-text text-transparent drop-shadow-lg">Med Agentic-AI</h1>
+                  <p className="text-sm text-blue-100/95 font-semibold tracking-wider leading-relaxed bg-gradient-to-r from-blue-100 to-teal-100 bg-clip-text text-transparent">智能医疗分析平台</p>
                 </div>
               </div>
             </div>

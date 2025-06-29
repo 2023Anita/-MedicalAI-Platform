@@ -12,7 +12,7 @@
 [![Node.js](https://img.shields.io/badge/Node.js-43853D?logo=node.js&logoColor=white)](https://nodejs.org/)
 [![Google Gemini](https://img.shields.io/badge/Google%20Gemini-4285F4?logo=google&logoColor=white)](https://ai.google.dev/)
 
-[🚀 快速开始](#-快速开始) • [📖 使用指南](#-使用指南) • [🏗️ 技术架构](#️-技术架构) • [🤝 贡献指南](#-贡献指南)
+[🚀 快速开始](#-快速开始) • [🎥 演示视频](./docs/DEMO.md) • [📖 使用指南](#-使用指南) • [🏗️ 技术架构](#️-技术架构) • [🤝 贡献指南](#-贡献指南)
 
 </div>
 
@@ -21,6 +21,12 @@
 ## 🌟 项目概述
 
 Med Agentic-AI 是一个革命性的智能医疗分析平台，采用多智能体协作架构，结合 Google Gemini 2.5 Flash 先进AI技术，为医疗专业人员提供全面、准确、智能的医疗数据分析服务。
+
+### 🎥 功能演示
+
+想要快速了解平台功能？查看我们的 **[完整演示视频](./docs/DEMO.md)** 📹
+
+演示视频展示了从用户登录到智能分析报告生成的完整流程，包括多智能体协作、多模态数据处理、AI分析报告等核心功能。
 
 ### 🎯 核心价值
 

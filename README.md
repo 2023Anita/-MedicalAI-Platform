@@ -6,7 +6,7 @@
 
 **基于多智能体协作的下一代医疗分析平台**
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white)](https://typescriptlang.org/)
 [![React](https://img.shields.io/badge/React-20232A?logo=react&logoColor=61DAFB)](https://reactjs.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-43853D?logo=node.js&logoColor=white)](https://nodejs.org/)
@@ -445,7 +445,22 @@ volumes:
 
 ## 📄 许可证
 
-本项目采用 MIT 许可证 - 查看 [LICENSE](./LICENSE) 文件了解详情。
+本项目采用 AGPL-3.0 许可证 - 查看 [LICENSE](./LICENSE) 文件了解详情。
+
+### 📋 许可证要求
+
+本项目使用 **GNU Affero General Public License v3.0 (AGPL-3.0)**，这意味着：
+
+✅ **允许的使用**：
+- 免费使用、修改、分发
+- 商业使用（需遵循开源要求）
+- 私人使用和研究
+
+⚠️ **必须遵守的要求**：
+- **强制开源**：任何基于此项目的衍生作品必须开源
+- **署名要求**：必须明确标注"基于 Med Agentic-AI by 2023Anita 开发"
+- **网络服务**：如果在服务器上运行修改版本，必须向用户提供源代码
+- **相同许可**：衍生作品必须使用相同的 AGPL-3.0 许可证
 
 ---
 

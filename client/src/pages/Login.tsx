@@ -24,6 +24,7 @@ export default function Login() {
       return await response.json();
     },
     onSuccess: (data: any) => {
+      console.log("Login success data:", data);
       if (data.success) {
         localStorage.setItem("userEmail", email);
         toast({
@@ -31,7 +32,10 @@ export default function Login() {
           description: "欢迎回到Med Agentic-AI医疗分析平台",
           variant: "default",
         });
-        setLocation("/");
+        console.log("About to navigate to /");
+        setTimeout(() => {
+          setLocation("/");
+        }, 1000);
       } else {
         throw new Error(data.message || "登录失败");
       }
@@ -52,6 +56,7 @@ export default function Login() {
       return await response.json();
     },
     onSuccess: (data: any) => {
+      console.log("Register success data:", data);
       if (data.success) {
         localStorage.setItem("userEmail", email);
         toast({
@@ -59,7 +64,10 @@ export default function Login() {
           description: "欢迎使用Med Agentic-AI医疗分析平台",
           variant: "default",
         });
-        setLocation("/");
+        console.log("About to navigate to / after registration");
+        setTimeout(() => {
+          setLocation("/");
+        }, 1000);
       } else {
         throw new Error(data.message || "注册失败");
       }

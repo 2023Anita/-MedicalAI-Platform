@@ -81,7 +81,7 @@ export default function Dashboard() {
           console.log('Authentication check failed, redirecting to login');
           localStorage.removeItem("isLoggedIn");
           localStorage.removeItem("userEmail");
-          setLocation("/");
+          setLocation("/login");
           return;
         }
         
@@ -90,7 +90,7 @@ export default function Dashboard() {
           console.log('User not authenticated, redirecting to login');
           localStorage.removeItem("isLoggedIn");
           localStorage.removeItem("userEmail");
-          setLocation("/");
+          setLocation("/login");
           return;
         }
         
@@ -103,7 +103,7 @@ export default function Dashboard() {
         console.error('Auth status check error:', error);
         localStorage.removeItem("isLoggedIn");
         localStorage.removeItem("userEmail");
-        setLocation("/");
+        setLocation("/login");
       }
     };
     

@@ -104,6 +104,9 @@ The application uses PostgreSQL with two main tables:
     - 修正apiRequest函数参数顺序，使用正确的(method, url, data)格式
     - 修复登录和注册功能的API调用错误
     - 消除"not a valid HTTP method"错误，恢复正常认证功能
+    - 修复路由配置，根路径"/"指向Dashboard，登录页面移至"/login"
+    - 解决登录成功后页面跳转循环问题，添加延迟跳转逻辑
+    - 更新认证重定向逻辑，未认证用户正确跳转到登录页面
 
 - **June 27, 2025**: 登录页面现代化设计完成 & 全平台品牌标识统一更新完成 & 界面现代化优化
   - **登录页面科技感设计**: 实现现代玻璃质感界面和医疗AI主题

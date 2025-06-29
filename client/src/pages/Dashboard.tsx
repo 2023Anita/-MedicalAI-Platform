@@ -409,13 +409,86 @@ export default function Dashboard() {
         {activeTab === 'history' && (
           /* History View */
           <div className="space-y-6">
-            <div className="flex items-center justify-between bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-blue-200/50">
-              <div>
-                <h2 className="text-2xl font-bold text-gray-800">我的分析记录</h2>
-                <p className="text-sm text-gray-600 mt-1">
-                  {isCompareMode ? "选择报告进行对比分析" : "查看您的体检报告分析历史"}
-                </p>
+            {/* Statistics Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+              <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-6 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="text-sm font-medium opacity-90">总报告数</h3>
+                    <p className="text-3xl font-bold">{historicalReports?.reports?.length || 0}</p>
+                  </div>
+                  <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
+                    <FileText className="w-6 h-6" />
+                  </div>
+                </div>
               </div>
+              
+              <div className="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl p-6 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="text-sm font-medium opacity-90">本月分析</h3>
+                    <p className="text-3xl font-bold">
+                      {historicalReports?.reports?.filter(r => 
+                        new Date(r.createdAt).getMonth() === new Date().getMonth()
+                      ).length || 0}
+                    </p>
+                  </div>
+                  <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
+                    <TrendingUp className="w-6 h-6" />
+                  </div>
+                </div>
+              </div>
+              
+              <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl p-6 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="text-sm font-medium opacity-90">已选择</h3>
+                    <p className="text-3xl font-bold">{selectedReports.length}</p>
+                  </div>
+                  <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
+                    <BarChart3 className="w-6 h-6" />
+                  </div>
+                </div>
+              </div>
+              
+              <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl p-6 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="text-sm font-medium opacity-90">平均评分</h3>
+                    <p className="text-3xl font-bold">85<span className="text-lg">/100</span></p>
+                  </div>
+                  <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
+                    <Activity className="w-6 h-6" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-blue-200/50">
+              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-800">我的分析记录</h2>
+                  <p className="text-sm text-gray-600 mt-1">
+                    {isCompareMode ? "选择报告进行对比分析" : "查看您的体检报告分析历史"}
+                  </p>
+                </div>
+                
+                {/* Search Bar */}
+                <div className="flex items-center space-x-4">
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                    <input
+                      type="text"
+                      placeholder="搜索患者姓名..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="pl-10 pr-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white/80 backdrop-blur-sm text-sm w-48"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
                 {isCompareMode && selectedReports.length > 0 && (
                   <div className="flex items-center space-x-2">

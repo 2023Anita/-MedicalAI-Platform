@@ -860,9 +860,11 @@ export default function Dashboard() {
       </main>
       
       {/* Footer with Copyright */}
-      <footer className="bg-white/80 backdrop-blur-sm border-t border-gray-200/50 py-4 px-6">
-        <div className="text-center text-sm text-gray-500">
-          <p>Med Agentic-AI © 江阴市人民医院-睡眠魔法师Team</p>
+      <footer className="bg-white/20 backdrop-blur-sm border-t border-white/20 py-6 px-6 relative overflow-hidden">
+        {/* Tech glow effect */}
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-400/10 via-teal-400/10 to-emerald-400/10 animate-pulse"></div>
+        <div className="text-center relative">
+          <p className="text-sm font-bold tracking-wide bg-gradient-to-r from-blue-700 via-teal-700 to-emerald-700 bg-clip-text text-transparent drop-shadow-lg">Med Agentic-AI © 江阴市人民医院-睡眠魔法师Team</p>
         </div>
       </footer>
     </div>

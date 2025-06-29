@@ -440,9 +440,11 @@ export default function AIChat() {
       </div>
       
       {/* Footer with Copyright */}
-      <div className="border-t border-blue-200/50 bg-gradient-to-r from-white/80 to-blue-50/80 backdrop-blur-md py-3 px-4">
-        <div className="text-center text-xs text-gray-500">
-          <p>Med Agentic-AI © 江阴市人民医院-睡眠魔法师Team</p>
+      <div className="border-t border-white/20 bg-white/20 backdrop-blur-sm py-4 px-4 relative overflow-hidden">
+        {/* Tech glow effect */}
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-400/10 via-teal-400/10 to-emerald-400/10 animate-pulse"></div>
+        <div className="text-center relative">
+          <p className="text-xs font-bold tracking-wide bg-gradient-to-r from-blue-700 via-teal-700 to-emerald-700 bg-clip-text text-transparent drop-shadow-lg">Med Agentic-AI © 江阴市人民医院-睡眠魔法师Team</p>
         </div>
       </div>
     </div>

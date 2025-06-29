@@ -323,8 +323,10 @@ export default function Login() {
           </Card>
         </div>
 
-        <div className="text-center mt-8 p-4 bg-white/20 backdrop-blur-sm rounded-2xl border border-white/20 shadow-lg">
-          <p className="text-sm text-gray-600 font-medium bg-gradient-to-r from-gray-600 to-gray-700 bg-clip-text text-transparent">
+        <div className="text-center mt-8 p-6 bg-white/20 backdrop-blur-sm rounded-2xl border border-white/20 shadow-lg relative overflow-hidden">
+          {/* Tech glow effect */}
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-400/10 via-teal-400/10 to-emerald-400/10 animate-pulse"></div>
+          <p className="relative text-lg font-bold tracking-wider bg-gradient-to-r from-blue-700 via-teal-700 to-emerald-700 bg-clip-text text-transparent drop-shadow-lg">
             Med Agentic-AI © 江阴市人民医院-殷利鑫
           </p>
         </div>

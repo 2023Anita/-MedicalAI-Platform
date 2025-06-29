@@ -264,7 +264,7 @@ export default function Dashboard() {
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 transition-all duration-300">
         {activeTab === 'analysis' && (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-in fade-in duration-500">
             
             {/* Input Section */}
             <div className="lg:col-span-1 space-y-6">
@@ -406,7 +406,7 @@ export default function Dashboard() {
         
         {activeTab === 'history' && (
           /* History View */
-          <div className="space-y-6">
+          <div className="space-y-6 animate-in fade-in duration-500">
             <div className="flex items-center justify-between bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-blue-200/50">
               <div>
                 <h2 className="text-2xl font-bold text-gray-800">我的分析记录</h2>
@@ -447,10 +447,10 @@ export default function Dashboard() {
             </div>
             
             {isLoadingHistory ? (
-              <div className="relative bg-gradient-to-br from-white/95 via-blue-50/80 to-teal-50/60 backdrop-blur-sm rounded-3xl shadow-xl border border-blue-200/30 overflow-hidden">
+              <div className="relative bg-gradient-to-br from-white/95 via-blue-50/80 to-teal-50/60 backdrop-blur-sm rounded-3xl shadow-xl border border-blue-200/30 overflow-hidden animate-pulse">
                 <div className="absolute inset-0 opacity-5">
-                  <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-blue-400 to-teal-400 rounded-full blur-3xl"></div>
-                  <div className="absolute bottom-0 right-0 w-40 h-40 bg-gradient-to-br from-teal-400 to-emerald-400 rounded-full blur-3xl"></div>
+                  <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-blue-400 to-teal-400 rounded-full blur-3xl animate-bounce"></div>
+                  <div className="absolute bottom-0 right-0 w-40 h-40 bg-gradient-to-br from-teal-400 to-emerald-400 rounded-full blur-3xl animate-bounce" style={{ animationDelay: '0.5s' }}></div>
                 </div>
                 <div className="relative p-16 text-center">
                   <div className="relative mx-auto mb-8 w-20 h-20">
@@ -458,11 +458,20 @@ export default function Dashboard() {
                     <div className="absolute inset-2 bg-gradient-to-br from-blue-400 to-teal-400 rounded-xl flex items-center justify-center shadow-lg">
                       <div className="animate-spin rounded-full h-8 w-8 border-2 border-white border-t-transparent"></div>
                     </div>
+                    <div className="absolute -inset-2 bg-gradient-to-br from-blue-400/30 to-teal-400/30 rounded-3xl animate-ping"></div>
                   </div>
-                  <h3 className="text-xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent mb-4">
+                  <h3 className="text-xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent mb-4 animate-pulse">
                     加载历史记录中
                   </h3>
-                  <p className="text-gray-600">正在获取您的分析报告数据...</p>
+                  <p className="text-gray-600 animate-pulse">正在获取您的分析报告数据...</p>
+                  
+                  {/* Enhanced Loading Dots */}
+                  <div className="flex justify-center space-x-2 mt-6">
+                    <div className="w-3 h-3 bg-blue-400 rounded-full animate-bounce"></div>
+                    <div className="w-3 h-3 bg-teal-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                    <div className="w-3 h-3 bg-emerald-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                    <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.3s' }}></div>
+                  </div>
                 </div>
               </div>
             ) : historicalReports?.reports?.length > 0 ? (
@@ -472,12 +481,12 @@ export default function Dashboard() {
                   return (
                     <div 
                       key={report.id} 
-                      className={`bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border transition-all duration-300 hover:scale-105 p-6 ${
+                      className={`bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 p-6 group ${
                         isCompareMode 
                           ? isSelected 
-                            ? 'border-green-400 ring-2 ring-green-200 hover:shadow-xl' 
-                            : 'border-blue-200/50 hover:border-blue-300 hover:shadow-xl cursor-pointer'
-                          : 'border-blue-200/50 hover:shadow-xl'
+                            ? 'border-green-400 ring-2 ring-green-200 hover:shadow-2xl shadow-green-100/50' 
+                            : 'border-blue-200/50 hover:border-blue-300 hover:shadow-2xl cursor-pointer'
+                          : 'border-blue-200/50 hover:shadow-2xl'
                       }`}
                       onClick={isCompareMode ? () => handleReportSelection(report.id) : undefined}
                     >
@@ -536,9 +545,10 @@ export default function Dashboard() {
                             setSelectedPatient(report.patientName);
                             setActiveTab('analysis');
                           }}
-                          className="flex-1 bg-gradient-to-r from-blue-500 to-teal-500 hover:from-blue-600 hover:to-teal-600 text-white font-medium py-3 px-4 rounded-xl transition-all duration-200 shadow-md"
+                          className="flex-1 bg-gradient-to-r from-blue-500 to-teal-500 hover:from-blue-600 hover:to-teal-600 text-white font-medium py-3 px-4 rounded-xl transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-[1.02] active:scale-[0.98] relative overflow-hidden group"
                         >
-                          查看报告
+                          <span className="relative z-10">查看报告</span>
+                          <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-500"></div>
                         </button>
                         {!isCompareMode && (
                           <>
@@ -546,11 +556,9 @@ export default function Dashboard() {
                             <button
                               onClick={(e) => {
                                 e.stopPropagation();
-                                // Set the current report and switch to analysis tab for printing
                                 setCurrentReport(report.analysisResult);
                                 setSelectedPatient(report.patientName);
                                 setActiveTab('analysis');
-                                // Trigger print after a short delay to allow the report to render
                                 setTimeout(() => {
                                   window.print();
                                 }, 500);
@@ -560,10 +568,10 @@ export default function Dashboard() {
                                   variant: "default",
                                 });
                               }}
-                              className="p-3 text-purple-500 hover:text-purple-700 hover:bg-purple-100 rounded-xl transition-all duration-200 shadow-sm"
+                              className="p-3 text-purple-500 hover:text-purple-700 hover:bg-purple-100 rounded-xl transition-all duration-200 shadow-sm hover:shadow-md transform hover:scale-110 active:scale-95 group"
                               title="打印报告"
                             >
-                              <Printer className="w-5 h-5" />
+                              <Printer className="w-5 h-5 group-hover:animate-pulse" />
                             </button>
                             <button
                               onClick={(e) => {
@@ -573,10 +581,10 @@ export default function Dashboard() {
                                 }
                               }}
                               disabled={deleteReportMutation.isPending}
-                              className="p-3 text-red-500 hover:text-red-700 hover:bg-red-100 rounded-xl transition-all duration-200 disabled:opacity-50 shadow-sm"
+                              className="p-3 text-red-500 hover:text-red-700 hover:bg-red-100 rounded-xl transition-all duration-200 disabled:opacity-50 shadow-sm hover:shadow-md transform hover:scale-110 active:scale-95 group"
                               title="删除报告"
                             >
-                              <Trash2 className="w-5 h-5" />
+                              <Trash2 className="w-5 h-5 group-hover:animate-bounce" />
                             </button>
                           </>
                         )}
@@ -640,14 +648,14 @@ export default function Dashboard() {
         
         {activeTab === 'chat' && (
           /* Chat View */
-          <div className="w-full">
+          <div className="w-full animate-in fade-in duration-500">
             <AIChat />
           </div>
         )}
         
         {activeTab === 'settings' && (
           /* Settings View */
-          <div className="space-y-6">
+          <div className="space-y-6 animate-in fade-in duration-500">
             <div className="flex items-center justify-between bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-blue-200/50">
               <h2 className="text-2xl font-bold text-gray-800">系统设置</h2>
             </div>

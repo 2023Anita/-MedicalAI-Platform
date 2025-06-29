@@ -428,7 +428,7 @@ export default function Dashboard() {
                   <div>
                     <h3 className="text-sm font-medium opacity-90">本月分析</h3>
                     <p className="text-3xl font-bold">
-                      {historicalReports?.reports?.filter(r => 
+                      {historicalReports?.reports?.filter((r: any) => 
                         new Date(r.createdAt).getMonth() === new Date().getMonth()
                       ).length || 0}
                     </p>

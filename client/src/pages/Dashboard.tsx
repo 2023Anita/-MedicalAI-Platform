@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Activity, User, LogOut, FileText, Calendar, Clock, Trash2, Settings, Printer } from "lucide-react";
+import { Activity, User, LogOut, FileText, Calendar, Clock, Trash2, Settings, Printer, Search, Moon, Sun, TrendingUp, BarChart3 } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient } from "@/lib/queryClient";
@@ -23,6 +23,8 @@ export default function Dashboard() {
   const [isCompareMode, setIsCompareMode] = useState(false);
   const [showComparison, setShowComparison] = useState(false);
   const [, setLocation] = useLocation();
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
   const { toast } = useToast();
 
 
@@ -262,7 +264,7 @@ export default function Dashboard() {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 transition-all duration-300">
         {activeTab === 'analysis' && (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             

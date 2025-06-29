@@ -20,15 +20,8 @@ export default function Login() {
 
   const loginMutation = useMutation({
     mutationFn: async (credentials: { email: string; password: string }) => {
-      const response = await apiRequest('/api/auth/login', {
-        method: 'POST',
-        body: JSON.stringify(credentials),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-      });
-      return response;
+      const response = await apiRequest('POST', '/api/auth/login', credentials);
+      return await response.json();
     },
     onSuccess: (data: any) => {
       if (data.success) {
@@ -55,15 +48,8 @@ export default function Login() {
 
   const registerMutation = useMutation({
     mutationFn: async (credentials: { email: string; password: string }) => {
-      const response = await apiRequest('/api/auth/register', {
-        method: 'POST',
-        body: JSON.stringify(credentials),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-      });
-      return response;
+      const response = await apiRequest('POST', '/api/auth/register', credentials);
+      return await response.json();
     },
     onSuccess: (data: any) => {
       if (data.success) {

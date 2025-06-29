@@ -642,7 +642,7 @@ export default function ReportComparison({ selectedReportIds, onClose }: ReportC
       {/* Footer with Copyright */}
       <div className="bg-white/80 backdrop-blur-sm border-t border-gray-200/50 py-4 px-6">
         <div className="text-center text-sm text-gray-500">
-          <p>Med Agentic-AI © 江阴市人民医院-殷利鑫</p>
+          <p>Med Agentic-AI © 江阴市人民医院-睡眠魔法师Team</p>
         </div>
       </div>
     </div>
